@@ -2,7 +2,7 @@
 using Boutique.Infrastructure.CQRS.Commands;
 using Boutique.Presentation.Commands.Auth;
 
-namespace Boutique.Application.CommandHandler
+namespace Boutique.Application.Products.CommandHandler
 {
     public class RegisteredUserCommandHandler : ICommandHandler<RegisterCommand, string>
     {

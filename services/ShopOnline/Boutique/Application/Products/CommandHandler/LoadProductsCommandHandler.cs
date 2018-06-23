@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Boutique.Application.CommandHandler
+namespace Boutique.Application.Products.CommandHandler
 {
     public class LoadProductsCommandHandler : ICommandHandler<LoadProductsCommand,string>
     {

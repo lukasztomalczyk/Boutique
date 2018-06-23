@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Boutique.Application.EventHandler
+namespace Boutique.Application.Products.EventHandler
 {
     public class PriceHasBeenChangedEventHandler : IDomainEventHandler<PriceHasBeenChangedEvent>
     {
