@@ -27,7 +27,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Auth]
         public string Load(LoadProductsCommand command)
         {
             var result = _commandDispatcher.Run<LoadProductsCommand, string>(command);
@@ -35,9 +35,10 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        public JsonWebToken Login(LoginCommand token)
+        [Auth("admin")]
+        public IActionResult Add(LoadProductsCommand command)
         {
-            return _jwtProvider.Create("123456", "Admin"); 
+            return Created(nameof(Load), null);
         }
 
     }

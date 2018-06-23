@@ -15,10 +15,11 @@ namespace Bountique.Api.Controllers
         {
             _commandDispatcher = commandDispatcher;
         }
+
         [HttpPost]
         public string Register(RegisterCommand registerCommand)
         {
-            var result = _commandDispatcher.Run<InsertUserCommandHandle, string>(registerCommand);
+            var result = _commandDispatcher.Run<RegisterCommand, string>(registerCommand);
             return result;
         }
     }

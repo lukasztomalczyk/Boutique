@@ -16,11 +16,11 @@ namespace Boutique.Infrastructure.Repositories
         {
             _sqlConnection = sqlConnection;
         }
-        public string InsertUser(string id, string login, string password, string firstName, string lastName, string role)
+        public string Save(string login, string password, string firstName, string lastName, string role)
         {
             var guid = Guid.NewGuid();
             var register = _sqlConnection.ExecuteQuery(
-                $"INSERT INTO Users (Id_Guid, Login, Password, FirstName, LastName, Role)" +
+                $"INSERT INTO Users (Id, Login, Password, FirstName, LastName, Role)" +
                 $"VALUES ({guid}, {login}, {password}, {firstName}, {lastName}, {role});");
 
             return register;

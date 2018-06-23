@@ -5,6 +5,6 @@ namespace Boutique.Domain
 {
     public interface IUserRepository
     {
-        string InsertUser(string id, string login, string password, string firstName, string lastName, string role);
+        string Save(string login, string password, string firstName, string lastName, string role);
     }
 }

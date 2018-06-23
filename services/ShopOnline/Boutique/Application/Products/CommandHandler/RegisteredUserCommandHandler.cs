@@ -4,17 +4,17 @@ using Boutique.Presentation.Commands.Auth;
 
 namespace Boutique.Application.CommandHandler
 {
-    public class InsertUserCommandHandle : ICommandHandler<RegisterCommand, string>
+    public class RegisteredUserCommandHandler : ICommandHandler<RegisterCommand, string>
     {
         private readonly IUserRepository _userRepository;
 
-        public InsertUserCommandHandle(IUserRepository userRepository)
+        public RegisteredUserCommandHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
         public string Handle(RegisterCommand command)
         {
-            return _userRepository.InsertUser(command.Id, command.Login, command.Password, command.FirstName, command.LastName, command.Role);
+            return _userRepository.Save(command.Login, command.Password, command.FirstName, command.LastName, command.Role);
         }
     }
 }
