@@ -8,12 +8,12 @@ namespace Boutique.Infrastructure.CQRS.Commands
     {
     }
 
-    public interface ICommandHandler<TCommand> : ICommand
+    public interface IDomainCommandHandler<TCommand> : ICommand
     {
         void Run(TCommand command);
     }
 
-    public interface ICommandHandler<TCommand, out TOut> : ICommand
+    public interface IDomainCommandHandler<TCommand, out TOut> : ICommand
     {
         TOut Handle(TCommand command);
     }

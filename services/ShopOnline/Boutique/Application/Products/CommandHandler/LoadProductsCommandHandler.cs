@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Boutique.Application.Products.CommandHandler
 {
-    public class LoadProductsCommandHandler : ICommandHandler<LoadProductsCommand,string>
+    public class LoadProductsCommandHandler : IDomainCommandHandler<LoadProductsCommand,string>
     {
         private readonly IProductRepository _productRepository;
 

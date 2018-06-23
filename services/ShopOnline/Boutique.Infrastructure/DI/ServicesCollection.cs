@@ -15,8 +15,8 @@ namespace Boutique.Infrastructure.DI
         {
             services.Scan(scan =>
             scan.FromAssemblies(assemblies)
-            .AddClasses(classess => classess.AssignableTo(typeof(ICommandHandler<>)))
-            .AddClasses(classess => classess.AssignableTo(typeof(ICommandHandler<,>)))
+            .AddClasses(classess => classess.AssignableTo(typeof(IDomainCommandHandler<>)))
+            .AddClasses(classess => classess.AssignableTo(typeof(IDomainCommandHandler<,>)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 

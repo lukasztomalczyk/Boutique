@@ -4,7 +4,7 @@ using Boutique.Presentation.Commands.Auth;
 
 namespace Boutique.Application.Users.CommandHandler
 {
-    public class RegisteredUserCommandHandler : ICommandHandler<RegisterCommand, string>
+    public class RegisteredUserCommandHandler : IDomainCommandHandler<RegisterCommand, string>
     {
         private readonly IUserRepository _userRepository;
 

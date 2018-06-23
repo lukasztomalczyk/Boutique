@@ -6,6 +6,7 @@ using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.CQRS.Commands;
 using Boutique.Presentation.Commands;
 using Boutique.Presentation.Commands.Auth;
+using Boutique.Presentation.Commands.Products;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace Bountique.Api.Controllers
 
         [HttpPost]
         [Auth("admin")]
-        public IActionResult Add(LoadProductsCommand command)
+        public IActionResult Add(CreateProductCommand command)
         {
             return Created(nameof(Load), null);
         }
