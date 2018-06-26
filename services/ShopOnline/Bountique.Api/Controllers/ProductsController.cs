@@ -15,8 +15,8 @@ using Newtonsoft.Json;
 namespace Bountique.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class ProductsController : ControllerBase
+
+    public class ProductsController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly IJwtProvider _jwtProvider;
@@ -36,7 +36,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        [Auth("admin")]
+        [Auth(policy:"Admin")]
         public IActionResult Add(CreateProductCommand command)
         {
             return Created(nameof(Load), null);

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bountique.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+
+    public class UsersController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
 

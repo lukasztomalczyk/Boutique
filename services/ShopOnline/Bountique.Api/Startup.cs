@@ -48,7 +48,7 @@ namespace Bountique.Api
 
             services.AddCqrs(assembly);
             services.AddServices(assembly);
-            services.AddAuth();
+            services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
 
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
