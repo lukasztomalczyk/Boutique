@@ -32,7 +32,7 @@ namespace Boutique.Infrastructure.DI
             .WithScopedLifetime());
         }
 
-        public static void AddAuth(this IServiceCollection services, params Assembly[] assemblies)
+        public static void AddAuthJwt(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.AddScoped<IJwtProvider, JwtProvider>();
         }

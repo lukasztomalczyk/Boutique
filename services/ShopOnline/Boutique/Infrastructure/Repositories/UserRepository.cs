@@ -4,6 +4,7 @@ using System.Linq;
 using Boutique.Domain;
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.Attributes;
+using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.Builders;
 using Boutique.Infrastructure.Extensions;
 using Dapper;
@@ -27,7 +28,7 @@ namespace Boutique.Infrastructure.Repositories
                 $"INSERT INTO Users (Id, Login, Password, FirstName, LastName, Role)" +
                 $"VALUES ('{guid}', '{login}', '{password}', '{firstName}', '{lastName}', '{role}');");
 
-            return register;
+            return guid;
         }
 
         public User LoadById(string Id)

@@ -46,8 +46,10 @@ namespace Bountique.Api
                return new SqlConnection(settings.ConnectionString);
            });
 
-            services.AddCqrs(assembly);
             services.AddServices(assembly);
+            services.AddCqrs(assembly);
+            services.AddAuthJwt();
+          
             services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
 
             var jwtSettings = new JwtSettings();
