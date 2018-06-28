@@ -12,6 +12,7 @@ namespace Boutique.Application.Products.CommandHandler
         {
 
         }
+
         public void Run(CreateProductCommand command)
         {
             throw new NotImplementedException();

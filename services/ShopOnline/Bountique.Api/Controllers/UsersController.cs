@@ -17,7 +17,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        public string Register(RegisterCommand registerCommand)
+        public string Register([FromBody]RegisterCommand registerCommand)
         {
             var result = _commandDispatcher.Run<RegisterCommand, string>(registerCommand);
             return result;
@@ -25,7 +25,7 @@ namespace Bountique.Api.Controllers
 
         [HttpPost]
         [Auth]
-        public string Login(LoginCommand command)
+        public string Login([FromBody]LoginCommand command)
         {
             var result = _commandDispatcher.Run<LoginCommand, string>(command);
             return result;

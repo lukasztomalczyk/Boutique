@@ -29,7 +29,7 @@ namespace Bountique.Api.Controllers
 
         [HttpPost]
         [Auth]
-        public string Load(LoadProductsCommand command)
+        public string Load([FromBody] LoadProductsCommand command)
         {
             var result = _commandDispatcher.Run<LoadProductsCommand, string>(command);
             return result;
@@ -37,7 +37,7 @@ namespace Bountique.Api.Controllers
 
         [HttpPost]
         [Auth(policy:"Admin")]
-        public IActionResult Add(CreateProductCommand command)
+        public IActionResult Add([FromBody] CreateProductCommand command)
         {
             return Created(nameof(Load), null);
         }
