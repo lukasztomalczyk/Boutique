@@ -18,7 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI_CD", "CI_CD", "{555069A4-15AC-4BC1-B8E1-215DC9F8B9BC}"
 ProjectSection(SolutionItems) = preProject
 	buildspec.yml = buildspec.yml
-	dockerfile = dockerfile
+	Dockerfile.Production = Dockerfile.Production
+	Dockerfile.Development = Dockerfile.Development
 EndProjectSection
 EndProject
 Global

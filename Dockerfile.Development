@@ -1,0 +1,16 @@
+FROM microsoft/dotnet:2.1-sdk AS builder
+WORKDIR /app
+
+COPY . ./
+
+RUN dotnet restore
+
+ENV ASPNETCORE_ENVIRONMENT Development
+
+RUN cd services/ShopOnline/Bountique.Api/ && dotnet publish -c Release -o bin/Docker/
+
+WORKDIR /app/services/ShopOnline/Bountique.Api/bin/Docker
+
+ENV ASPNETCORE_URLS "http://*:5000"
+
+ENTRYPOINT ["dotnet", "Bountique.Api.dll"]
