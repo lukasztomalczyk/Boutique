@@ -15,6 +15,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BA204A6A-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique.EndToEnd", "services\ShopOnline\Test\Boutique.EndToEnd\Boutique.EndToEnd.csproj", "{D191F25B-E031-4DEC-B52F-81B1B3A32C3F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI_CD", "CI_CD", "{555069A4-15AC-4BC1-B8E1-215DC9F8B9BC}"
+ProjectSection(SolutionItems) = preProject
+	buildspec.yml = buildspec.yml
+	dockerfile = dockerfile
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
