@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using System.Transactions;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,10 +10,11 @@ namespace Boutique.Infrastructure.CQRS.Commands
     public class CommandDispatcher : ICommandDispatcher
     {
         private readonly IServiceProvider _serviceProvider;
-
-        public CommandDispatcher(IServiceProvider serviceProvider)
+        private readonly SqlTransaction _sqlTransaction;
+        public CommandDispatcher(IServiceProvider serviceProvider, SqlTransaction sqlTransaction)
         {
             _serviceProvider = serviceProvider;
+            _sqlTransaction = sqlTransaction;
         }
 
         public void Run<TCommand>(TCommand command)
@@ -21,20 +23,19 @@ namespace Boutique.Infrastructure.CQRS.Commands
 
             if (handler == null)
                 throw new ArgumentException($"Executed event type {command} doest'n exists in scope services.");
-            using (var trasaction = new TransactionScope(TransactionScopeOption.RequiresNew, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted }))
+            using (_sqlTransaction)
             {
                 try
                 {
                     handler.Run(command);
-                    trasaction.Complete();
+                    _sqlTransaction.Commit();
                 }
                 catch (Exception)
                 {
-                    trasaction.Dispose();
+                    _sqlTransaction.Rollback();
                     throw;
                 }
             }
-
         }
 
         public TOut Run<TCommand, TOut>(TCommand command)
@@ -43,18 +44,18 @@ namespace Boutique.Infrastructure.CQRS.Commands
 
             if (handler == null)
                 throw new ArgumentException($"Executed event type {command} doest'n exists in scope services.");
-            using (var trasaction = new TransactionScope(TransactionScopeOption.RequiresNew, new TransactionOptions { IsolationLevel = IsolationLevel.ReadUncommitted }))
+            using (_sqlTransaction)
             {
                 try
                 {
                     var result = handler.Handle(command);
-                    trasaction.Complete();
+                    _sqlTransaction.Commit();
 
                     return result;
                 }
                 catch (Exception)
                 {
-                    trasaction.Dispose();
+                    _sqlTransaction.Rollback();
                     throw;
                 }
             }

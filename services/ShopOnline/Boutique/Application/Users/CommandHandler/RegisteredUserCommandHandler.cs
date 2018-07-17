@@ -1,4 +1,5 @@
 ﻿using Boutique.Domain;
+using Boutique.Infrastructure.Auth.User;
 using Boutique.Infrastructure.CQRS.Commands;
 using Boutique.Presentation.Commands.Auth;
 
@@ -6,15 +7,15 @@ namespace Boutique.Application.Users.CommandHandler
 {
     public class RegisteredUserCommandHandler : IDomainCommandHandler<RegisterCommand, string>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public RegisteredUserCommandHandler(IUserRepository userRepository)
+        public RegisteredUserCommandHandler(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
         public string Handle(RegisterCommand command)
         {
-            return _userRepository.Save(command.Login, command.Password, command.FirstName, command.LastName, command.Role);
+            return _userService.RegisterUser(command).Result;
         }
     }
 }

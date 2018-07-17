@@ -9,6 +9,6 @@ namespace Boutique.Infrastructure.Auth.User
     public interface IUserService
     {
         Task<JsonWebToken> Login(LoginCommand command);
-        Task RegisterUser(RegisterCommand command);
+        Task<string> RegisterUser(RegisterCommand command);
     }
 }

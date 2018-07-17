@@ -6,7 +6,6 @@ using Boutique.Infrastructure.DI;
 using Boutique.Infrastructure.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -61,7 +60,7 @@ namespace Bountique.Api
                     };
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -74,7 +73,6 @@ namespace Bountique.Api
             {
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();

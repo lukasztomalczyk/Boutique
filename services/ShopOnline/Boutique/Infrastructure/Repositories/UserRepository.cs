@@ -21,12 +21,12 @@ namespace Boutique.Infrastructure.Repositories
             _sqlConnection = sqlConnection;
         }
 
-        public string Save(string login, string password, string firstName, string lastName, string role)
+        public string Save(User user)
         {
             var guid = Guid.NewGuid().ToString("N").Substring(0,30);
             var register = _sqlConnection.ExecuteQuery(
                 $"INSERT INTO Users (Id, Login, Password, FirstName, LastName, Role)" +
-                $"VALUES ('{guid}', '{login}', '{password}', '{firstName}', '{lastName}', '{role}');");
+                $"VALUES ('{guid}', '{user.Login}', '{user.Password}', '{user.FirstName}', '{user.LastName}', '{user.Role}');");
 
             return guid;
         }

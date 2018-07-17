@@ -1,9 +1,11 @@
 ﻿using Boutique.Infrastructure.Attributes;
 using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.CQRS.Commands;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
 
@@ -17,10 +19,18 @@ namespace Boutique.Infrastructure.DI
             scan.FromAssemblies(assemblies)
             .AddClasses(classess => classess.AssignableTo(typeof(IDomainCommandHandler<>)))
             .AddClasses(classess => classess.AssignableTo(typeof(IDomainCommandHandler<,>)))
+              
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+
+            services.AddScoped(p =>
+            {
+                var sqlConnection = services.BuildServiceProvider().GetRequiredService<SqlConnection>();
+                sqlConnection.Open();
+                return sqlConnection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
+            });
         }
 
         public static void AddServices(this IServiceCollection services, params Assembly[] assemblies)
@@ -30,6 +40,12 @@ namespace Boutique.Infrastructure.DI
             .AddClasses(p => p.WithAttribute(typeof(RepositoryAttribute)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+
+            services.Scan(scan =>
+           scan.FromAssemblies(assemblies)
+           .AddClasses(p => p.WithAttribute(typeof(ServicesAttribute)))
+           .AsImplementedInterfaces()
+           .WithScopedLifetime());
         }
 
         public static void AddAuthJwt(this IServiceCollection services, params Assembly[] assemblies)

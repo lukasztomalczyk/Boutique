@@ -24,7 +24,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        [Auth]
+        //[Auth]
         public string Login([FromBody]LoginCommand command)
         {
             var result = _commandDispatcher.Run<LoginCommand, string>(command);
