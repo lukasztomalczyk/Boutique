@@ -27,12 +27,12 @@ namespace Bountique.IdentityServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddTestUsers(TestUsers.Users)
                 .AddInMemoryClients(Config.GetClients())
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+             //   .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources());
         }
 
@@ -48,9 +48,8 @@ namespace Bountique.IdentityServer
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+          //  app.UseHttpsRedirection();
             app.UseIdentityServer();
-            app.UseMvc();
         }
     }
 }
