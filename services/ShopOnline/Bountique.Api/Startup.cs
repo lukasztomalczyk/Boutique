@@ -49,7 +49,16 @@ namespace Bountique.Api
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
 
-            services.AddAuthentication()
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false;
+
+                    options.ApiName = "api1";
+                });
+            
+/*            services.AddAuthentication()
                 .AddJwtBearer(cfg =>
                 {
                     cfg.TokenValidationParameters = new TokenValidationParameters
@@ -59,7 +68,7 @@ namespace Bountique.Api
                         ValidateAudience = false,
                         //ValidateLifetime = true
                     };
-                });
+                });*/
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
         }
