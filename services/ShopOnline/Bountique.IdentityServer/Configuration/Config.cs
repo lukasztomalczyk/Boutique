@@ -18,6 +18,7 @@ namespace Boutique.Infrastructure.IdentityServer
         {
             return new List<IdentityResource>
             {
+                new IdentityResource { Name = "office", DisplayName = "cos"},
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
             };
@@ -39,54 +40,50 @@ namespace Boutique.Infrastructure.IdentityServer
             {
                 new Client
                 {
-                    ClientId = "client",
+                    ClientId = "api",
+                    ClientName = "Boutique Shop API",
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                    ClientSecrets = 
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
+                   // RedirectUris = { ""};
                 },
 
                 // resource owner password grant client
-                new Client
-                {
-                    ClientId = "ro.client",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                    ClientSecrets = 
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "api1" }
-                },
-
-                // OpenID Connect hybrid flow and client credentials client (MVC)
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-
-                    RequireConsent = false,
-
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-
-                    RedirectUris           = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-
-                    AllowedScopes =
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
-                    },
-                    AllowOfflineAccess = true
-                }
+//                new Client
+//                {
+//                    ClientId = "ro.client",
+//                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+//
+//                    ClientSecrets = 
+//                    {
+//                        new Secret("secret".Sha256())
+//                    },
+//                    AllowedScopes = { "api1" }
+//                },
+//
+//                // OpenID Connect hybrid flow and client credentials client (MVC)
+//                new Client
+//                {
+//                    ClientId = "mvc",
+//                    ClientName = "MVC Client",
+//                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+//
+//                    RequireConsent = false,
+//
+//                    ClientSecrets =
+//                    {
+//                        new Secret("secret".Sha256())
+//                    },
+//
+//                    RedirectUris           = { "http://localhost:5002/signin-oidc" },
+//                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+//
+//                    AllowedScopes =
+//                    {
+//                        IdentityServerConstants.StandardScopes.OpenId,
+//                        IdentityServerConstants.StandardScopes.Profile,
+//                        "api1"
+//                    },
+//                    AllowOfflineAccess = true
+//                }
             };
         }
 
