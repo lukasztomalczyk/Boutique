@@ -4,6 +4,7 @@ using Boutique;
 using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.DI;
 using Boutique.Infrastructure.Settings;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -73,6 +74,7 @@ namespace Bountique.Api
             {
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
