@@ -42,6 +42,10 @@ namespace Boutique.Infrastructure.IdentityServer
                 {
                     ClientId = "api",
                     ClientName = "Boutique Shop API",
+                    ClientSecrets =
+                    {
+                        new Secret("secret1")
+                    },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = {"api1"}
                     // RedirectUris = { ""};

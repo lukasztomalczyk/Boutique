@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Boutique.Domain.Users;
 using IdentityModel.Client;
+using IdentityServer4.Test;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bountique.Api.Controllers
 {
-    [Route("api/{controller}")]
+    [Route("api/[controller]/[action]")]
     public class IdentityController : Controller
     {
-        [Route("Index")]
-        public async Task<JsonResult> Index()
+        [HttpPost]
+        public async Task<JsonResult> Index([FromBody] UserForTest user)
         {
             var disco = await DiscoveryClient.GetAsync("http://localhost:5001");
             if (disco.IsError)
@@ -18,7 +20,7 @@ namespace Bountique.Api.Controllers
 
             }
             
-            var tokenClient = new TokenClient(disco.TokenEndpoint, "client", "secret");
+            var tokenClient = new TokenClient(disco.TokenEndpoint, user.ClientID, user.Secret);
             var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");
 
             if (tokenResponse.IsError)

@@ -27,4 +27,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="IdentityServer4, Version=2.1.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\..\.nuget\packages\identityserver4\2.1.1\lib\netstandard2.0\IdentityServer4.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
