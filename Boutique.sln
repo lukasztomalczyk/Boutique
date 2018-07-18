@@ -20,12 +20,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique.EndToEnd", "services\ShopOnline\Test\Boutique.EndToEnd\Boutique.EndToEnd.csproj", "{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI_CD", "CI_CD", "{555069A4-15AC-4BC1-B8E1-215DC9F8B9BC}"
-ProjectSection(SolutionItems) = preProject
-	buildspec.yml = buildspec.yml
-	Dockerfile.Production = Dockerfile.Production
-	Dockerfile.Development = Dockerfile.Development
-	.gitignore = .gitignore
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		buildspec.yml = buildspec.yml
+		Dockerfile.Production = Dockerfile.Production
+		Dockerfile.Development = Dockerfile.Development
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bountique.IdentityServer", "services\ShopOnline\Bountique.IdentityServer\Bountique.IdentityServer.csproj", "{2129A9F4-E60E-41D1-8FBE-59511668845C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -100,6 +102,18 @@ Global
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}.Release|x64.Build.0 = Release|Any CPU
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}.Release|x86.ActiveCfg = Release|Any CPU
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}.Release|x86.Build.0 = Release|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Debug|x64.Build.0 = Debug|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Debug|x86.Build.0 = Debug|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Release|x64.ActiveCfg = Release|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Release|x64.Build.0 = Release|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Release|x86.ActiveCfg = Release|Any CPU
+		{2129A9F4-E60E-41D1-8FBE-59511668845C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5589350A-6A19-49C7-B51D-A3F95B3383F4} = {8EE5F82A-74F3-4634-A49A-6EA6A49A2B4C}
@@ -109,5 +123,6 @@ Global
 		{1467B542-84C9-4FBB-BAEF-EE9C34398B3D} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
 		{DB1E92D6-D763-443D-8E37-FE70F2A410B5} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579} = {DB1E92D6-D763-443D-8E37-FE70F2A410B5}
+		{2129A9F4-E60E-41D1-8FBE-59511668845C} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Scrutor" Version="2.2.2" />
@@ -13,5 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Boutique.Presentation\Boutique.Presentation.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IdentityServer" />
   </ItemGroup>
 </Project>
