@@ -24,6 +24,7 @@ ProjectSection(SolutionItems) = preProject
 	buildspec.yml = buildspec.yml
 	Dockerfile.Production = Dockerfile.Production
 	Dockerfile.Development = Dockerfile.Development
+	.gitignore = .gitignore
 EndProjectSection
 EndProject
 Global
