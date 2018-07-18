@@ -44,7 +44,7 @@ namespace Bountique.Api
             services.AddCqrs(assembly);
             services.AddAuthJwt();
           
-            services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
+    //        services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
 
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
@@ -52,7 +52,7 @@ namespace Bountique.Api
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "http://localhost:5001";
                     options.RequireHttpsMetadata = false;
 
                     options.ApiName = "api1";
@@ -84,7 +84,7 @@ namespace Bountique.Api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+   //         app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
         }

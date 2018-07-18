@@ -47,7 +47,7 @@ namespace Boutique.Infrastructure.IdentityServer
                         new Secret("secret1")
                     },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = {"api1"}
+                    AllowedScopes = {"api"}
                     // RedirectUris = { ""};
                 },
             };
