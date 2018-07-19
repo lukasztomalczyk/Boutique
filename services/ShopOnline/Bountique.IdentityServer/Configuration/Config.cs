@@ -28,7 +28,7 @@ namespace Boutique.Infrastructure.IdentityServer
         {
             return new List<ApiResource>
             {
-                new ApiResource("api1", "My API")
+                new ApiResource("api", "My API")
             };
         }
 
@@ -41,12 +41,12 @@ namespace Boutique.Infrastructure.IdentityServer
                 new Client
                 {
                     ClientId = "api",
-                    ClientName = "Boutique Shop API",
+                   // ClientName = "Boutique Shop API",
                     ClientSecrets =
                     {
-                        new Secret("secret1")
+                        new Secret("secret1".Sha256())
                     },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                  AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = {"api"}
                     // RedirectUris = { ""};
                 },

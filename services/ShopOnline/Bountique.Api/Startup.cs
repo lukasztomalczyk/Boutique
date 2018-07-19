@@ -49,13 +49,14 @@ namespace Bountique.Api
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
 
+            
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:5001";
+                    options.Authority = "http://localhost:5000";
                     options.RequireHttpsMetadata = false;
 
-                    options.ApiName = "api1";
+                    options.ApiName = "api";
                 });
             
 /*            services.AddAuthentication()
@@ -70,12 +71,14 @@ namespace Bountique.Api
                     };
                 });*/
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1)
+                .AddAuthorization()
+                .AddJsonFormatters();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment() && env.IsEnvironment("Testing"))
+            if (env.IsDevelopment() && env.IsEnvironment("Development"))
             {
                 app.UseDeveloperExceptionPage();
             }
