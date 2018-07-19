@@ -52,7 +52,7 @@ namespace Bountique.Api
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
             services.AddAuthentication()
                 .AddIdentityServerAuthentication(options =>
                 {
