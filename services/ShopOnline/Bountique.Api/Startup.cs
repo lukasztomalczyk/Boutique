@@ -30,6 +30,9 @@ namespace Bountique.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            
+
+            
             var assembly = AssemblyInformation.Assembly;
             services.Configure<BoutiqueSettings>(Configuration.GetSection("Boutique"));
             services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
@@ -49,11 +52,11 @@ namespace Bountique.Api
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
 
-            
-            services.AddAuthentication("Bearer")
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddAuthentication()
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "http://localhost:5000";
+                    options.Authority = "http://localhost:5001";
                     options.RequireHttpsMetadata = false;
 
                     options.ApiName = "api";
@@ -71,9 +74,6 @@ namespace Bountique.Api
                     };
                 });*/
 
-            services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1)
-                .AddAuthorization()
-                .AddJsonFormatters();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
