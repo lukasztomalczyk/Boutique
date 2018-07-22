@@ -35,7 +35,7 @@ namespace Boutique.Infrastructure.Repositories
 
         public User Load(string login)
         {
-            var rawUser = _sqlConnection.Query("SELECT * FROM Users where Login = '@login'", new { Login = login }).FirstOrDefault();
+            var rawUser = _sqlConnection.Query($"SELECT * FROM Users where Login = '{login}'", new { Login = login }).FirstOrDefault();
 
             return new UserBuilder()
                 .WithId((string)rawUser.Id)

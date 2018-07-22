@@ -53,12 +53,14 @@ namespace Boutique.Infrastructure.Services
 
             if (user != null && user.Password == command.Password)
             {
-                var disco = await DiscoveryClient.GetAsync("http://localhost:5001");
-                var settings = _options.Value;
-                var tokenClient = new TokenClient(disco.TokenEndpoint, settings.Issuer, settings.SecretKey);
-                var tokenResponse = await tokenClient.RequestClientCredentialsAsync(settings.Issuer);
+//                var disco = await DiscoveryClient.GetAsync("http://localhost:5001");
+//                var settings = _options.Value;
+//                var tokenClient = new TokenClient(disco.TokenEndpoint, settings.Issuer, settings.SecretKey);
+//                var tokenResponse = await tokenClient.RequestClientCredentialsAsync(settings.Issuer);
+//
+//                return await Task.FromResult(tokenResponse.AccessToken);
 
-                return await Task.FromResult(tokenResponse.AccessToken);
+                return await Task.FromResult(user.Login);
             }
 
             return await Task.FromResult("");
