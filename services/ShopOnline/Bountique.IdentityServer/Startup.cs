@@ -33,7 +33,7 @@ namespace Bountique.IdentityServer
                 .AddInMemoryClients(Config.GetClients())
              //   .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources());
-//            services.AddCors();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,10 +48,10 @@ namespace Bountique.IdentityServer
                 app.UseHsts();
             }
 
-          //  app.UseHttpsRedirection();
+ //           app.UseHttpsRedirection();
             app.UseIdentityServer();
-//            app.UseCors(builde =>
-//                builde.AllowAnyOrigin());
+            app.UseCors(builde =>
+              builde.AllowAnyOrigin());
         }
     }
 }

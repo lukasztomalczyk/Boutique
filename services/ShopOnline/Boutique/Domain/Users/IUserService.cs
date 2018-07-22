@@ -1,14 +1,11 @@
-﻿using Boutique.Presentation.Commands.Auth;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Boutique.Presentation.Commands.Auth;
 
-namespace Boutique.Infrastructure.Auth.User
+namespace Boutique.Domain.Users
 {
     public interface IUserService
     {
-        Task<JsonWebToken> Login(LoginCommand command);
+        Task<string> Login(LoginCommand command);
         Task<string> RegisterUser(RegisterCommand command);
     }
 }

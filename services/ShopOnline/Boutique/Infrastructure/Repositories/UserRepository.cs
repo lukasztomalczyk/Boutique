@@ -23,17 +23,19 @@ namespace Boutique.Infrastructure.Repositories
 
         public string Save(User user)
         {
-            var guid = Guid.NewGuid().ToString("N").Substring(0,30);
+  //          var guid = Guid.NewGuid().ToString("N").Substring(0,30);
+            var lenght = user.Password.Length;
+            
             var register = _sqlConnection.ExecuteQuery(
                 $"INSERT INTO Users (Id, Login, Password, FirstName, LastName, Role)" +
-                $"VALUES ('{guid}', '{user.Login}', '{user.Password}', '{user.FirstName}', '{user.LastName}', '{user.Role}');");
+                $"VALUES ('{user.Id}', '{user.Login}', '{user.Password}', '{user.FirstName}', '{user.LastName}', '{user.Role}');");
 
-            return guid;
+            return user.Id;
         }
 
-        public User LoadById(string Id)
+        public User Load(string login)
         {
-            var rawUser = _sqlConnection.Query("SELECT * FROM Users where Id = '@Id'", new { Id = Id }).FirstOrDefault();
+            var rawUser = _sqlConnection.Query("SELECT * FROM Users where Login = '@login'", new { Login = login }).FirstOrDefault();
 
             return new UserBuilder()
                 .WithId((string)rawUser.Id)

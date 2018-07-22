@@ -44,7 +44,7 @@ namespace Boutique.Infrastructure.IdentityServer
                    // ClientName = "Boutique Shop API",
                     ClientSecrets =
                     {
-                        new Secret("secret1".Sha256())
+                        new Secret("gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ".Sha256())
                     },
                   AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = {"api"}
