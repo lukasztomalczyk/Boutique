@@ -59,21 +59,9 @@ namespace Bountique.Api
                     options.Authority = "http://localhost:5001";
                     options.RequireHttpsMetadata = false;
 
-                    options.ApiName = "api";
+                    options.ApiName = jwtSettings.Issuer;
+                    options.ApiSecret = jwtSettings.SecretKey;
                 });
-            
-/*            services.AddAuthentication()
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = jwtSettings.Issuer,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
-                        ValidateAudience = false,
-                        //ValidateLifetime = true
-                    };
-                });*/
-
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

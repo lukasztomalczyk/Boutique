@@ -26,6 +26,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         //[Auth]
         public string Login([FromBody]LoginCommand command)
         {

@@ -19,7 +19,6 @@ namespace Bountique.Api.Controllers
                 return Json(disco.Error);
 
             }
-            
             var tokenClient = new TokenClient(disco.TokenEndpoint, user.ClientID, user.Secret);
             var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api");
 
