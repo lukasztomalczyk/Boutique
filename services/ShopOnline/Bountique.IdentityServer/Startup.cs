@@ -29,7 +29,6 @@ namespace Bountique.IdentityServer
         {
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddTestUsers(TestUsers.Users)
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources());
