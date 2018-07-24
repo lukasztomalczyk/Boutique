@@ -41,15 +41,21 @@ namespace Boutique.Infrastructure.IdentityServer
                 new Client
                 {
                     ClientId = "api",
-                   // ClientName = "Boutique Shop API",
-                    ClientSecrets =
+                    ClientName = "MVC Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
                     {
-                        new Secret("gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ".Sha256())
-                    },
-                  AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = {"api"}
-                    // RedirectUris = { ""};
-                },
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
+                }
             };
         }
     }

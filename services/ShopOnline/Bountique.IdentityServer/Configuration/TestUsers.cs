@@ -6,7 +6,7 @@ using IdentityServer4.Test;
 
 namespace Boutique.Infrastructure.IdentityServer
 {
-    public class TestUsers
+    public static class TestUsers
     {
         public static List<TestUser> Users = new List<TestUser>
         {

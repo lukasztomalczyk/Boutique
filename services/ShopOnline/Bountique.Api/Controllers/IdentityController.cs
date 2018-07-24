@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Boutique.Domain.Users;
 using IdentityModel.Client;
 using IdentityServer4.Test;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bountique.Api.Controllers
@@ -30,5 +31,13 @@ namespace Bountique.Api.Controllers
             return Json(tokenResponse.Json);
             
         }
+
+        [HttpGet]
+        [Authorize]
+        public string Test()
+        {
+            return "access granted";
+        }
+        
     }
 }

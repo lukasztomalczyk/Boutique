@@ -1,9 +1,11 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using Boutique;
 using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.DI;
 using Boutique.Infrastructure.Settings;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace Bountique.Api
 {
@@ -53,15 +56,24 @@ namespace Bountique.Api
             Configuration.GetSection("jwt").Bind(jwtSettings);
 
             services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
-            services.AddAuthentication()
-                .AddIdentityServerAuthentication(options =>
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => { options.Cookie.Name = "Cookie"; })
+                .AddOpenIdConnect("oidc", options =>
                 {
+                    
+                    // kim jestem
+                    options.ClientId = jwtSettings.Issuer;
+                    options.ClientSecret = jwtSettings.SecretKey;
+                    // wskazuje zaufany server autoryzacji
                     options.Authority = "http://localhost:5001";
+                    // określa czy połączenie ma być https
                     options.RequireHttpsMetadata = false;
-
-                    options.ApiName = jwtSettings.Issuer;
-                    options.ApiSecret = jwtSettings.SecretKey;
+                    options.ResponseType = "id_token";
+                    // łączy midellware autentykacje cookie z Idconnect
+                    options.SignInScheme = "Cookie";
                 });
+            
+            
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
