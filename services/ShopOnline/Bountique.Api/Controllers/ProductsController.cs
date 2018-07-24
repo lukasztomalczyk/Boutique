@@ -26,7 +26,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        //[Auth]
+       // [Auth]
         public string Load([FromBody] LoadProductsCommand command)
         {
             var result = _commandDispatcher.Run<LoadProductsCommand, string>(command);

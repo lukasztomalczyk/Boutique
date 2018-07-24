@@ -16,7 +16,7 @@ namespace Boutique.Infrastructure.Auth
             _jwtOptions = jwtOptions.Value;
         }
 
-        public JsonWebToken Create(string userId, string role)
+        public JsonWebToken Create(string userLogin, string userId, string userRole)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -24,9 +24,9 @@ namespace Boutique.Infrastructure.Auth
             var now = DateTime.UtcNow;
             var claims = new Claim[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, userLogin.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, userId.ToString()),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, userRole)
             };
 
             var expires = now.AddMinutes(_jwtOptions.ExpiryMinutes);

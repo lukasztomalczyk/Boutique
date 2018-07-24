@@ -7,8 +7,8 @@ using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.Settings;
 using Boutique.Presentation.Commands.Auth;
 using IdentityModel.Client;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Boutique.Infrastructure.Services.Password;
 
 namespace Boutique.Infrastructure.Services
 {
@@ -16,7 +16,7 @@ namespace Boutique.Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly IJwtProvider _jwtProvider;
-        private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
         private readonly IOptions<JwtSettings> _options;
 
@@ -28,7 +28,7 @@ namespace Boutique.Infrastructure.Services
         public UserService(IJwtProvider jwtProvider, IUserRepository userRepository, IOptions<JwtSettings> options)
         {
             _jwtProvider = jwtProvider;
-            _passwordHasher = new PasswordHasher<User>();
+            _passwordHasher = new PasswordHasher();
             _userRepository = userRepository;
             _options = options;
          }
@@ -50,10 +50,12 @@ namespace Boutique.Infrastructure.Services
         public async Task<JsonWebToken> Login(LoginCommand command)
         {
             User user = _userRepository.Load(command.Username);
+            
+            var passwordHashed = _passwordHasher.VerifyHashedPassword(user, user.Password, command.Password);
 
             if (user != null && user.Password == command.Password)
             {
-                return await Task.FromResult(_jwtProvider.Create(user.Id, user.Role));
+                return await Task.FromResult(_jwtProvider.Create(user.Login, user.Id, user.Role));
             }
 
             return await Task.FromException<JsonWebToken>(new InvalidOperationException("invalid user"));
