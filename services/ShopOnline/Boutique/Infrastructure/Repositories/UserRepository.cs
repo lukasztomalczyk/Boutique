@@ -23,9 +23,6 @@ namespace Boutique.Infrastructure.Repositories
 
         public string Save(User user)
         {
-  //          var guid = Guid.NewGuid().ToString("N").Substring(0,30);
-            var lenght = user.Password.Length;
-            
             var register = _sqlConnection.ExecuteQuery(
                 $"INSERT INTO Users (Id, Login, Password, FirstName, LastName, Role)" +
                 $"VALUES ('{user.Id}', '{user.Login}', '{user.Password}', '{user.FirstName}', '{user.LastName}', '{user.Role}');");

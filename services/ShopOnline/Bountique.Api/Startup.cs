@@ -50,30 +50,12 @@ namespace Bountique.Api
             services.AddCqrs(assembly);
             services.AddAuthJwt();
           
-    //        services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
+            services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
 
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
 
             services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => { options.Cookie.Name = "Cookie"; })
-                .AddOpenIdConnect("oidc", options =>
-                {
-                    
-                    // kim jestem
-                    options.ClientId = jwtSettings.Issuer;
-                    options.ClientSecret = jwtSettings.SecretKey;
-                    // wskazuje zaufany server autoryzacji
-                    options.Authority = "http://localhost:5001";
-                    // określa czy połączenie ma być https
-                    options.RequireHttpsMetadata = false;
-                    options.ResponseType = "id_token";
-                    // łączy midellware autentykacje cookie z Idconnect
-                    options.SignInScheme = "Cookie";
-                });
-            
-            
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
