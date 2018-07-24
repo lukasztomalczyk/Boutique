@@ -47,16 +47,16 @@ namespace Boutique.Infrastructure.Services
 //            return _jwtProvider.Create(user.Id, user.Role);
 //        }
 
-        public async Task<string> Login(LoginCommand command)
+        public async Task<JsonWebToken> Login(LoginCommand command)
         {
             User user = _userRepository.Load(command.Username);
 
             if (user != null && user.Password == command.Password)
             {
-                return await Task.FromResult(user.Login);
+                return await Task.FromResult(_jwtProvider.Create(user.Id, user.Role));
             }
 
-            return await Task.FromResult("error");
+            return await Task.FromException<JsonWebToken>(new InvalidOperationException("invalid user"));
         }
 
         public async Task<string> RegisterUser(RegisterCommand command)

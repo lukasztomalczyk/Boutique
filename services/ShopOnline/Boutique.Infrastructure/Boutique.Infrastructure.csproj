@@ -13,7 +13,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Boutique.Presentation\Boutique.Presentation.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IdentityServer" />
-  </ItemGroup>
 </Project>

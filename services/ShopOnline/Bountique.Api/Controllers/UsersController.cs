@@ -28,9 +28,9 @@ namespace Bountique.Api.Controllers
         [HttpPost]
         [Authorize]
         //[Auth]
-        public string Login([FromBody]LoginCommand command)
+        public JsonWebToken Login([FromBody]LoginCommand command)
         {
-            var result = _commandDispatcher.Run<LoginCommand, string>(command);
+            var result = _commandDispatcher.Run<LoginCommand, JsonWebToken>(command);
             return result;
         }
     }

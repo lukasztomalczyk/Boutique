@@ -49,12 +49,25 @@ namespace Bountique.Api
             services.AddServices(assembly);
             services.AddCqrs(assembly);
             services.AddAuthJwt();
-          
+
+            
             services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
 
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
 
+            services.AddAuthentication()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidIssuer = jwtSettings.Issuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
+                        ValidateAudience = false,
+                        //ValidateLifetime = true
+                    };
+                });
+            
             services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
         }
 
