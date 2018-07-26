@@ -64,9 +64,10 @@ namespace Bountique.Api
                 });
             services.AddAuthorization(option =>
             {
-                option.AddPolicy("policy", p =>
+                option.AddPolicy("Admin", p =>
                 {
-                    p.RequireClaim("role", "someClaim");
+                    p.RequireClaim("role", "Admin");
+                    p.RequireRole("Admin");
                     p.RequireAuthenticatedUser();
                 });
             });
@@ -79,18 +80,7 @@ namespace Bountique.Api
                 p.AllowAnyMethod();
                 p.AllowAnyOrigin();
             }); });
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1)
-                .AddMvcOptions(options =>
-                {
-                    // Don't combine authorize filters (keep 2.0 behavior).
-                    options.AllowCombiningAuthorizeFilters = true;
-                    // All exceptions thrown by an IInputFormatter will be treated
-                    // as model state errors (keep 2.0 behavior).
-                    options.InputFormatterExceptionPolicy =
-                        InputFormatterExceptionPolicy.AllExceptions;
-                    options.InputFormatters.Add(new XmlSerializerInputFormatter());
-                });
-                ; //AddJsonFormatters();
+            services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

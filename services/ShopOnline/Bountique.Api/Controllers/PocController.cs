@@ -14,7 +14,7 @@ namespace Bountique.Api.Controllers
     public class PocController : Controller
     {
         [HttpGet]
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         public string Index()
         {
             return "hello wroldddddddd";
