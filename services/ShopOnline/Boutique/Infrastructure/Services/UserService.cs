@@ -90,7 +90,7 @@ namespace Boutique.Infrastructure.Services
 
         public async void SingIn(HttpContext context)
         {
-           context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(_jwtProvider.))
+          // context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(_jwtProvider.))
         }
         
     }
