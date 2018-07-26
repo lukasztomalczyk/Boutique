@@ -8,11 +8,11 @@ namespace Boutique.Presentation.Commands.Auth
     {
         public LoginCommand(string username, string password)
         {
-            Username = username;
+            UserName = username;
             Password = password;
         }
 
-        public string Username { get; }
+        public string UserName { get; }
         public string Password { get; }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bountique.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
-
+    [ApiController]
     public class UsersController : Controller
     {
         private readonly ICommandDispatcher _commandDispatcher;
@@ -26,12 +26,17 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        //[Auth]
+      //  [AllowAnonymous]
         public JsonWebToken Login([FromBody]LoginCommand command)
         {
             var result = _commandDispatcher.Run<LoginCommand, JsonWebToken>(command);
             return result;
+        }
+
+        [HttpGet]
+        public string index()
+        {
+            return "dziala";
         }
     }
 }

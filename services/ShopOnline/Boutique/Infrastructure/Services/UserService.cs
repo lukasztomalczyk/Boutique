@@ -53,7 +53,7 @@ namespace Boutique.Infrastructure.Services
 
         public async Task<JsonWebToken> Login(LoginCommand command)
         {
-            User user = _userRepository.Load(command.Username);
+            User user = _userRepository.Load(command.UserName);
             
             var passwordHashed = _passwordHasher.VerifyHashedPassword(user.Password, command.Password);
 

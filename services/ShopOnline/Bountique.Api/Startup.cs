@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
 
 namespace Bountique.Api
 {
@@ -46,17 +48,9 @@ namespace Bountique.Api
                var settings = p.GetService<IOptions<BoutiqueSettings>>().Value;
                return new SqlConnection(settings.ConnectionString);
            });
-
-            services.AddServices(assembly);
-            services.AddCqrs(assembly);
-            services.AddAuthJwt();
-
-            
-            services.AddAuthorization(a => a.AddPolicy("Admin", p => p.RequireRole("Admin")));
-
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
-
+            
             services.AddAuthentication()
                 .AddJwtBearer(cfg =>
                 {
@@ -65,11 +59,38 @@ namespace Bountique.Api
                         ValidIssuer = jwtSettings.Issuer,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
                         ValidateAudience = false,
-                        //ValidateLifetime = true
+                        ValidateLifetime = false
                     };
                 });
-            
-            services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy("policy", p =>
+                {
+                    p.RequireClaim("role", "someClaim");
+                    p.RequireAuthenticatedUser();
+                });
+            });
+            services.AddServices(assembly);
+            services.AddCqrs(assembly);
+            services.AddAuthJwt();
+            services.AddCors(option => { option.AddDefaultPolicy(p =>
+            {
+                p.AllowAnyHeader();
+                p.AllowAnyMethod();
+                p.AllowAnyOrigin();
+            }); });
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1)
+                .AddMvcOptions(options =>
+                {
+                    // Don't combine authorize filters (keep 2.0 behavior).
+                    options.AllowCombiningAuthorizeFilters = true;
+                    // All exceptions thrown by an IInputFormatter will be treated
+                    // as model state errors (keep 2.0 behavior).
+                    options.InputFormatterExceptionPolicy =
+                        InputFormatterExceptionPolicy.AllExceptions;
+                    options.InputFormatters.Add(new XmlSerializerInputFormatter());
+                });
+                ; //AddJsonFormatters();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
