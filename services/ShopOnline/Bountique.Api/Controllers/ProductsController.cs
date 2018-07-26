@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.CQRS.Commands;
@@ -34,7 +35,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        //[Auth(policy:"Admin")]
+       // [Authorization(policy:"Admin")]
         public IActionResult Add([FromBody] CreateProductCommand command)
         {
             return Created(nameof(Load), null);

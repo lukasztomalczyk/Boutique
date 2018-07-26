@@ -8,6 +8,7 @@ using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.Builders;
 using Boutique.Infrastructure.Extensions;
 using Dapper;
+using Newtonsoft.Json.Linq;
 
 namespace Boutique.Infrastructure.Repositories
 {
@@ -43,6 +44,12 @@ namespace Boutique.Infrastructure.Repositories
                 .WithRole((string)rawUser.Role)
                 .Create();
 
+        }
+
+        public bool Contains(string login)
+        {
+            var result = _sqlConnection.Query($"SELECT COUNT(Login) FROM Users WHERE Login = '{login}");
+            return ( result != null) ? true : false;
         }
     }
 }

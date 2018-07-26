@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Boutique.Domain;
 using Boutique.Domain.Users;
@@ -18,19 +19,17 @@ namespace Boutique.Infrastructure.Services
         private readonly IJwtProvider _jwtProvider;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
-        private readonly IOptions<JwtSettings> _options;
 
         /// 1. Repository dla user
         /// 2. User isExits
         /// 3. Password Comapre
         /// 
 
-        public UserService(IJwtProvider jwtProvider, IUserRepository userRepository, IOptions<JwtSettings> options)
+        public UserService(IJwtProvider jwtProvider, IUserRepository userRepository)
         {
             _jwtProvider = jwtProvider;
             _passwordHasher = new PasswordHasher();
             _userRepository = userRepository;
-            _options = options;
          }
 
 //        public async Task<JsonWebToken> Login(LoginCommand command)
@@ -51,7 +50,7 @@ namespace Boutique.Infrastructure.Services
         {
             User user = _userRepository.Load(command.Username);
             
-            var passwordHashed = _passwordHasher.VerifyHashedPassword(user, user.Password, command.Password);
+            var passwordHashed = _passwordHasher.VerifyHashedPassword(user.Password, command.Password);
 
             if (user != null && user.Password == command.Password)
             {
@@ -63,18 +62,25 @@ namespace Boutique.Infrastructure.Services
 
         public async Task<string> RegisterUser(RegisterCommand command)
         {
+            var passwordHashed = _passwordHasher.HashPassword(command.Password);
 
-            var user = new User(Guid.NewGuid().ToString(), command.Login, command.Password, command.FirstName,
-                command.LastName, command.Role);
-
-            var passwordHashed = _passwordHasher.HashPassword(user, command.Password);
-
-            user = new User(Guid.NewGuid().ToString(), command.Login, passwordHashed, command.FirstName,
+            var user = new User(Guid.NewGuid().ToString(), command.Login, passwordHashed, command.FirstName,
                 command.LastName, command.Role);
 
             var result = _userRepository.Save(user);
 
             return await Task.FromResult(result);
+        }
+
+        public bool IsUserExists(string userName)
+        {
+            return  _userRepository.Contains(userName);
+        }
+
+        public Task<bool> ValidateUserCredentialAsync(string userName, string userPassword)
+        {
+            var isValid = (_passwordHasher.VerifyHashedPassword(userName, userPassword) && IsUserExists(userName));
+            return Task.FromResult(isValid);
         }
     }
 

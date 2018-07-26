@@ -7,5 +7,6 @@ namespace Boutique.Domain
     {
         string Save(User user);
         User Load(string login);
+        bool Contains(string login);
     }
 }
