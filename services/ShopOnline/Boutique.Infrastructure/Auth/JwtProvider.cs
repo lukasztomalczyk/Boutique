@@ -10,6 +10,7 @@ namespace Boutique.Infrastructure.Auth
     public class JwtProvider : IJwtProvider
     {
         private readonly JwtSettings _jwtOptions;
+        public Claim[] _claims { get; private set; }
 
         public JwtProvider(IOptions<JwtSettings> jwtOptions)
         {
@@ -22,7 +23,7 @@ namespace Boutique.Infrastructure.Auth
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var now = DateTime.UtcNow;
-            var claims = new Claim[]
+            _claims = new Claim[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userLogin.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, userId.ToString()),
@@ -32,7 +33,7 @@ namespace Boutique.Infrastructure.Auth
             var expires = now.AddMinutes(_jwtOptions.ExpiryMinutes);
             var jwt = new JwtSecurityToken(
                 issuer: _jwtOptions.Issuer,
-                claims: claims,
+                claims: _claims,
                 notBefore: now,
                 expires: expires,
                 signingCredentials: credentials

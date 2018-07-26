@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Boutique.Domain;
@@ -10,6 +12,9 @@ using Boutique.Presentation.Commands.Auth;
 using IdentityModel.Client;
 using Microsoft.Extensions.Options;
 using Boutique.Infrastructure.Services.Password;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace Boutique.Infrastructure.Services
 {
@@ -82,6 +87,12 @@ namespace Boutique.Infrastructure.Services
             var isValid = (_passwordHasher.VerifyHashedPassword(userName, userPassword) && IsUserExists(userName));
             return Task.FromResult(isValid);
         }
+
+        public async void SingIn(HttpContext context)
+        {
+           context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(_jwtProvider.))
+        }
+        
     }
 
 }
