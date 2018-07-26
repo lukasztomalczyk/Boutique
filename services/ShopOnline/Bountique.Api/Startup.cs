@@ -67,13 +67,6 @@ namespace Bountique.Api
                         ValidateAudience = false,
                         //ValidateLifetime = true
                     };
-                })
-                .AddCookie(options =>
-                {
-                    options.Cookie.Name = "Cookie";
-                    options.Cookie.Expiration = TimeSpan.FromMinutes(30);
-                    options.LoginPath = "/Account/Login";
-                    options.LogoutPath = "/Account/LoginOut";
                 });
             
             services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
