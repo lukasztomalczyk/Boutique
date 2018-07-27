@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 using Boutique.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
@@ -17,19 +18,13 @@ namespace Boutique.Infrastructure.Services.Password
 
         public string HashPassword(string password)
         {
-            byte[] salt = new byte[SaltSize];
-
-            using (var rng = RandomNumberGenerator.Create())
+            using (var md5 = new MD5CryptoServiceProvider())
             {
-                rng.GetBytes(salt);
+                UTF8Encoding utf8 = new UTF8Encoding();
+                byte[] data = md5.ComputeHash(utf8.GetBytes(password));
+                
+                return Convert.ToBase64String(data);
             }
-
-            return  Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                            password: password,
-                            salt: salt,
-                            prf: KeyDerivationPrf.HMACSHA1,
-                            iterationCount: 10000,
-                            numBytesRequested: 256 / 8));
         }
     }
 }

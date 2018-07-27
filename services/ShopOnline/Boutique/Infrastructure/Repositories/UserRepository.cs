@@ -43,13 +43,12 @@ namespace Boutique.Infrastructure.Repositories
                 .WithPassword((string)rawUser.Password)
                 .WithRole((string)rawUser.Role)
                 .Create();
-
         }
 
         public bool Contains(string login)
         {
-            var result = _sqlConnection.Query($"SELECT COUNT(Login) FROM Users WHERE Login = '{login}'");
-            return (result.Count() != 0) ? true : false;
+            var result = _sqlConnection.QueryFirstOrDefault<int>($"SELECT COUNT(Login) FROM Users WHERE Login = '{login}'");
+            return (result == 1) ? true : false;
         }
     }
 }

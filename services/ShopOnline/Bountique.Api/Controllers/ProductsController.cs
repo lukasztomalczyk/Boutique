@@ -28,7 +28,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Admin")]
         public string Load([FromBody] LoadProductsCommand command)
         {
             var result = _commandDispatcher.Run<LoadProductsCommand, string>(command);
