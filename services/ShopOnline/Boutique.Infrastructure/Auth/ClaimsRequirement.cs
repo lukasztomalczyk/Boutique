@@ -17,12 +17,14 @@ namespace Boutique.Infrastructure.Auth
 
             if(context.User.FindFirst(c => c.Type == ClaimTypes.Role).Value == "Admin")
             {
-                return Task.CompletedTask;
+                 context.Succeed(requirement);
             }
             else
             {
-                return Task.FromException(new Exception("bład"));
+                return Task.FromException(new Exception("bład w middleware"));
             }
+            
+            return Task.CompletedTask;
         }
     }
 }
