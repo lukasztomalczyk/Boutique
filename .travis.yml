@@ -1,6 +1,9 @@
 language: sharp
+solution: Boutique.sln
 env:
   - ASPNETCORE_ENVIRONMENT=Travis
+script:
+  - dotnet build
 services:
   - mysql
 before_install:
