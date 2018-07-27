@@ -41,13 +41,13 @@ namespace Boutique.Infrastructure.Services
         public async Task<JsonWebToken> Login(LoginCommand command)
         {
             if (!IsUserExists(command.UserName))
-                throw new ArgumentNullException();
+                throw new Exception("User dont exists");
             
             var user = _userRepository.Load(command.UserName);
             var hashPassword = _passwordHasher.HashPassword(command.Password);
             
             if(!_passwordHasher.VerifyHashedPassword(hashPassword, user.Password))
-                throw new Exception();
+                throw new Exception("Password not match");
             
             return await Task.FromResult(_jwtProvider.Create(user.Login, user.Id, user.Role));
         }
@@ -55,7 +55,7 @@ namespace Boutique.Infrastructure.Services
         public async Task<string> RegisterUser(RegisterCommand command)
         {
             if(command.Login == null || IsUserExists(command.Login))
-                throw new InvalidDataException();
+                throw new InvalidDataException("User exists");
             
             var passwordHashed = _passwordHasher.HashPassword(command.Password);
             var user = new User(Guid.NewGuid().ToString(), command.Login, passwordHashed, command.FirstName,

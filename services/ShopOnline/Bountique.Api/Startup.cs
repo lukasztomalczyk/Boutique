@@ -66,7 +66,7 @@ namespace Bountique.Api
                 });
             services.AddAuthorization(option =>
             {
-                option.AddPolicy("Admin", p => { p.RequireRole("Admin"); });
+                option.AddPolicy("Admin", p => { p.Requirements.Add(new ClaimsRequirement()); });
             });
             services.AddServices(assembly);
             services.AddCqrs(assembly);
