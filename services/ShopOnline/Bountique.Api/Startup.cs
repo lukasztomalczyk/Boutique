@@ -8,6 +8,7 @@ using Boutique.Infrastructure.DI;
 using Boutique.Infrastructure.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -51,7 +52,7 @@ namespace Bountique.Api
             var jwtSettings = new JwtSettings();
             Configuration.GetSection("jwt").Bind(jwtSettings);
             
-            services.AddAuthentication()
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(cfg =>
                 {
                     cfg.TokenValidationParameters = new TokenValidationParameters
@@ -60,13 +61,14 @@ namespace Bountique.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
                         ValidateAudience = false,
                         ValidateLifetime = false
+                        
                     };
                 });
             services.AddAuthorization(option =>
             {
                 option.AddPolicy("Admin", p =>
                 {
-                    p.RequireClaim("role", "Admin");
+                   // p.RequireClaim("role", "Admin");
                     p.RequireRole("Admin");
                     p.RequireAuthenticatedUser();
                 });
@@ -80,7 +82,7 @@ namespace Bountique.Api
                 p.AllowAnyMethod();
                 p.AllowAnyOrigin();
             }); });
-            services.AddMvcCore().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonFormatters();
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);//AddJsonFormatters();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
