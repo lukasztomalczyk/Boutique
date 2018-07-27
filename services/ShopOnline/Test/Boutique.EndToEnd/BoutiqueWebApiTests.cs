@@ -7,7 +7,10 @@ using NUnit.Framework;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Boutique.EndToEnd
 {
@@ -16,10 +19,11 @@ namespace Boutique.EndToEnd
     {
         private readonly HttpClient client;
         private readonly TestServer server;
+        
         public BoutiqueWebApiTests()
         {
             server = new TestServer(WebHost.CreateDefaultBuilder()
-                .UseEnvironment("Testing")
+                .UseEnvironment("Development")
                 .UseStartup<Startup>());
 
             client = server.CreateClient();
@@ -27,13 +31,28 @@ namespace Boutique.EndToEnd
         }
 
         [Test]
-        public async Task  Run()
+        public async Task LoginUser_ExpectJsonToken()
         {
-            var query = "api/Poc";
-
-            var response = await client.GetAsync(query);
+            client.DefaultRequestHeaders
+                .Accept
+                .Add(new MediaTypeWithQualityHeaderValue("applicationo/json"));
+            
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/api/Users/Login");
+            request.Content = new StringContent("{" +
+                                                "\"UserName\" : \"TestUser\"," +
+                                                "\"Password\" : \"password\"" +
+                                                "}", Encoding.UTF8, "application/json");
+            var response = await client.SendAsync(request);
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task Run()
+        {
+            var response = await client.GetAsync("");
+            
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
     }
 }

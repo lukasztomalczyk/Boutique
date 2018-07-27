@@ -6,11 +6,11 @@ namespace Boutique.Domain.Event
 {
     public class PriceHasBeenChangedEvent
     {
-        public PriceHasBeenChangedEvent(Products products)
+        public PriceHasBeenChangedEvent(Products.Products products)
         {
             Products = products;
         }
 
-        public Products  Products { get; }
+        public Products.Products  Products { get; }
     }
 }

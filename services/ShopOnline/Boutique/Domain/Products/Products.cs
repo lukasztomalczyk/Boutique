@@ -1,10 +1,8 @@
-﻿using Boutique.Domain.Event;
+﻿using System;
+using Boutique.Domain.Event;
 using Boutique.Infrastructure.DDD;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Boutique.Domain
+namespace Boutique.Domain.Products
 {
     public class Products
     {

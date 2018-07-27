@@ -6,7 +6,7 @@ namespace Boutique.Domain
 {
     public interface IProductRepository
     {
-        void Save(Products product);
+        void Save(Products.Products product);
         string Load(string Id);
     }
 }
