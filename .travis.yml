@@ -1,0 +1,6 @@
+language: sharp
+services:
+  - mysql
+before_install:
+  - mysql -u root --password="" < travis.sql
+  

@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI_CD", "CI_CD", "{555069A4
 		Dockerfile.Production = Dockerfile.Production
 		Dockerfile.Development = Dockerfile.Development
 		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		travis.sql = travis.sql
 	EndProjectSection
 EndProject
 Global

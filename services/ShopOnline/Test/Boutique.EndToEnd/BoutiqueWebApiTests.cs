@@ -37,7 +37,7 @@ namespace Boutique.EndToEnd
                 .Accept
                 .Add(new MediaTypeWithQualityHeaderValue("applicationo/json"));
             
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "/api/Users/Login");
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:5000/api/Users/Login");
             request.Content = new StringContent("{" +
                                                 "\"UserName\" : \"TestUser\"," +
                                                 "\"Password\" : \"password\"" +
