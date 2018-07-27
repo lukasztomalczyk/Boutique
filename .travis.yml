@@ -1,4 +1,6 @@
 language: sharp
+env:
+  - ASPNETCORE_ENVIRONMENT=Travis
 services:
   - mysql
 before_install:
