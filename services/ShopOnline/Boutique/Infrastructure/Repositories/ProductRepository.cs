@@ -9,7 +9,6 @@ using System.Text;
 namespace Boutique.Infrastructure.Repositories
 {
     [Repository]
-
     public class ProductRepository : IProductRepository
     {
         private readonly SqlConnection _sqlConnection;

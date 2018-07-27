@@ -37,32 +37,18 @@ namespace Boutique.Infrastructure.Services
             _userRepository = userRepository;
          }
 
-//        public async Task<JsonWebToken> Login(LoginCommand command)
-//        {
-//            var user = new User(Guid.NewGuid().ToString(), "login", "hasloooooooo", "Lukasz", "Tomalczyk", "1");
-//            var passwordHashed = _passwordHasher.VerifyHashedPassword(user, user.Password, command.Password);
-//            if (passwordHashed == PasswordVerificationResult.Failed)
-//            {
-//                throw new Exception();
-//            }
-//
-//            await Task.CompletedTask;
-//
-//            return _jwtProvider.Create(user.Id, user.Role);
-//        }
-
         public async Task<JsonWebToken> Login(LoginCommand command)
         {
-            User user = _userRepository.Load(command.UserName);
+            if (!IsUserExists(command.UserName))
+                throw new ArgumentNullException();
             
-            var passwordHashed = _passwordHasher.VerifyHashedPassword(user.Password, command.Password);
-
-            if (user != null && user.Password == command.Password)
-            {
-                return await Task.FromResult(_jwtProvider.Create(user.Login, user.Id, user.Role));
-            }
-
-            return await Task.FromException<JsonWebToken>(new InvalidOperationException("invalid user"));
+            var user = _userRepository.Load(command.UserName);
+            var hashPassword = _passwordHasher.HashPassword(command.Password);
+            
+            if(!_passwordHasher.VerifyHashedPassword(hashPassword, user.Password))
+                throw new Exception();
+            
+            return await Task.FromResult(_jwtProvider.Create(user.Login, user.Id, user.Role));
         }
 
         public async Task<string> RegisterUser(RegisterCommand command)
@@ -80,19 +66,7 @@ namespace Boutique.Infrastructure.Services
         public bool IsUserExists(string userName)
         {
             return  _userRepository.Contains(userName);
-        }
-
-        public Task<bool> ValidateUserCredentialAsync(string userName, string userPassword)
-        {
-            var isValid = (_passwordHasher.VerifyHashedPassword(userName, userPassword) && IsUserExists(userName));
-            return Task.FromResult(isValid);
-        }
-
-        public async void SingIn(HttpContext context)
-        {
-          // context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,new ClaimsPrincipal(_jwtProvider.))
-        }
-        
+        }       
     }
 
 }
