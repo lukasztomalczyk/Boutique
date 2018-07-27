@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
 
@@ -37,9 +38,6 @@ namespace Bountique.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            
-
-            
             var assembly = AssemblyInformation.Assembly;
             services.Configure<BoutiqueSettings>(Configuration.GetSection("Boutique"));
             services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
@@ -58,20 +56,21 @@ namespace Bountique.Api
                     cfg.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidIssuer = jwtSettings.Issuer,
+                        ValidateIssuer = true,
+                        ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
                         ValidateAudience = false,
-                        ValidateLifetime = false
+                        ValidateLifetime = true
                         
                     };
                 });
             services.AddAuthorization(option =>
             {
-                option.AddPolicy("Admin", p =>
+                option.AddPolicy("User", p =>
                 {
-                   // p.RequireClaim("role", "Admin");
-                    p.RequireRole("Admin");
-                    p.RequireAuthenticatedUser();
+                   p.Requirements.Add(new HasScopeRequirment("login", "api"));
                 });
+                option.AddPolicy("Admin", p => { p.RequireRole("Admin"); });
             });
             services.AddServices(assembly);
             services.AddCqrs(assembly);
@@ -82,6 +81,8 @@ namespace Bountique.Api
                 p.AllowAnyMethod();
                 p.AllowAnyOrigin();
             }); });
+
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);//AddJsonFormatters();
         }
 

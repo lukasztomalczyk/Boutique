@@ -15,18 +15,25 @@ namespace Bountique.Api.Controllers
     [ApiController]
     public class PocController : Controller
     {
-        [HttpPost]
-        [Authorize(Policy = "Admin")]
+        [HttpGet]
+        [Authorize(Policy = "User")]
         public string Index()
         {
             return "hello wroldddddddd";
         }
 
-        [HttpPost]
-        public dynamic Token(HttpContext context)
+        [HttpGet]
+        [Authorize]
+        public dynamic Token()
         {
-            var test = context.User.Claims.ToList();
-            return test;
+//            var test = context.User.Claims.ToList();
+//            return test;
+            return "helo";
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public string Admin() => "admin";
+
     }
 }
