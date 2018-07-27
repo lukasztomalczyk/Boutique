@@ -48,8 +48,8 @@ namespace Boutique.Infrastructure.Repositories
 
         public bool Contains(string login)
         {
-            var result = _sqlConnection.Query($"SELECT COUNT(Login) FROM Users WHERE Login = '{login}");
-            return ( result != null) ? true : false;
+            var result = _sqlConnection.Query($"SELECT COUNT(Login) FROM Users WHERE Login = '{login}'");
+            return (result.Count() != 0) ? true : false;
         }
     }
 }

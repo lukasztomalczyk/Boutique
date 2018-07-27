@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
@@ -53,8 +54,10 @@ namespace Boutique.Infrastructure.Services
 
         public async Task<string> RegisterUser(RegisterCommand command)
         {
+            if(command.Login == null || IsUserExists(command.Login))
+                throw new InvalidDataException();
+            
             var passwordHashed = _passwordHasher.HashPassword(command.Password);
-
             var user = new User(Guid.NewGuid().ToString(), command.Login, passwordHashed, command.FirstName,
                 command.LastName, command.Role);
 

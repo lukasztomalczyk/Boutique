@@ -1,4 +1,5 @@
-﻿using Boutique.Infrastructure.Auth;
+﻿using System;
+using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.CQRS.Commands;
 using Boutique.Presentation.Commands.Auth;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,9 @@ namespace Bountique.Api.Controllers
         [AllowAnonymous]
         public string Register([FromBody]RegisterCommand registerCommand)
         {
+            if(!ModelState.IsValid)
+                throw new ArgumentNullException();
+            
             var result = _commandDispatcher.Run<RegisterCommand, string>(registerCommand);
             return result;
         }
@@ -29,6 +33,9 @@ namespace Bountique.Api.Controllers
         [AllowAnonymous]
         public JsonWebToken Login([FromBody]LoginCommand command)
         {
+            if(!ModelState.IsValid)
+                throw new ArgumentNullException();
+
             var result = _commandDispatcher.Run<LoginCommand, JsonWebToken>(command);
             return result;
         }
