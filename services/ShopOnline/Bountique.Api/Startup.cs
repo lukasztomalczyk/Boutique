@@ -66,10 +66,6 @@ namespace Bountique.Api
                 });
             services.AddAuthorization(option =>
             {
-                option.AddPolicy("User", p =>
-                {
-                   p.Requirements.Add(new HasScopeRequirment("login", "api"));
-                });
                 option.AddPolicy("Admin", p => { p.RequireRole("Admin"); });
             });
             services.AddServices(assembly);
@@ -82,7 +78,6 @@ namespace Bountique.Api
                 p.AllowAnyOrigin();
             }); });
 
-            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);//AddJsonFormatters();
         }
 
