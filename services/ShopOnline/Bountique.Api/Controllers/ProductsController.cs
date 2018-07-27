@@ -8,6 +8,7 @@ using Boutique.Infrastructure.CQRS.Commands;
 using Boutique.Presentation.Commands;
 using Boutique.Presentation.Commands.Auth;
 using Boutique.Presentation.Commands.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -27,7 +28,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-       // [Auth]
+        [Authorize(Roles = "Admin")]
         public string Load([FromBody] LoadProductsCommand command)
         {
             var result = _commandDispatcher.Run<LoadProductsCommand, string>(command);
@@ -35,7 +36,7 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-       // [Authorization(policy:"Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add([FromBody] CreateProductCommand command)
         {
             return Created(nameof(Load), null);

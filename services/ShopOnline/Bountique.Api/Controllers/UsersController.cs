@@ -26,17 +26,11 @@ namespace Bountique.Api.Controllers
         }
 
         [HttpPost]
-      //  [AllowAnonymous]
+        [AllowAnonymous]
         public JsonWebToken Login([FromBody]LoginCommand command)
         {
             var result = _commandDispatcher.Run<LoginCommand, JsonWebToken>(command);
             return result;
-        }
-
-        [HttpGet]
-        public string index()
-        {
-            return "dziala";
         }
     }
 }
