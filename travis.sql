@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS `shop` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `sklep`;
+USE `shop`;
 
 CREATE TABLE IF NOT EXISTS `Users`
 (
