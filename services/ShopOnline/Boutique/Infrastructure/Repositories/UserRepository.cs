@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Linq;
 using Boutique.Domain;
+using Boutique.Domain.Products;
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.Attributes;
 using Boutique.Infrastructure.Auth;

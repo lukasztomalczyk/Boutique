@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Boutique.Domain
+﻿namespace Boutique.Domain.Products
 {
     public interface IProductRepository
     {
-        void Save(Products.Products product);
-        string Load(string Id);
+        void Save(Domain.Products.Products product);
+        string Load(string id);
     }
 }

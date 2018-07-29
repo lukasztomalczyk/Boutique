@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Boutique.Domain;
+using Boutique.Domain.Products;
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.Attributes;
 using Boutique.Infrastructure.Auth;

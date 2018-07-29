@@ -4,6 +4,7 @@ using Boutique.Presentation.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Boutique.Domain.Products;
 
 namespace Boutique.Application.Products.CommandHandler
 {
