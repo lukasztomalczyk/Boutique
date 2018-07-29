@@ -19,9 +19,9 @@ namespace Boutique.Infrastructure.Repositories
             _sqlConnection = sqlConnection;
         }
 
-        public string Load(string Id)
+        public string Load(string id)
         {
-            var rawProducts = _sqlConnection.ExecuteQuery($"SELECT * FROM Products WHERE Id = '{Id}'");
+            var rawProducts = _sqlConnection.ExecuteQuery($"SELECT Id FROM Products WHERE Id = '{id}'");
 
             var product = new Products(
                                 (string)rawProducts.Id,
@@ -33,7 +33,8 @@ namespace Boutique.Infrastructure.Repositories
 
         public void Save(Products product)
         {
-            throw new NotImplementedException();
+            var query = _sqlConnection.ExecuteQuery($"INSERT INTO Products (Id, Name, Color, Price)" +
+                                                    $"VALUES ('{product.Id}', '{product.Name}', '{product.Color}', '{product.Price}');");
         }
     }
 }

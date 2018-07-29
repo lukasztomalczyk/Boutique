@@ -21,7 +21,6 @@ namespace Boutique.Infrastructure.Auth
             }
             else
             {
-               // return Task.FromException(new Exception("bład w middleware"));
                 context.Fail();
                 return Task.CompletedTask;
             }

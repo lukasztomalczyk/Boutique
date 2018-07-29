@@ -1,8 +1,8 @@
-﻿using Boutique.Domain.Event;
-using Boutique.Infrastructure.DDD;
+﻿using Boutique.Infrastructure.DDD;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Boutique.Domain.Products.Event;
 
 namespace Boutique.Application.Products.EventHandler
 {

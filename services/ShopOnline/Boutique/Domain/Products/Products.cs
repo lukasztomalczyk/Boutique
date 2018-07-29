@@ -1,5 +1,5 @@
 ﻿using System;
-using Boutique.Domain.Event;
+using Boutique.Domain.Products.Event;
 using Boutique.Infrastructure.DDD;
 
 namespace Boutique.Domain.Products
