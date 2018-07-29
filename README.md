@@ -14,7 +14,6 @@ Register model:
  
  login model:
   {
-
  	"UserName" : "lukasz",
     "Password" : "maksimus"
  }     
