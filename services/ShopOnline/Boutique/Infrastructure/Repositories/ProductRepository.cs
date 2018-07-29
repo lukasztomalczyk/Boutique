@@ -33,7 +33,7 @@ namespace Boutique.Infrastructure.Repositories
 
         public void Save(Products product)
         {
-            var query = _sqlConnection.ExecuteQuery($"INSERT INTO Products (Id, Name, Color, Price)" +
+            _sqlConnection.ExecuteQuery($"INSERT INTO Products (Id, Name, Color, Price)" +
                                                     $"VALUES ('{product.Id}', '{product.Name}', '{product.Color}', '{product.Price}');");
         }
     }
