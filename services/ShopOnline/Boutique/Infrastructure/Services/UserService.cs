@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using Boutique.Domain;
 using Boutique.Domain.Products;
 using Boutique.Domain.Users;
+using Boutique.Domain.Users.Event;
 using Boutique.Infrastructure.Attributes;
 using Boutique.Infrastructure.Auth;
+using Boutique.Infrastructure.DDD;
 using Boutique.Infrastructure.Settings;
 using Boutique.Presentation.Commands.Auth;
 using IdentityModel.Client;
@@ -26,18 +28,20 @@ namespace Boutique.Infrastructure.Services
         private readonly IJwtProvider _jwtProvider;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
+        private readonly IDomainEventDispatcher _eventDispatcher;
 
         /// 1. Repository dla user
         /// 2. User isExits
         /// 3. Password Comapre
         /// 
 
-        public UserService(IJwtProvider jwtProvider, IUserRepository userRepository)
+        public UserService(IJwtProvider jwtProvider, IUserRepository userRepository, IDomainEventDispatcher eventDispatcher)
         {
             _jwtProvider = jwtProvider;
             _passwordHasher = new PasswordHasher();
             _userRepository = userRepository;
-         }
+            _eventDispatcher = eventDispatcher;
+        }
 
         public async Task<JsonWebToken> Login(LoginCommand command)
         {
@@ -59,11 +63,14 @@ namespace Boutique.Infrastructure.Services
                 throw new InvalidDataException("User exists");
             
             var passwordHashed = _passwordHasher.HashPassword(command.Password);
-            var user = new User(Guid.NewGuid().ToString(), command.Login, passwordHashed, command.FirstName,
+            var guid = Guid.NewGuid().ToString();
+            
+            var user = new User(guid, command.Login, passwordHashed, command.FirstName,
                 command.LastName, command.Role);
 
             var result = _userRepository.Save(user);
-
+            _eventDispatcher.Run(new UserHasBeenCreatedEvent(guid));
+            
             return await Task.FromResult(result);
         }
 
