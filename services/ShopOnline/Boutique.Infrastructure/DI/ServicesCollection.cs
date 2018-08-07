@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
+using Boutique.Infrastructure.DDD;
 
 namespace Boutique.Infrastructure.DI
 {
@@ -19,7 +20,6 @@ namespace Boutique.Infrastructure.DI
             scan.FromAssemblies(assemblies)
             .AddClasses(classess => classess.AssignableTo(typeof(IDomainCommandHandler<>)))
             .AddClasses(classess => classess.AssignableTo(typeof(IDomainCommandHandler<,>)))
-              
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
@@ -31,6 +31,16 @@ namespace Boutique.Infrastructure.DI
                 sqlConnection.Open();
                 return sqlConnection.BeginTransaction(System.Data.IsolationLevel.ReadCommitted);
             });
+        }
+
+        public static void AddCQRS2(this IServiceCollection services, params Assembly[] assemblies)
+        {
+            services.Scan(scan =>
+               scan.FromAssemblies(assemblies)
+                   .AddClasses(classess => classess.AssignableTo(typeof(IDomainEventHandler<>)))
+                    .AsImplementedInterfaces()
+                   .WithScopedLifetime());
+            services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
         }
 
         public static void AddServices(this IServiceCollection services, params Assembly[] assemblies)

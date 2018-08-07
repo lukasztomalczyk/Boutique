@@ -70,6 +70,9 @@ namespace Bountique.Api
             });
             services.AddServices(assembly);
             services.AddCqrs(assembly);
+            
+            services.AddCQRS2(assembly);
+            
             services.AddAuthJwt();
             services.AddCors(option => { option.AddDefaultPolicy(p =>
             {
