@@ -1,11 +1,11 @@
 ﻿namespace Boutique.Messages
 {
-    public interface IMessagesPublisher
+    public interface IMessagesPublisher<TOut> where TOut : class
     {
-        MessagesPublisher ConnectionFactory(string connectionString);
-        MessagesPublisher OpenConnection();
-        MessagesPublisher CreateModel(string exchangeName);
-        MessagesPublisher SetSubscriber(string sub);
+        TOut ConnectionFactory(string connectionString);
+        TOut OpenConnection();
+        TOut CreateModel(string exchangeName);
+        TOut SetSubscriber(string sub);
         void SendMessage(string message);
     }
 }

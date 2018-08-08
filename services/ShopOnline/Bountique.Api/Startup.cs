@@ -72,7 +72,7 @@ namespace Bountique.Api
             services.AddServices(assembly);
             services.AddCqrs(assembly);
 
-            services.AddScoped<MessagesPublisher, IMessagesPublisher>();
+            services.AddScoped<MessagesPublisher, IMessagesPublisher<MessagesPublisher>>();
             services.AddCQRS2(assembly);
             
             services.AddAuthJwt();

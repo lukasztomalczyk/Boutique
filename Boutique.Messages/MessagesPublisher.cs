@@ -6,7 +6,7 @@ using RabbitMQ.Client.Framing.Impl;
 
 namespace Boutique.Messages
 {
-    public class MessagesPublisher : IMessagesPublisher
+    public class MessagesPublisher : IMessagesPublisher<MessagesPublisher>
     {
         private ConnectionFactory _factory;
         private IConnection _connection;
