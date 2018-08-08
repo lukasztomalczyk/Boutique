@@ -6,6 +6,7 @@ using Boutique;
 using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.DI;
 using Boutique.Infrastructure.Settings;
+using Boutique.Messages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -70,7 +71,8 @@ namespace Bountique.Api
             });
             services.AddServices(assembly);
             services.AddCqrs(assembly);
-            
+
+            services.AddScoped<MessagesPublisher, IMessagesPublisher>();
             services.AddCQRS2(assembly);
             
             services.AddAuthJwt();
