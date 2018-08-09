@@ -9,11 +9,19 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
 using Boutique.Infrastructure.DDD;
+using Boutique.Messages.EventBusRabbitMQ;
+
 
 namespace Boutique.Infrastructure.DI
 {
     public static class ServicesCollection
     {
+        public static void AddEventBus(this IServiceCollection services)
+        {
+            services.AddScoped<IRabbitMqConnection, RabbitMqConnection>();
+            services.AddScoped<IEventBus, EventBusRabbitMq>();
+        }
+        
         public static void AddCqrs(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.Scan(scan =>

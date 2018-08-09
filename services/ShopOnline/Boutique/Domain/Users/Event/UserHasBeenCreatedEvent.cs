@@ -1,9 +1,10 @@
 ﻿using System;
 using Boutique.Domain.Interface;
+using Boutique.Messages;
 
 namespace Boutique.Domain.Users.Event
 {
-    public class UserHasBeenCreatedEvent : IEvent
+    public class UserHasBeenCreatedEvent : IntegrationEvent
     {
         public string Id { get; }
 
