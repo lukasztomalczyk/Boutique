@@ -1,20 +1,4 @@
 # Boutique
-http://localhost:5000/.well-known/openid-configuration
+still work. It is develop version. Please wait :)
 
-Register model:
-
- {
- 	"Id" : 1,
- 	"Login" : "lukasz",
-    "Password" : "maksimus",
-    "FirstName" : "Łukasz",
-    "LastName" : "Tomalczyk",
-    "Role" : "Admin"
- }     
- 
- login model:
-  {
- 	"UserName" : "lukasz",
-    "Password" : "maksimus"
- }     
- 
+stack: NservicesBus, Nlog, Dapper, Nunit, JWT, RabbitMQ, CQRS, DDD, Microservices, Travis CI/CD, MySql, Docker Container
