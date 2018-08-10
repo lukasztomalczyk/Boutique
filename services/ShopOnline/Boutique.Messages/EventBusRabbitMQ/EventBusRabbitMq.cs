@@ -22,16 +22,10 @@ namespace Boutique.Messages.EventBusRabbitMQ
 
             using (var channel = _connectionRabbit.CreateModel())
             {
-                var eventName = @event.GetType().Name;
+                var eventName = "butique." + @event.GetType().Name;
                 
                 channel.ExchangeDeclare(exchange: BROKER_NAME,
                                         type: "topic");
-//                channel.QueueDeclare(queue: eventName,
-//                    durable: true,
-//                    exclusive: false,
-//                    autoDelete: false,
-//                    arguments: null);
-
 
                 var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
