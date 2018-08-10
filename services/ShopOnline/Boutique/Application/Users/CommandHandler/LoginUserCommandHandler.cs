@@ -2,6 +2,7 @@
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.CQRS.Commands;
+using Boutique.Infrastructure.Services;
 using Boutique.Presentation.Commands.Auth;
 
 namespace Boutique.Application.Users.CommandHandler

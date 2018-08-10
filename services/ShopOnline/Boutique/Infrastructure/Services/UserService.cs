@@ -50,7 +50,7 @@ namespace Boutique.Infrastructure.Services
             return await Task.FromResult(_jwtProvider.Create(user.Login, user.Id, user.Role));
         }
 
-        public async Task<string> RegisterUser(RegisterCommand command)
+        public async Task<string> Register(RegisterCommand command)
         {
             if(command.Login == null || IsUserExists(command.Login))
                 throw new InvalidDataException("User exists");

@@ -2,6 +2,7 @@
 using Boutique.Domain.Interface;
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.CQRS.Commands;
+using Boutique.Infrastructure.Services;
 using Boutique.Presentation.Commands.Auth;
 
 namespace Boutique.Application.Users.CommandHandler
@@ -16,7 +17,7 @@ namespace Boutique.Application.Users.CommandHandler
         }
         public string Handle(RegisterCommand command)
         {
-            return _userService.RegisterUser(command).Result;
+            return _userService.Register(command).Result;
         }
     }
 }
