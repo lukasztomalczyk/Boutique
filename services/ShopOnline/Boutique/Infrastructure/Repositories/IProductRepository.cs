@@ -1,4 +1,4 @@
-﻿namespace Boutique.Domain.Products
+﻿namespace Boutique.Domain.Interface
 {
     public interface IProductRepository
     {

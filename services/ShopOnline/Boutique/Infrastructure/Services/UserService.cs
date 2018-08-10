@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Boutique.Domain;
+using Boutique.Domain.Interface;
 using Boutique.Domain.Products;
 using Boutique.Domain.Users;
 using Boutique.Domain.Users.Event;
@@ -15,9 +16,7 @@ using Boutique.Infrastructure.Settings;
 using Boutique.Presentation.Commands.Auth;
 using Microsoft.Extensions.Options;
 using Boutique.Infrastructure.Services.Password;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
+
 
 namespace Boutique.Infrastructure.Services
 {
@@ -28,11 +27,6 @@ namespace Boutique.Infrastructure.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
         private readonly IDomainEventDispatcher _eventDispatcher;
-
-        /// 1. Repository dla user
-        /// 2. User isExits
-        /// 3. Password Comapre
-        /// 
 
         public UserService(IJwtProvider jwtProvider, IUserRepository userRepository, IDomainEventDispatcher eventDispatcher)
         {

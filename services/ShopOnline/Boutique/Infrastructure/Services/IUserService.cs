@@ -2,7 +2,7 @@
 using Boutique.Infrastructure.Auth;
 using Boutique.Presentation.Commands.Auth;
 
-namespace Boutique.Domain.Users
+namespace Boutique.Domain.Interface
 {
     public interface IUserService
     {

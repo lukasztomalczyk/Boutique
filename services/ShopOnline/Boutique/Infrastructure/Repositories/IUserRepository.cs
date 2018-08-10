@@ -1,6 +1,6 @@
 ﻿using Boutique.Domain.Users;
 
-namespace Boutique.Domain.Products
+namespace Boutique.Domain.Interface
 {
     public interface IUserRepository
     {

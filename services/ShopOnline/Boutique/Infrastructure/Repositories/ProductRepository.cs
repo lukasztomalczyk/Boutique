@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using Boutique.Domain.Interface;
 using Boutique.Domain.Products;
 
 namespace Boutique.Infrastructure.Repositories

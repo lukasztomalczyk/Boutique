@@ -1,4 +1,5 @@
 ﻿using Boutique.Domain;
+using Boutique.Domain.Interface;
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.CQRS.Commands;
 using Boutique.Presentation.Commands.Auth;
