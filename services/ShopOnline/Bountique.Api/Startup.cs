@@ -8,6 +8,7 @@ using Boutique.Infrastructure.DI;
 using Boutique.Infrastructure.Settings;
 using Boutique.Messages;
 using Boutique.Messages.EventBusRabbitMQ;
+using Boutique.Messages.EventBusRabbitMQ.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -43,6 +44,7 @@ namespace Bountique.Api
             var assembly = AssemblyInformation.Assembly;
             services.Configure<BoutiqueSettings>(Configuration.GetSection("Boutique"));
             services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
+            services.Configure<RabbitMqSettings>(Configuration.GetSection("RabbitMqSettings"));
 
             services.AddScoped(p =>
            {

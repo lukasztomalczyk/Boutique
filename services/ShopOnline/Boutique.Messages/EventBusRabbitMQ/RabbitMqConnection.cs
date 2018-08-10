@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Boutique.Messages.EventBusRabbitMQ.Settings;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace Boutique.Messages.EventBusRabbitMQ
@@ -9,10 +13,12 @@ namespace Boutique.Messages.EventBusRabbitMQ
         private readonly IConnectionFactory _connectionFactory;
         IConnection _connection;
         private bool _disposed;
+        private List<string> _rabbitMqSettings;
 
-        public RabbitMqConnection()
+        public RabbitMqConnection(IConnectionFactory connectionFactory, IOptions<RabbitMqSettings> rabbitMqSettings)
         {
-            _connectionFactory = new ConnectionFactory() { HostName = "172.17.0.3"};
+            _connectionFactory = connectionFactory;
+            _rabbitMqSettings = new List<string>() {rabbitMqSettings.Value.HostName};
         }
         
         public bool IsConnected
@@ -34,7 +40,8 @@ namespace Boutique.Messages.EventBusRabbitMQ
         {
             try
             {
-                _connection = _connectionFactory.CreateConnection();
+                _connection =
+                    _connectionFactory.CreateConnection(hostnames: _rabbitMqSettings);
                 return true;
             }
             catch (Exception e)
