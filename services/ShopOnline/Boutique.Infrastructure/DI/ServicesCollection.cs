@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using Boutique.Infrastructure.DDD;
 using Boutique.Messages.EventBusRabbitMQ;
+using RabbitMQ.Client;
 
 
 namespace Boutique.Infrastructure.DI
@@ -18,6 +19,7 @@ namespace Boutique.Infrastructure.DI
     {
         public static void AddEventBus(this IServiceCollection services)
         {
+            services.AddSingleton<IConnectionFactory, ConnectionFactory>();
             services.AddScoped<IRabbitMqConnection, RabbitMqConnection>();
             services.AddScoped<IEventBus, EventBusRabbitMq>();
         }

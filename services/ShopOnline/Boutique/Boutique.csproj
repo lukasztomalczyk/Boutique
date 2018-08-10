@@ -3,19 +3,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Boutique.Messages\Boutique.Messages.csproj" />
-    <ProjectReference Include="..\Boutique.Infrastructure\Boutique.Infrastructure.csproj" />
-    <ProjectReference Include="..\Boutique.Presentation\Boutique.Presentation.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\Boots\" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.1.2" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="IdentityModel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\.nuget\packages\identitymodel\3.0.0\lib\netstandard2.0\IdentityModel.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Boutique.Infrastructure\Boutique.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

@@ -13,7 +13,6 @@ using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.DDD;
 using Boutique.Infrastructure.Settings;
 using Boutique.Presentation.Commands.Auth;
-using IdentityModel.Client;
 using Microsoft.Extensions.Options;
 using Boutique.Infrastructure.Services.Password;
 using Microsoft.AspNetCore.Authentication;

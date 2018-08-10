@@ -16,7 +16,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Boutique.Messages\Boutique.Messages.csproj" />
+    <ProjectReference Include="..\Boutique.Messages\Boutique.Messages.csproj" />
+    <ProjectReference Include="..\Boutique.Infrastructure\Boutique.Infrastructure.csproj" />
     <ProjectReference Include="..\Boutique\Boutique.csproj" />
   </ItemGroup>
   <ItemGroup>
