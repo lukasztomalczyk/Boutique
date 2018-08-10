@@ -4,6 +4,7 @@ using Boutique.Domain.Users.Event;
 using Boutique.Infrastructure.DDD;
 using Boutique.Messages;
 using Boutique.Messages.EventBusRabbitMQ;
+using Boutique.Messages.EventBusRabbitMQ.Interfaces;
 
 namespace Boutique.Application.Users.EventHandler
 {

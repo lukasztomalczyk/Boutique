@@ -1,10 +1,11 @@
 ﻿using System;
-using Boutique.Domain.Interface;
 using Boutique.Messages;
+using Boutique.Messages.EventBusRabbitMQ;
+using Boutique.Messages.EventBusRabbitMQ.Interfaces;
 
 namespace Boutique.Domain.Users.Event
 {
-    public class UserHasBeenCreatedEvent : IntegrationEvent
+    public class UserHasBeenCreatedEvent : IntegrationEvent, IEvent
     {
         public string Id { get; }
 

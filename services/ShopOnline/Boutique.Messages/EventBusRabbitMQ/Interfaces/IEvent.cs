@@ -1,7 +1,7 @@
 ﻿namespace Boutique.Messages.EventBusRabbitMQ.Interfaces
 {
-    public interface IEventBus
+    public interface IEvent
     {
-        void Publish(IEvent @event);
+        
     }
 }

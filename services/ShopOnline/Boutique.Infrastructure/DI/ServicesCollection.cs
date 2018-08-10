@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using Boutique.Infrastructure.DDD;
 using Boutique.Messages.EventBusRabbitMQ;
+using Boutique.Messages.EventBusRabbitMQ.Interfaces;
 using RabbitMQ.Client;
 
 

@@ -8,4 +8,7 @@
       <HintPath>..\..\..\..\..\.nuget\packages\rabbitmq.client\5.1.0\lib\netstandard1.5\RabbitMQ.Client.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
 </Project>

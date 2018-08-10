@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Boutique.Messages.EventBusRabbitMQ.Interfaces;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Impl;
@@ -16,7 +17,7 @@ namespace Boutique.Messages.EventBusRabbitMQ
             _connectionRabbit = connectionRabbit;
         }
         
-        public void Publish(IntegrationEvent @event)
+        public void Publish(IEvent @event)
         {
             if (!_connectionRabbit.IsConnected) _connectionRabbit.TryConnect();
 
