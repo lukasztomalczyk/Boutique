@@ -13,7 +13,7 @@ namespace Boutique.Messages.EventBusRabbitMQ
         private readonly IConnectionFactory _connectionFactory;
         IConnection _connection;
         private bool _disposed;
-        private List<string> _rabbitMqSettings;
+        private readonly List<string> _rabbitMqSettings;
 
         public RabbitMqConnection(IConnectionFactory connectionFactory, IOptions<RabbitMqSettings> rabbitMqSettings)
         {

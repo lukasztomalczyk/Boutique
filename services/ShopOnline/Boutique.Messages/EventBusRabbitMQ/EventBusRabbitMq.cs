@@ -26,11 +26,11 @@ namespace Boutique.Messages.EventBusRabbitMQ
                 
                 channel.ExchangeDeclare(exchange: BROKER_NAME,
                                         type: "topic");
-                channel.QueueDeclare(queue: eventName,
-                    durable: true,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
+//                channel.QueueDeclare(queue: eventName,
+//                    durable: true,
+//                    exclusive: false,
+//                    autoDelete: false,
+//                    arguments: null);
 
 
                 var message = JsonConvert.SerializeObject(@event);
