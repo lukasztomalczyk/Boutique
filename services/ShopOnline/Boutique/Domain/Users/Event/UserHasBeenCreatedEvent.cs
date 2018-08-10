@@ -8,10 +8,12 @@ namespace Boutique.Domain.Users.Event
     public class UserHasBeenCreatedEvent : IntegrationEvent, IEvent
     {
         public string Id { get; }
+        public string Event { get; }
 
         public UserHasBeenCreatedEvent(string id)
         {
             Id = id;
+            Event = this.GetType().Name;
         }
     }
 }

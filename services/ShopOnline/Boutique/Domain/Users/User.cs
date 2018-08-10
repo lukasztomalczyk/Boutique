@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Boutique.Domain.Users
 {
-    public class User : IEntity
+    public class User
     {
         public string Id { get; private set; }
         public string Login { get; private set; }
