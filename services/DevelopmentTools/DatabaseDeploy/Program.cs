@@ -18,7 +18,6 @@ namespace DatabaseDeploy
 
         public static void Main(string[] args)
         {
-           // var filePath = Path.Combine(Environment.CurrentDirectory, DacpacFileName);
             var dacServices = new DacServices(ConnectionString);
             dacServices.Message += DacServices_Message;
             var options = new DacDeployOptions
