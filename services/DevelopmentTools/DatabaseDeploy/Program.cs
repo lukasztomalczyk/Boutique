@@ -18,6 +18,8 @@ namespace DatabaseDeploy
 
         public static void Main(string[] args)
         {
+            DacpacFileName = args.Any() ? args[0] : DacpacFileName;
+
             var dacServices = new DacServices(ConnectionString);
             dacServices.Message += DacServices_Message;
             var options = new DacDeployOptions
@@ -29,14 +31,16 @@ namespace DatabaseDeploy
                 DropObjectsNotInSource = true
             };
 
-            Console.WriteLine("Start....");
+            Console.WriteLine();
+            Console.WriteLine("Start process...");
 
-            dacServices.GenerateDeployReport(DacPackage.Load(DacpacFileName), DatabaseName, options);
+            //TODO na pszyłość można to wykorzystać
+            //dacServices.GenerateDeployReport(DacPackage.Load(DacpacFileName), DatabaseName, options);
 
-            if (!IsErrorAtDeyploment)
-                dacServices.Deploy(DacPackage.Load(DacpacFileName), DatabaseName, true, options);
+           
+           dacServices.Deploy(DacPackage.Load(DacpacFileName), DatabaseName, true, options);
 
-            Console.ReadKey();
+           Console.ReadKey();
         }
 
         private static void DacServices_Message(object sender, DacMessageEventArgs e)
@@ -54,7 +58,11 @@ namespace DatabaseDeploy
                 Console.WriteLine(e.Message.Message);
             }
             else
+            {
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(e.Message.Message);
+            }
+               
 
         }
     }
