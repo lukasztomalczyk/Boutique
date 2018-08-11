@@ -8,15 +8,24 @@ namespace Boutique.Infrastructure.Builders
 {
     public class UserBuilder
     {
-        public string _id;
-        public string _name;
-        public string _lastName;
-        public string _login;
-        public string _password;
-        public string _role;
-        public IDomainEventDispatcher _domainEventDispatcher;
+        private string _id;
+        private string _name;
+        private string _lastName;
+        private string _login;
+        private string _password;
+        private string _role;
+        private IDomainEventDispatcher _domainEventDispatcher;
 
+        public UserBuilder()
+        {
+            
+        }
 
+        public UserBuilder Create()
+        {
+            return new UserBuilder();
+        }
+        
         public UserBuilder WithId(string id)
         {
             _id = id;
@@ -59,7 +68,7 @@ namespace Boutique.Infrastructure.Builders
             return this;
         }
 
-        public User Create()
+        public User Build()
         {
             return new User(_id, _login, _password, _lastName, _lastName, _role, _domainEventDispatcher);
         }

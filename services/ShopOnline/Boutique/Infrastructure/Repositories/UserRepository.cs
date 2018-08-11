@@ -2,8 +2,6 @@
 using System.Data.SqlClient;
 using System.Linq;
 using Boutique.Domain;
-using Boutique.Domain.Interface;
-using Boutique.Domain.Products;
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.Attributes;
 using Boutique.Infrastructure.Auth;
@@ -38,13 +36,14 @@ namespace Boutique.Infrastructure.Repositories
             var rawUser = _sqlConnection.Query($"SELECT * FROM Users where Login = '{login}'", new { Login = login }).FirstOrDefault();
 
             return new UserBuilder()
+                .Create()
                 .WithId((string)rawUser.Id)
                 .WithName((string)rawUser.Name)
                 .WithLastName((string)rawUser.LastName)
                 .WithLogin((string)rawUser.Login)
                 .WithPassword((string)rawUser.Password)
                 .WithRole((string)rawUser.Role)
-                .Create();
+                .Build();
         }
 
         public bool Contains(string login)

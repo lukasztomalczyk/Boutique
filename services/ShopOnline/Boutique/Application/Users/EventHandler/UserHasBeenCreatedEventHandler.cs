@@ -21,7 +21,7 @@ namespace Boutique.Application.Users.EventHandler
         public void Run(UserHasBeenCreatedEvent @event)
         {
             Console.WriteLine($"User has been created: {@event.Id}", "INFO");
-            _eventBusRabbitMq.Publish(@event);
+           // _eventBusRabbitMq.Publish(@event);
         }
     }
 }
