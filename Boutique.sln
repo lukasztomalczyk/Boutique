@@ -7,31 +7,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{8E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ShopOnline", "ShopOnline", "{5589350A-6A19-49C7-B51D-A3F95B3383F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bountique.Api", "services\ShopOnline\Bountique.Api\Bountique.Api.csproj", "{6A806C65-75CA-4E25-A2BC-B0F506D7E012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bountique.Api", "services\ShopOnline\Bountique.Api\Bountique.Api.csproj", "{6A806C65-75CA-4E25-A2BC-B0F506D7E012}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique", "services\ShopOnline\Boutique\Boutique.csproj", "{8ADE6226-3F54-4941-92F0-269EEF863824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boutique", "services\ShopOnline\Boutique\Boutique.csproj", "{8ADE6226-3F54-4941-92F0-269EEF863824}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique.Infrastructure", "services\ShopOnline\Boutique.Infrastructure\Boutique.Infrastructure.csproj", "{16C961FE-E1A3-426C-B77C-5DA9D019D33E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boutique.Infrastructure", "services\ShopOnline\Boutique.Infrastructure\Boutique.Infrastructure.csproj", "{16C961FE-E1A3-426C-B77C-5DA9D019D33E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique.Presentation", "services\ShopOnline\Boutique.Presentation\Boutique.Presentation.csproj", "{1467B542-84C9-4FBB-BAEF-EE9C34398B3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boutique.Presentation", "services\ShopOnline\Boutique.Presentation\Boutique.Presentation.csproj", "{1467B542-84C9-4FBB-BAEF-EE9C34398B3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{DB1E92D6-D763-443D-8E37-FE70F2A410B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique.EndToEnd", "services\ShopOnline\Test\Boutique.EndToEnd\Boutique.EndToEnd.csproj", "{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boutique.EndToEnd", "services\ShopOnline\Test\Boutique.EndToEnd\Boutique.EndToEnd.csproj", "{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI_CD", "CI_CD", "{555069A4-15AC-4BC1-B8E1-215DC9F8B9BC}"
 	ProjectSection(SolutionItems) = preProject
-		buildspec.yml = buildspec.yml
-		Dockerfile.Production = Dockerfile.Production
-		Dockerfile.Development = Dockerfile.Development
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
+		buildspec.yml = buildspec.yml
+		Dockerfile.Development = Dockerfile.Development
+		Dockerfile.Production = Dockerfile.Production
 		travis.sql = travis.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique.Messages", "services\ShopOnline\Boutique.Messages\Boutique.Messages.csproj", "{D66172D1-8333-4A52-8A89-86A734897C26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boutique.Messages", "services\ShopOnline\Boutique.Messages\Boutique.Messages.csproj", "{D66172D1-8333-4A52-8A89-86A734897C26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boutique.Consumer", "services\ShopOnline\Boutique.Consumer\Boutique.Consumer.csproj", "{8FE079CC-3C38-4EE4-AED7-EB739502CBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boutique.Consumer", "services\ShopOnline\Boutique.Consumer\Boutique.Consumer.csproj", "{8FE079CC-3C38-4EE4-AED7-EB739502CBAE}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Boutique", "Boutique\Boutique.sqlproj", "{DBFA97F1-D933-457A-809B-D639723DE6A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,9 +43,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6A806C65-75CA-4E25-A2BC-B0F506D7E012}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -106,18 +105,6 @@ Global
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}.Release|x64.Build.0 = Release|Any CPU
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}.Release|x86.ActiveCfg = Release|Any CPU
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579}.Release|x86.Build.0 = Release|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Debug|x64.Build.0 = Debug|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Debug|x86.Build.0 = Debug|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Release|x64.ActiveCfg = Release|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Release|x64.Build.0 = Release|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Release|x86.ActiveCfg = Release|Any CPU
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69}.Release|x86.Build.0 = Release|Any CPU
 		{D66172D1-8333-4A52-8A89-86A734897C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D66172D1-8333-4A52-8A89-86A734897C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D66172D1-8333-4A52-8A89-86A734897C26}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -142,6 +129,27 @@ Global
 		{8FE079CC-3C38-4EE4-AED7-EB739502CBAE}.Release|x64.Build.0 = Release|Any CPU
 		{8FE079CC-3C38-4EE4-AED7-EB739502CBAE}.Release|x86.ActiveCfg = Release|Any CPU
 		{8FE079CC-3C38-4EE4-AED7-EB739502CBAE}.Release|x86.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x64.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x64.Deploy.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x86.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x86.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5589350A-6A19-49C7-B51D-A3F95B3383F4} = {8EE5F82A-74F3-4634-A49A-6EA6A49A2B4C}
@@ -151,8 +159,10 @@ Global
 		{1467B542-84C9-4FBB-BAEF-EE9C34398B3D} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
 		{DB1E92D6-D763-443D-8E37-FE70F2A410B5} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
 		{E5BCC4D8-98D6-4A54-974C-D7AE1BC68579} = {DB1E92D6-D763-443D-8E37-FE70F2A410B5}
-		{A6A7E6CE-40D0-4DFC-B9C4-D7EE016FCB69} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
 		{D66172D1-8333-4A52-8A89-86A734897C26} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
 		{8FE079CC-3C38-4EE4-AED7-EB739502CBAE} = {5589350A-6A19-49C7-B51D-A3F95B3383F4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5229B162-427B-4EE1-B7DA-DD3256DB2083}
 	EndGlobalSection
 EndGlobal
