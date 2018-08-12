@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Auth.Provider;
-using System.Data.SqlClient;
 using Auth.ServicesCollection;
 using SqlServices.ServicesCollection;
 using SqlServices;
@@ -36,8 +34,11 @@ namespace Bountique.Api
             services.Configure<BoutiqueSettings>(Configuration.GetSection("Boutique"));
             services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
             services.Configure<RabbitMqSettings>(Configuration.GetSection("RabbitMqSettings"));
+
             services.AddSqlService();
+
             services.AddCqrs(assembly);
+
             services.AddAuthJwt(Configuration, assembly);
 
             services.AddCors(option => { option.AddDefaultPolicy(p =>
@@ -45,6 +46,7 @@ namespace Bountique.Api
                 p.AllowAnyHeader();
                 p.AllowAnyMethod();
                 p.AllowAnyOrigin();
+
             }); });
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);//AddJsonFormatters();

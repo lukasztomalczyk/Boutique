@@ -27,7 +27,7 @@ namespace Boutique.EndToEnd
                 .UseStartup<Startup>());
 
             client = server.CreateClient();
-            client.BaseAddress = new Uri("http://havanaApi/");
+            client.BaseAddress = new Uri("http://BontiqueApi/");
         }
 
         [Test]
