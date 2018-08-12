@@ -1,9 +1,9 @@
-﻿using Boutique.Presentation.Commands;
+﻿using System.Threading.Tasks;
+using Boutique.Presentation.Commands;
 using Boutique.Presentation.Commands.Products;
 using Cqrs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Bountique.Api.Controllers
 {
