@@ -8,7 +8,7 @@ namespace DatabaseDeploy
     {
         private static string DatabaseName = "Boutique";
         private static string DacpacFileName = @"..\..\..\FileStore\Boutique.Database.dacpac";
-        private static string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Boutique;Integrated Security=True;Connect Timeout=0;Encrypt=False;TrustServerCertificate=True;";
+        private static string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Boutique;Integrated Security=True;Connect Timeout=0;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private static bool IsErrorAtDeyploment;
 
 
@@ -20,7 +20,7 @@ namespace DatabaseDeploy
             dacServices.Message += DacServices_Message;
             var options = new DacDeployOptions
             {
-                CreateNewDatabase = false,
+                CreateNewDatabase = true,
                 BlockOnPossibleDataLoss = false,
                 GenerateSmartDefaults = true,
                 VerifyDeployment = true,

@@ -41,14 +41,6 @@ namespace Bountique.Api
 
             services.AddAuthJwt(Configuration, assembly);
 
-            services.AddCors(option => { option.AddDefaultPolicy(p =>
-            {
-                p.AllowAnyHeader();
-                p.AllowAnyMethod();
-                p.AllowAnyOrigin();
-
-            }); });
-
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);//AddJsonFormatters();
         }
 
