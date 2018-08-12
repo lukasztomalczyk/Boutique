@@ -1,15 +1,12 @@
-﻿using Boutique.Domain;
-using Boutique.Infrastructure.CQRS.Commands;
-using Boutique.Presentation.Commands;
+﻿using Boutique.Presentation.Commands;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Boutique.Domain.Interface;
-using Boutique.Domain.Products;
+using Cqrs.Handlers;
+using System.Threading.Tasks;
 
 namespace Boutique.Application.Products.CommandHandler
 {
-    public class LoadProductsCommandHandler : IDomainCommandHandler<LoadProductsCommand,string>
+    public class LoadProductsCommandHandler : ICommandHandler<LoadProductsCommand,string>
     {
         private readonly IProductRepository _productRepository;
 
@@ -21,6 +18,11 @@ namespace Boutique.Application.Products.CommandHandler
         public string Handle(LoadProductsCommand command)
         {
             return _productRepository.Load(command.Id);
+        }
+
+        public Task<string> HandleAsync(LoadProductsCommand command)
+        {
+            throw new NotImplementedException();
         }
     }
 }

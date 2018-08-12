@@ -1,27 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Text;
-using Boutique;
-using Boutique.Infrastructure.Auth;
+﻿using Boutique;
 using Boutique.Infrastructure.DI;
-using Boutique.Infrastructure.Settings;
-using Boutique.Messages;
-using Boutique.Messages.EventBusRabbitMQ;
 using Boutique.Messages.EventBusRabbitMQ.Settings;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Newtonsoft.Json;
+using Auth.Provider;
+using System.Data.SqlClient;
+using Auth.ServicesCollection;
+using SqlServices.ServicesCollection;
+using SqlServices;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 
 namespace Bountique.Api
 {
@@ -29,12 +20,11 @@ namespace Bountique.Api
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            var evnName = environment.EnvironmentName;
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{evnName}.json", true);
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
 
             Configuration = builder.Build();
         }
@@ -42,43 +32,14 @@ namespace Bountique.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var assembly = AssemblyInformation.Assembly;
+
             services.Configure<BoutiqueSettings>(Configuration.GetSection("Boutique"));
             services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
             services.Configure<RabbitMqSettings>(Configuration.GetSection("RabbitMqSettings"));
-
-            services.AddScoped(p =>
-           {
-               var settings = p.GetService<IOptions<BoutiqueSettings>>().Value;
-               return new SqlConnection(settings.ConnectionString);
-           });
-            var jwtSettings = new JwtSettings();
-            Configuration.GetSection("jwt").Bind(jwtSettings);
-            
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = jwtSettings.Issuer,
-                        ValidateIssuer = true,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
-                        ValidateAudience = false,
-                        ValidateLifetime = true
-                        
-                    };
-                });
-            services.AddAuthorization(option =>
-            {
-                option.AddPolicy("Admin", p => { p.Requirements.Add(new ClaimsRequirement()); });
-            });
-            services.AddServices(assembly);
+            services.AddSqlService();
             services.AddCqrs(assembly);
+            services.AddAuthJwt(Configuration, assembly);
 
-            services.AddEventBus();
-            services.AddCQRS2(assembly);
-            
-            services.AddAuthJwt();
             services.AddCors(option => { option.AddDefaultPolicy(p =>
             {
                 p.AllowAnyHeader();
@@ -89,7 +50,7 @@ namespace Bountique.Api
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);//AddJsonFormatters();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment() && env.IsEnvironment("Development"))
             {
@@ -99,10 +60,10 @@ namespace Bountique.Api
             {
                 app.UseHsts();
             }
-
    //         app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+            loggerFactory.AddNLog();
         }
     }
 }

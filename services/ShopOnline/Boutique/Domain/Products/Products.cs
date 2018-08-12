@@ -1,12 +1,11 @@
 ﻿using System;
 using Boutique.Domain.Products.Event;
-using Boutique.Infrastructure.DDD;
 
 namespace Boutique.Domain.Products
 {
     public class Products
     {
-        private readonly IDomainEventDispatcher _eventDispatcher;
+        //private readonly IDomainEventDispatcher _eventDispatcher;
 
         private Products() { }
 
@@ -31,7 +30,7 @@ namespace Boutique.Domain.Products
             Price = price;
 
             var @event = new PriceHasBeenChangedEvent(this);
-            _eventDispatcher.Run(@event);
+            //_eventDispatcher.Run(@event);
         }
 
     }

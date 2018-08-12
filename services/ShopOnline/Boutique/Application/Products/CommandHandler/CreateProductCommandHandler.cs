@@ -1,19 +1,23 @@
-﻿using Boutique.Infrastructure.CQRS.Commands;
-using Boutique.Presentation.Commands.Products;
+﻿using Boutique.Presentation.Commands.Products;
+using Cqrs.Handlers;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Boutique.Application.Products.CommandHandler
 {
-    public class CreateProductCommandHandler : IDomainCommandHandler<CreateProductCommand>
+    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,string>
     {
         public CreateProductCommandHandler()
         {
 
         }
 
-        public void Run(CreateProductCommand command)
+        public string Handle(CreateProductCommand command)
+        {
+            return "Ok";
+        }
+
+        public Task<string> HandleAsync(CreateProductCommand command)
         {
             throw new NotImplementedException();
         }

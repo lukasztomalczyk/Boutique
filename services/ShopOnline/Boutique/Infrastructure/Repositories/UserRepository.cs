@@ -1,16 +1,11 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Linq;
-using Boutique.Domain;
 using Boutique.Domain.Interface;
-using Boutique.Domain.Products;
 using Boutique.Domain.Users;
-using Boutique.Infrastructure.Attributes;
-using Boutique.Infrastructure.Auth;
 using Boutique.Infrastructure.Builders;
-using Boutique.Infrastructure.Extensions;
+using Cqrs.Attributes;
 using Dapper;
-using Newtonsoft.Json.Linq;
+using SqlServices.Dapper;
 
 namespace Boutique.Infrastructure.Repositories
 {

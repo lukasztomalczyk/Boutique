@@ -1,12 +1,8 @@
-﻿using Boutique.Domain;
-using Boutique.Infrastructure.Attributes;
-using Boutique.Infrastructure.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Text;
-using Boutique.Domain.Interface;
+﻿using Boutique.Domain.Interface;
 using Boutique.Domain.Products;
+using Cqrs.Attributes;
+using SqlServices.Dapper;
+using System.Data.SqlClient;
 
 namespace Boutique.Infrastructure.Repositories
 {

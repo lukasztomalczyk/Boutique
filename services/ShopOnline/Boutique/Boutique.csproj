@@ -6,6 +6,15 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.1.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Boutique.Infrastructure\Boutique.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Auth\Auth.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Cqrs\Cqrs.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\SqlService\SqlServices.csproj" />
+    <ProjectReference Include="..\Boutique.Messages\Boutique.Messages.csproj" />
+    <ProjectReference Include="..\Boutique.Presentation\Boutique.Presentation.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.SqlClient">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\system.data.sqlclient\4.4.0\ref\netstandard2.0\System.Data.SqlClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

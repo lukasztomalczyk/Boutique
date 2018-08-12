@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Boutique.Infrastructure.Auth;
+using Auth.Provider;
 using Boutique.Presentation.Commands.Auth;
 
 namespace Boutique.Infrastructure.Services

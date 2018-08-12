@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Boutique.Infrastructure.Auth;
-using Boutique.Infrastructure.CQRS.Commands;
-using Boutique.Presentation.Commands;
-using Boutique.Presentation.Commands.Auth;
+﻿using Boutique.Presentation.Commands;
 using Boutique.Presentation.Commands.Products;
+using Cqrs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Bountique.Api.Controllers
 {
@@ -18,29 +11,29 @@ namespace Bountique.Api.Controllers
 
     public class ProductsController : Controller
     {
-        private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IJwtProvider _jwtProvider;
+        private readonly ICommandGateway _gateway;
 
-        public ProductsController(ICommandDispatcher commandDispatcher, IJwtProvider jwtProvider)
+        public ProductsController(ICommandGateway gateway)
         {
-            _commandDispatcher = commandDispatcher;
-            _jwtProvider = jwtProvider;
+            _gateway = gateway;
         }
 
         [HttpPost]
-        [Authorize(Policy = "Admin")]
-        public string Load([FromBody] LoadProductsCommand command)
+        //[Authorize(Policy = "Admin")]
+        public async Task<string> Load([FromBody] LoadProductsCommand command)
         {
-            var result = _commandDispatcher.Run<LoadProductsCommand, string>(command);
+            var result = await _gateway.CallAsync<LoadProductsCommand, string>(command);
             return result;
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Add([FromBody] CreateProductCommand command)
+        //[Authorize(Policy = "Admin")]
+        public string Create([FromBody] CreateProductCommand command)
         {
-            return Created(nameof(Load), null);
+            var result = _gateway.Call<CreateProductCommand, string>(command);
+            return result;
         }
 
+        
     }
 }

@@ -3,7 +3,15 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="nlog.config" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="3.8.0" />
@@ -14,11 +22,23 @@
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Auth\Auth.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Cqrs\Cqrs.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\SqlService\SqlServices.csproj" />
     <ProjectReference Include="..\Boutique.Messages\Boutique.Messages.csproj" />
-    <ProjectReference Include="..\Boutique.Infrastructure\Boutique.Infrastructure.csproj" />
+    <ProjectReference Include="..\Boutique.Presentation\Boutique.Presentation.csproj" />
     <ProjectReference Include="..\Boutique\Boutique.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlClient">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\system.data.sqlclient\4.4.0\ref\netstandard2.0\System.Data.SqlClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Testing.json">

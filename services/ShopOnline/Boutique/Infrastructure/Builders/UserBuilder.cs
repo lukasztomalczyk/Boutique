@@ -1,8 +1,4 @@
 ﻿using Boutique.Domain.Users;
-using Boutique.Infrastructure.DDD;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Boutique.Infrastructure.Builders
 {
@@ -14,7 +10,7 @@ namespace Boutique.Infrastructure.Builders
         public string _login;
         public string _password;
         public string _role;
-        public IDomainEventDispatcher _domainEventDispatcher;
+        //public IDomainEventDispatcher _domainEventDispatcher;
 
 
         public UserBuilder WithId(string id)
@@ -53,15 +49,15 @@ namespace Boutique.Infrastructure.Builders
             return this;
         }
 
-        public UserBuilder WithEventDispatcher(IDomainEventDispatcher domainEventDispatcher)
-        {
-            _domainEventDispatcher = domainEventDispatcher;
-            return this;
-        }
+        //public UserBuilder WithEventDispatcher(IDomainEventDispatcher domainEventDispatcher)
+        //{
+        //    _domainEventDispatcher = domainEventDispatcher;
+        //    return this;
+        //}
 
         public User Create()
         {
-            return new User(_id, _login, _password, _lastName, _lastName, _role, _domainEventDispatcher);
+            return new User(_id, _login, _password, _lastName, _lastName, _role);
         }
     }
 }
