@@ -1,65 +1,44 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.SqlServer.Dac;
+using System.Reflection;
+using DbUp;
 
 namespace DatabaseDeploy
 {
-    public class Program
+    class Program
     {
-        private static string DatabaseName = "Boutique";
-        private static string DacpacFileName = @"..\..\..\FileStore\Boutique.Database.dacpac";
-        private static string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Boutique;Integrated Security=True;Connect Timeout=0;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private static bool IsErrorAtDeyploment;
-
-
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            DacpacFileName = args.Any() ? args[0] : DacpacFileName;
+            var connectionString =
+                args.FirstOrDefault()
+                ?? "Server=172.17.0.2;user=SA;password=Kleopatra2017@@;database=shop;trusted_connection=false";
 
-            var dacServices = new DacServices(ConnectionString);
-            dacServices.Message += DacServices_Message;
-            var options = new DacDeployOptions
-            {
-                CreateNewDatabase = true,
-                BlockOnPossibleDataLoss = false,
-                GenerateSmartDefaults = true,
-                VerifyDeployment = true,
-                DropObjectsNotInSource = true
-            };
+            EnsureDatabase.For.SqlDatabase(connectionString);
 
-            Console.WriteLine();
-            Console.WriteLine("Start process...");
-            Console.WriteLine();
+            var upgrader =
+                DeployChanges.To
+                    .SqlDatabase(connectionString)
+                    .WithVariable("DatabaseName", "shop")
+                    .WithScriptsFromFileSystem("Scripts/")
+                    .LogToConsole()
+                    .Build();
 
-            //TODO na pszyłość można to wykorzystać
-            //dacServices.GenerateDeployReport(DacPackage.Load(DacpacFileName), DatabaseName, options);
+            var result = upgrader.PerformUpgrade();
 
-
-            dacServices.Deploy(DacPackage.Load(DacpacFileName), DatabaseName, true, options);
-
-            Console.ReadKey();
-        }
-
-        private static void DacServices_Message(object sender, DacMessageEventArgs e)
-        {
-            IsErrorAtDeyploment = false;
-            if (e.Message.MessageType == DacMessageType.Error)
+            if (!result.Successful)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(e.Message.Message);
-                IsErrorAtDeyploment = true;
-            }
-            if (e.Message.MessageType == DacMessageType.Warning)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(e.Message.Message);
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine(e.Message.Message);
+                Console.WriteLine(result.Error);
+                Console.ResetColor();
+#if DEBUG
+                Console.ReadLine();
+#endif                
+
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Success!");
+            Console.ResetColor();
 
         }
     }
