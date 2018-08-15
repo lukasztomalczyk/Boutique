@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Auth.Provider;
 using Boutique.Domain;
 using Boutique.Domain.Interface;
-using Boutique.Domain.Products;
 using Boutique.Domain.Users;
 using Boutique.Domain.Users.Event;
 
