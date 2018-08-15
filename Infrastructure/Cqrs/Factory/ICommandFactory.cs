@@ -1,7 +1,7 @@
-﻿using Cqrs.Handlers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cqrs.Command;
 
 namespace Cqrs.Factory
 {

@@ -5,48 +5,42 @@ using Boutique.Domain.Insure.Policy;
 
 namespace Boutique.Infrastructure.Builders
 {
-    public class InsureBuilder
+    public static class InsureBuilder
     {
-        public DateTime StartInsurance { get; set; }
+        private static DateTime StartInsurance { get; set; }
+        private static DateTime DateSubmitting { get; set; }
+        private static DateTime EndInsurance { get; set; }
+        private static List<Insured> Insureds { get; set; }
 
-        private DateTime DateSubmitting { get; set; }
-        public DateTime EndInsurance { get; set; }
-        public List<Insured> Insureds { get; set; }
-        public Insure Insure;
 
-        public InsureBuilder()
+        public static void SetDateSubmitting()
         {
+            DateSubmitting = DateTime.Now;
+          
+        }
+
+        public static void SetStartInsurance(DateTime time)
+        {
+            StartInsurance = time;
             
         }
 
-        public InsureBuilder SetDateSubmitting()
-        {
-            DateSubmitting = DateTime.Now;
-            return this;
-        }
-
-        public InsureBuilder SetStartInsurance(DateTime time)
-        {
-            StartInsurance = time;
-            return this;
-        }
-
-        public InsureBuilder SetEndInsurance(DateTime time)
+        public static void SetEndInsurance(DateTime time)
         {
             EndInsurance = time;
-            return this;
+            
         }
 
-        public InsureBuilder SetInsureds(List<Insured> insureds)
+        public static void SetInsureds(List<Insured> insureds)
         {
             Insureds = insureds;
-            return this;
+            
         }
 
 
-        public Insure Create()
+        public static Insure Create()
         {
-            return Insure;
+            return new Insure(Guid.NewGuid().ToString(), DateSubmitting, StartInsurance, EndInsurance, Insureds);
         }
     }
 }

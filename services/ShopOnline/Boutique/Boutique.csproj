@@ -19,7 +19,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Application" />
     <Folder Include="Domain\Insure\Insureds\Event" />
   </ItemGroup>
 </Project>

@@ -1,14 +1,12 @@
-﻿using Cqrs;
+﻿using System.Reflection;
 using Cqrs.Attributes;
+using Cqrs.Command;
 using Cqrs.Decorators;
 using Cqrs.Dispatcher;
 using Cqrs.Factory;
-using Cqrs.Handlers;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
-
-namespace Boutique.Infrastructure.DI
+namespace Cqrs.ServicesCollection
 {
     public static class ServicesCollection
     {

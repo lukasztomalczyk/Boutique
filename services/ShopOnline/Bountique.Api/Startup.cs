@@ -1,5 +1,4 @@
 ﻿using Boutique;
-using Boutique.Infrastructure.DI;
 using Boutique.Messages.EventBusRabbitMQ.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Auth.Provider;
 using Auth.ServicesCollection;
+using Cqrs.ServicesCollection;
 using SqlServices.ServicesCollection;
 using SqlServices;
 using Microsoft.Extensions.Logging;

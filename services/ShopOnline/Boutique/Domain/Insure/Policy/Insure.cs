@@ -7,11 +7,21 @@ namespace Boutique.Domain.Insure.Policy
 {
     public class Insure
     {
-        private string Id { get; set; }
-        private DateTime DateSubmitting { get; set; }
-        private DateTime StartInsurance { get; set; }
-        private DateTime EndInsurance { get; set; }
-        private List<Insured> Insureds { get; set; }
-        private StatusInsurance Status { get; set; }
+        public string Id { get; }
+        public DateTime DateSubmitting { get; }
+        public DateTime StartInsurance { get; }
+        public DateTime EndInsurance { get; }
+        public List<Insured> Insureds { get; }
+        public StatusInsurance Status { get; }
+
+        public Insure(string id, DateTime dateSubmitting, DateTime startInsurance, DateTime endInsurance, List<Insured> insureds)
+        {
+            Id = id;
+            DateSubmitting = dateSubmitting;
+            StartInsurance = startInsurance;
+            EndInsurance = endInsurance;
+            Insureds = insureds;
+            Status = StatusInsurance.Inactive;
+        }
     }
 }
