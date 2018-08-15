@@ -1,6 +1,5 @@
 ﻿using System.Data.SqlClient;
 using System.Linq;
-using Boutique.Domain.Interface;
 using Boutique.Domain.Users;
 using Boutique.Infrastructure.Builders;
 using Cqrs.Attributes;

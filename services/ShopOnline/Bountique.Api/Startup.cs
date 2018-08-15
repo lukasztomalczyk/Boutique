@@ -37,6 +37,8 @@ namespace Bountique.Api
 
             services.AddSqlService();
 
+            services.AddAttributes(assembly);
+            
             services.AddCqrs(assembly);
 
             services.AddAuthJwt(Configuration, assembly);
