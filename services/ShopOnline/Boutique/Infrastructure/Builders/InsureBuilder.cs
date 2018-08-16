@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using Boutique.Domain.Insure.Enum;
 using Boutique.Domain.Insure.Insureds;
 using Boutique.Domain.Insure.Policy;
 
@@ -7,10 +9,10 @@ namespace Boutique.Infrastructure.Builders
 {
     public class InsureBuilder
     {
-        private DateTime StartInsurance { get; set; }
-        private DateTime EndInsurance { get; set; }
-        private List<Insured> Insureds { get; set; }
-
+        private static DateTime StartInsurance { get; set; }
+        private static DateTime EndInsurance { get; set; }
+        private static List<Insured> Insureds { get; set; }
+        private static StatusInsuranceEnum Status { get; set; }
 
         public InsureBuilder SetStartInsurance(DateTime time)
         {
@@ -24,16 +26,28 @@ namespace Boutique.Infrastructure.Builders
             return this;
         }
 
-        public InsureBuilder SetInsureds(List<Insured> insureds)
+        public  InsureBuilder SetInsureds(List<Insured> insureds)
         {
             Insureds = insureds;
+           return this;
+        }
+
+        public InsureBuilder SetStatus()
+        {
+            Status = StatusInsuranceEnum.Inactive;
             return this;
         }
 
-
-        public Insure Create()
+        public Insure Build()
         {
-            return new Insure(Guid.NewGuid().ToString(), DateTime.Now, StartInsurance, EndInsurance, Insureds);
+            if (StartInsurance==default(DateTime))
+                throw new InvalidDataException();
+            if (EndInsurance==default(DateTime))
+                throw new InvalidDataException();
+            if (Insureds == default(List<Insured>))
+                throw new InvalidDataException();
+            
+            return new Insure(Guid.NewGuid().ToString(), DateTime.Now, StartInsurance, EndInsurance, Insureds, Status);
         }
     }
 }

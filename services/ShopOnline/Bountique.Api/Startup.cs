@@ -1,5 +1,4 @@
 ﻿using Boutique;
-using Boutique.Messages.EventBusRabbitMQ.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +10,7 @@ using SqlServices.ServicesCollection;
 using SqlServices;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using RabbitMQ.Settings;
 
 namespace Bountique.Api
 {

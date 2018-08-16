@@ -7,21 +7,37 @@ namespace Boutique.Domain.Insure.Policy
 {
     public class Insure
     {
-        public string Id { get; }
-        public DateTime DateSubmitting { get; }
-        public DateTime StartInsurance { get; }
-        public DateTime EndInsurance { get; }
-        public List<Insured> Insureds { get; }
-        public StatusInsurance Status { get; }
+        private string Id { get; }
+        private DateTime DateSubmitting { get; }
+        private DateTime StartInsurance { get; }
+        private DateTime EndInsurance { get; }
+        private List<Insured> Insureds { get; }
+        private StatusInsuranceEnum Status { get; }
 
-        public Insure(string id, DateTime dateSubmitting, DateTime startInsurance, DateTime endInsurance, List<Insured> insureds)
+        public Insure(string id, DateTime dateSubmitting, DateTime startInsurance, DateTime endInsurance, List<Insured> insureds, StatusInsuranceEnum status)
         {
             Id = id;
             DateSubmitting = dateSubmitting;
             StartInsurance = startInsurance;
             EndInsurance = endInsurance;
             Insureds = insureds;
-            Status = StatusInsurance.Inactive;
+            Status = status;
+        }
+
+        public string GetId() => Id;
+        public DateTime GetDateSubmitting() => DateSubmitting;
+        public DateTime GetStartInsurance() => StartInsurance;
+        public DateTime GetEndInsurance() => EndInsurance;
+        public List<Insured> GetInsuredsList() => Insureds;
+        private StatusInsuranceEnum GetStatus() => Status;
+
+        public void AddInsured(Insured insured)
+        {
+            if(insured==null) throw new ArgumentNullException();
+            
+            Insureds.Add(insured);
+            
+            //ToDo send event
         }
     }
 }

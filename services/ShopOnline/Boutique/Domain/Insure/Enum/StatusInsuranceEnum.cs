@@ -1,6 +1,6 @@
 ﻿namespace Boutique.Domain.Insure.Enum
 {
-    public enum StatusInsurance
+    public enum StatusInsuranceEnum
     {
         Active,
         Inactive

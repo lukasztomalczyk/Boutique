@@ -5,7 +5,7 @@ using Boutique.Messages.EventBusRabbitMQ.Interfaces;
 
 namespace Boutique.Domain.Users.Event
 {
-    public class UserHasBeenCreatedEvent : IntegrationEvent, IEvent
+    public class UserHasBeenCreatedEvent
     {
         public string Id { get; }
         public string Event { get; }

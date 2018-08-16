@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Boutique.Domain.Insure.Insureds;
+using Boutique.Domain.Insure.Policy;
 using Boutique.Infrastructure.Builders;
 using Boutique.Infrastructure.Repositories;
 using Boutique.Presentation.Commands.Insurance;
@@ -20,19 +21,30 @@ namespace Boutique.Application.Insurances.CommandHandler
         }
         public string Handle(CreateInsuranceCommand command)
         {
-            throw new System.NotImplementedException();
+            var newInsurance = NewInsurance(command);
+
+            _insuranceRepository.Create(newInsurance);
+
+            return newInsurance.GetId();
         }
 
         public Task<string> HandleAsync(CreateInsuranceCommand command)
         {
-            var newInsurance = new InsureBuilder().SetStartInsurance(command.StartInsurance)
-                .SetEndInsurance(command.EndInsurance)
-                .SetInsureds(default(List<Insured>))
-                .Create();
+            var newInsurance = NewInsurance(command);
 
             _insuranceRepository.Create(newInsurance);
             
-            return Task.FromResult("ok");
+            return Task.FromResult(newInsurance.GetId());
+        }
+
+        private static Insure NewInsurance(CreateInsuranceCommand command)
+        {
+            var newInsurance = new InsureBuilder().SetStartInsurance(command.StartInsurance)
+                .SetEndInsurance(command.EndInsurance)
+                .SetInsureds(default(List<Insured>))
+                .Build();
+            
+            return newInsurance;
         }
     }
 }
