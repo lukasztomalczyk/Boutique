@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Design;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Text;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -24,6 +25,11 @@ namespace RabbitMQ
                     PublishEvent(@event, quequeName, channel);
                 }
             }
+        }
+
+        public string Subscribe(string quequeName)
+        {
+            
         }
 
         private void PublishEvent(IEvent @event, string quequeName, IModel channel)
