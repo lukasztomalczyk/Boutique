@@ -1,4 +1,4 @@
-﻿namespace RabbitMQ
+﻿namespace RabbitMQ.Interface
 {
     public interface IEvent
     {

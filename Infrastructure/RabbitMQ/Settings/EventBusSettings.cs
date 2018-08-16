@@ -1,7 +1,8 @@
 ﻿namespace RabbitMQ.Settings
 {
-    public class RabbitMqSettings
+    public class EventBusSettings
     {
         public string ServerAddress { get; set; }
+        public string NameServer { get; set; }
     }
 }

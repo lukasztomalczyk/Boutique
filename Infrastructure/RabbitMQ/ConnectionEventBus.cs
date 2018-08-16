@@ -1,19 +1,27 @@
-﻿using RabbitMQ.Client;
+﻿using Microsoft.Extensions.Options;
+using RabbitMQ.Client;
+using RabbitMQ.Interface;
+using RabbitMQ.Settings;
 
 namespace RabbitMQ
 {
     public class ConnectionEventBus : IConnectionEventBus
     {
-        private readonly IConnectionFactory _connectionFactory;
+        private readonly IConnection _connection;
 
-        public ConnectionEventBus(IConnectionFactory connectionFactory)
+        public ConnectionEventBus(IConnectionFactory connectionFactory, IOptions<EventBusSettings> settings)
         {
-            _connectionFactory = connectionFactory;
+            _connection = connectionFactory.CreateConnection(settings.Value.ServerAddress);
         }
 
-        public IConnection Connect(string serverAddress)
+        public IModel CreateChannel()
         {
-            return _connectionFactory.CreateConnection(serverAddress);
+            return _connection.CreateModel();
+        }
+
+        public void Dispose()
+        {
+            _connection?.Dispose();
         }
     }
 }

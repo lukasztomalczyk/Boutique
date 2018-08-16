@@ -1,35 +1,63 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Text;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using RabbitMQ.Interface;
 
 namespace RabbitMQ
 {
-    public class EventBusServices
+    public class EventBusServices : IEventBusServices
     {
         private readonly IConnectionEventBus _connectionEventBus;
+        private IModel _model;
+        private const string  EventBusName = "boutique_event_bus";
 
         public EventBusServices(IConnectionEventBus connectionEventBus)
         {
             _connectionEventBus = connectionEventBus;
+
+            _model = _connectionEventBus.CreateChannel();
         }
 
-        public void Publish(IEvent @event, string quequeName)
+        public void Publish(IEvent @event, string queueName)
         {
-            using (var connect = _connectionEventBus.Connect("cos"))
+            using (_connectionEventBus)
             {
-                using (var channel = connect.CreateModel())
+                using (_model)
                 {
-                    CreateQueque(quequeName, channel);
-                    PublishEvent(@event, quequeName, channel);
+                    CreateQueque(queueName, _model);
+                    PublishEvent(@event, queueName, _model);
                 }
             }
         }
 
-        public string Subscribe(string quequeName)
+        public string Subscribe(string queueName)
         {
-            
+            var routing = queueName + ".*";
+
+            using (_model)
+            {
+                _model.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
+
+                EventingBasicConsumer consumer = new EventingBasicConsumer(_model);
+
+                dynamic message = "";
+                consumer.Received += (model, ea) =>
+                {
+                    var body = ea.Body;
+                    var json = Encoding.UTF8.GetString(body);
+                    message = JsonConvert.DeserializeObject(json);
+                    var routingKey = ea.RoutingKey;
+
+                };
+
+                _model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+
+                return message.ToString();
+            }
         }
 
         private void PublishEvent(IEvent @event, string quequeName, IModel channel)

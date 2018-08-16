@@ -10,6 +10,7 @@ using SqlServices.ServicesCollection;
 using SqlServices;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using RabbitMQ.ServicesCollection;
 using RabbitMQ.Settings;
 
 namespace Bountique.Api
@@ -33,11 +34,13 @@ namespace Bountique.Api
 
             services.Configure<BoutiqueSettings>(Configuration.GetSection("Boutique"));
             services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
-            services.Configure<RabbitMqSettings>(Configuration.GetSection("RabbitMqSettings"));
+            services.Configure<EventBusSettings>(Configuration.GetSection("EventBusSettings"));
 
             services.AddSqlService();
 
             services.AddAttributes(assembly);
+            
+            services.AddEventBus();
             
             services.AddCqrs(assembly);
 

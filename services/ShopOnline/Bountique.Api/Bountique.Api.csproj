@@ -30,7 +30,6 @@
     <ProjectReference Include="..\..\..\Infrastructure\Cqrs\Cqrs.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\RabbitMQ\RabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\SqlService\SqlServices.csproj" />
-    <ProjectReference Include="..\Boutique.Messages\Boutique.Messages.csproj" />
     <ProjectReference Include="..\Boutique.Presentation\Boutique.Presentation.csproj" />
     <ProjectReference Include="..\Boutique\Boutique.csproj" />
   </ItemGroup>

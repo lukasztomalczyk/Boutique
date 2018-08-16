@@ -1,19 +1,16 @@
 ﻿using System;
-using Boutique.Messages;
-using Boutique.Messages.EventBusRabbitMQ;
-using Boutique.Messages.EventBusRabbitMQ.Interfaces;
+using RabbitMQ.Interface;
 
 namespace Boutique.Domain.Users.Event
 {
-    public class UserHasBeenCreatedEvent
+    public class UserHasBeenCreatedEvent : IEvent
     {
-        public string Id { get; }
-        public string Event { get; }
+        private string Id { get; }
+        public string EventScope = "User";
 
         public UserHasBeenCreatedEvent(string id)
         {
             Id = id;
-            Event = this.GetType().Name;
         }
     }
 }
