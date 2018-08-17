@@ -17,7 +17,7 @@ namespace Boutique.EventBusSubscriber.api.Controllers
         public JsonResult Index()
         {
             var messages = _eventBusServices.Subscribe("User");
-            return Json("test");
+            return Json(messages);
         }
     }
 }

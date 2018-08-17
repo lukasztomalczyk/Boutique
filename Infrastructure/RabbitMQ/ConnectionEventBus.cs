@@ -26,5 +26,9 @@ namespace RabbitMQ
         {
             _connection?.Dispose();
         }
+
+        public bool TryConnect()
+        {
+        }
     }
 }

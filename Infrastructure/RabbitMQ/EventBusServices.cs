@@ -29,7 +29,8 @@ namespace RabbitMQ
             {
                 using (_model)
                 {
-                    CreateQueque(queueName, _model);
+                    ExchangeDeclare(_model);
+                    _model.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
                     PublishEvent(@event, queueName, _model);
                 }
             }
@@ -42,9 +43,11 @@ namespace RabbitMQ
             {
                 using (_model)
                 {
+                     ExchangeDeclare(_model);
+                    _model.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
                     _model.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
 
-                    EventingBasicConsumer consumer = new EventingBasicConsumer(_model);
+                    var consumer = new EventingBasicConsumer(_model);
 
                     dynamic message = "";
                     consumer.Received += (model, ea) =>
@@ -65,15 +68,20 @@ namespace RabbitMQ
 
         private void PublishEvent(IEvent @event, string queueName, IModel channel)
         {
-            var routing = queueName + "." + @event.GetType().Name;
-            
+            var routing = Routing(@event, queueName);
+
             channel.BasicPublish(exchange: EventBusName,
                 routingKey: routing,
                 basicProperties: null,
                 body: ConvertEventToSend(@event));
         }
 
-        private void CreateQueque(string queueName, IModel channel)
+        private string Routing(IEvent @event, string queueName)
+        {
+            return queueName + "." + @event.GetType().Name;
+        }
+
+        private void ExchangeDeclare(IModel channel)
         {
     
             channel.ExchangeDeclare(exchange: EventBusName,
