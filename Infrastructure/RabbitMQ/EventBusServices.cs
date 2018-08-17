@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Interface;
@@ -37,26 +38,28 @@ namespace RabbitMQ
         public string Subscribe(string queueName)
         {
             var routing = queueName + ".*";
-
-            using (_model)
+            using (_connectionEventBus)
             {
-                _model.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
-
-                EventingBasicConsumer consumer = new EventingBasicConsumer(_model);
-
-                dynamic message = "";
-                consumer.Received += (model, ea) =>
+                using (_model)
                 {
-                    var body = ea.Body;
-                    var json = Encoding.UTF8.GetString(body);
-                    message = JsonConvert.DeserializeObject(json);
-                    var routingKey = ea.RoutingKey;
+                    _model.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
 
-                };
+                    EventingBasicConsumer consumer = new EventingBasicConsumer(_model);
 
-                _model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+                    dynamic message = "";
+                    consumer.Received += (model, ea) =>
+                    {
+                        var body = ea.Body;
+                        var json = Encoding.UTF8.GetString(body);
+                        message = JsonConvert.DeserializeObject(json);
+                        var routingKey = ea.RoutingKey;
 
-                return message.ToString();
+                    };
+
+                    _model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+
+                    return message.ToString();
+                }
             }
         }
 

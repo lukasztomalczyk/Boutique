@@ -10,14 +10,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RabbitMQ;
+using RabbitMQ.Client;
+using RabbitMQ.Interface;
+using RabbitMQ.Settings;
 
 namespace Boutique.EventBusSubscriber.api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
+
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -25,6 +33,10 @@ namespace Boutique.EventBusSubscriber.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<EventBusSettings>(Configuration.GetSection("EventBusSettings"));
+            services.AddSingleton<IConnectionFactory, ConnectionFactory>();
+            services.AddScoped<IConnectionEventBus, ConnectionEventBus>();
+            services.AddScoped<IEventBusServices, EventBusServices>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -40,7 +52,7 @@ namespace Boutique.EventBusSubscriber.api
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+           // app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
