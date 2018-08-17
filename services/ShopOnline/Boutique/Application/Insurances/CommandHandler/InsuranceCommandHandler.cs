@@ -43,6 +43,9 @@ namespace Boutique.Application.Insurances.CommandHandler
 
             _insuranceRepository.Create(newInsurance);
             
+            var @event = new UserHasBeenCreatedEvent(newInsurance.GetId());
+            _eventBusServices.Publish(@event, @event.EventScope);
+            
             return Task.FromResult(newInsurance.GetId());
         }
 

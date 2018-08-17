@@ -16,6 +16,7 @@ namespace Boutique.Consumer
             using(var connection = factory.CreateConnection())
             using(var channel = connection.CreateModel())
             {
+                
                 channel.ExchangeDeclare(exchange: "boutique_event_bus", type: "topic");
                 var queueName = channel.QueueDeclare().QueueName;
 

@@ -18,7 +18,7 @@ namespace Boutique.Infrastructure.Repositories
 
         public string Create(Insure insure)
         {
-            var create = _sqlConnection.ExecuteQuery("");
+          //  var create = _sqlConnection.ExecuteQuery("");
 
             return Guid.NewGuid().ToString();
         }

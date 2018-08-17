@@ -40,12 +40,12 @@ namespace Boutique.Infrastructure.Builders
 
         public Insure Build()
         {
-            if (StartInsurance==default(DateTime))
-                throw new InvalidDataException();
-            if (EndInsurance==default(DateTime))
-                throw new InvalidDataException();
-            if (Insureds == default(List<Insured>))
-                throw new InvalidDataException();
+            if (StartInsurance == null)
+                throw new InvalidDataException("Start insurance data is null");
+            if (EndInsurance == null)
+                throw new InvalidDataException("End insurance data is null");
+/*            if (Insureds == null)
+                throw new InvalidDataException("Don't have any insured");*/
             
             return new Insure(Guid.NewGuid().ToString(), DateTime.Now, StartInsurance, EndInsurance, Insureds, Status);
         }

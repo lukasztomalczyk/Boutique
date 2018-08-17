@@ -60,19 +60,20 @@ namespace RabbitMQ
             }
         }
 
-        private void PublishEvent(IEvent @event, string quequeName, IModel channel)
+        private void PublishEvent(IEvent @event, string queueName, IModel channel)
         {
-            var routing = quequeName + "." + @event.GetType().FullName;
+            var routing = queueName + "." + @event.GetType().Name;
             
-            channel.BasicPublish(exchange: quequeName,
+            channel.BasicPublish(exchange: EventBusName,
                 routingKey: routing,
                 basicProperties: null,
                 body: ConvertEventToSend(@event));
         }
 
-        private void CreateQueque(string quequeName, IModel channel)
+        private void CreateQueque(string queueName, IModel channel)
         {
-            channel.ExchangeDeclare(exchange: quequeName,
+    
+            channel.ExchangeDeclare(exchange: EventBusName,
                 type: "topic",
                 durable: false,
                 autoDelete: false,
