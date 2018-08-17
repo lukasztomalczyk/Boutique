@@ -9,12 +9,14 @@ namespace RabbitMQ
 {
     public class ConnectionEventBus : IConnectionEventBus
     {
-        private readonly IConnection _connection;
+        private readonly IConnectionFactory _connectionFactory;
+        private  IConnection _connection;
+        private List<string> _serverAddress;
 
         public ConnectionEventBus(IConnectionFactory connectionFactory, IOptions<EventBusSettings> settings)
         {
-            _connection = connectionFactory.CreateConnection(new List<string>()
-                {settings.Value.ServerAddress});
+            _connectionFactory = connectionFactory;
+            _serverAddress = new List<string>() {settings.Value.ServerAddress};
         }
 
         public IModel CreateChannel()
@@ -26,9 +28,20 @@ namespace RabbitMQ
         {
             _connection?.Dispose();
         }
-
+        
+        public bool IsConnected() =>_connection != null && _connection.IsOpen;
+            
         public bool TryConnect()
         {
+            if (!_connection.IsOpen)
+            {
+              _connection = _connectionFactory.CreateConnection(_serverAddress);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

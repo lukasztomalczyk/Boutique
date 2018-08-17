@@ -25,6 +25,8 @@ namespace RabbitMQ
 
         public void Publish(IEvent @event, string queueName)
         {
+            if (!_connectionEventBus.IsConnected()) _connectionEventBus.TryConnect();
+            
             using (_connectionEventBus)
             {
                 using (_model)
@@ -33,11 +35,14 @@ namespace RabbitMQ
                     _model.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
                     PublishEvent(@event, queueName, _model);
                 }
+                
             }
         }
 
         public string Subscribe(string queueName)
         {
+            if (!_connectionEventBus.IsConnected()) _connectionEventBus.TryConnect();
+            
             var routing = queueName + ".*";
             using (_connectionEventBus)
             {
