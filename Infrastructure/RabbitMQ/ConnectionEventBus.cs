@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Interface;
 using RabbitMQ.Settings;
@@ -11,7 +12,8 @@ namespace RabbitMQ
 
         public ConnectionEventBus(IConnectionFactory connectionFactory, IOptions<EventBusSettings> settings)
         {
-            _connection = connectionFactory.CreateConnection(settings.Value.ServerAddress);
+            var hostList = new List<string>() {settings.Value.ServerAddress};
+            _connection = connectionFactory.CreateConnection(hostList);
         }
 
         public IModel CreateChannel()

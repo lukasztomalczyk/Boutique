@@ -8,7 +8,7 @@ namespace RabbitMQ.ServicesCollection
     {
         public static void AddEventBus(this IServiceCollection services)
         {
-            services.AddScoped<IConnectionFactory>();
+            services.AddSingleton<IConnectionFactory, ConnectionFactory>();
             services.AddScoped<IEventBusServices, EventBusServices>();
             services.AddSingleton<IConnectionEventBus, ConnectionEventBus>();
         }
