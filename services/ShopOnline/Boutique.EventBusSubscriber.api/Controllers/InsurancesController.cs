@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Interface;
 
 namespace Boutique.EventBusSubscriber.api.Controllers
@@ -14,10 +15,10 @@ namespace Boutique.EventBusSubscriber.api.Controllers
         }
         
         [HttpGet]
-        public JsonResult Index()
+        public List<object> Index()
         {
             var messages = _eventBusServices.Subscribe("User");
-            return Json(messages);
+            return messages;
         }
     }
 }

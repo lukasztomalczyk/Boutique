@@ -36,7 +36,7 @@ namespace RabbitMQ
             }
         }
 
-        public string Subscribe(string queueName)
+        public List<object> Subscribe(string queueName)
         {
             if (!_connectionEventBus.IsConnected()) _connectionEventBus.TryConnect();
             
@@ -51,18 +51,19 @@ namespace RabbitMQ
 
                     var consumer = new EventingBasicConsumer(channel);
 
-                    dynamic message = "";
+                    
+                    var testList = new List<object>();
                     consumer.Received += (model, ea) =>
                     {
                         var body = ea.Body;
                         var json = Encoding.UTF8.GetString(body);
-                        message = JsonConvert.DeserializeObject(json);
+                        testList.Add(JsonConvert.DeserializeObject(json));
                         var routingKey = ea.RoutingKey;
                     };
 
                     channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
-                    return message.ToString();
+                    return testList;
                 }
             }
         }
@@ -75,6 +76,8 @@ namespace RabbitMQ
                 routingKey: routing,
                 basicProperties: null,
                 body: ConvertEventToSend(@event));
+            
+            channel.Close();
         }
 
         private string Routing(IEvent @event, string queueName)

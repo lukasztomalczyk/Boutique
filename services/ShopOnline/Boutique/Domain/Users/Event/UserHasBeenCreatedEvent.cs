@@ -7,10 +7,12 @@ namespace Boutique.Domain.Users.Event
     {
         private string Id { get; }
         public string EventScope = "User";
+        public string EventName { get; }
 
         public UserHasBeenCreatedEvent(string id)
         {
             Id = id;
+            EventName = this.GetType().Name;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace RabbitMQ.ServicesCollection
         {
             services.AddSingleton<IConnectionFactory, ConnectionFactory>();
             services.AddScoped<IEventBusServices, EventBusServices>();
-            services.AddSingleton<IConnectionEventBus, ConnectionEventBus>();
+            services.AddScoped<IConnectionEventBus, ConnectionEventBus>();
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace RabbitMQ.Interface
+﻿using System.Collections.Generic;
+
+namespace RabbitMQ.Interface
 {
     public interface IEventBusServices
     {
         void Publish(IEvent @event, string queueName);
-        string Subscribe(string queueName);
+        List<object> Subscribe(string queueName);
     }
 }
