@@ -32,8 +32,6 @@ namespace Boutique.Application.Insurances.CommandHandler
             var @event = new UserHasBeenCreatedEvent(newInsurance.GetId());
             _eventBusServices.Publish(@event, @event.EventScope);
             
-            
-
             return newInsurance.GetId();
         }
 
