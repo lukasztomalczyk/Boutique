@@ -27,11 +27,11 @@ namespace RabbitMQ
             
             using (_connectionEventBus)
             {
-                using (var channel = _connectionEventBus.CreateChannel())
+                using (var session = _connectionEventBus.CreateSession())
                 {
-                    ExchangeDeclare(channel);
-                    channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
-                    PublishEvent(@event, queueName, channel);
+                    ExchangeDeclare(session);
+                    session.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
+                    PublishEvent(@event, queueName, session);
                 }
             }
         }
@@ -44,16 +44,16 @@ namespace RabbitMQ
             
             using (_connectionEventBus)
             {
-                using (var channel = _connectionEventBus.CreateChannel())
+                using (var session = _connectionEventBus.CreateSession())
                 {
-                    ExchangeDeclare(channel);
-                    channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
-                    channel.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
+                    ExchangeDeclare(session);
+                    session.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
+                    session.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
 
-                    var consumer = new EventingBasicConsumer(channel);
+                    var consumer = new EventingBasicConsumer(session);
                     var queueMessages = QueueMessages(consumer);
 
-                    channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+                    session.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
                     return queueMessages;
                 }
@@ -63,12 +63,14 @@ namespace RabbitMQ
         private List<object> QueueMessages(EventingBasicConsumer consumer)
         {
             var queueMessages = new List<object>();
+            
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body;
                 var json = Encoding.UTF8.GetString(body);
                 queueMessages.Add(JsonConvert.DeserializeObject(json));
             };
+            
             return queueMessages;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Options;
@@ -22,7 +23,7 @@ namespace RabbitMQ
             TryConnect();
         }
 
-        public IModel CreateChannel()
+        public IModel CreateSession()
         {
             return _connection.CreateModel();
         }
@@ -34,19 +35,26 @@ namespace RabbitMQ
 
         public bool IsConnected()
         {
-            return (_connection != null);
+            return (_connection == null);
         }
-            
         public bool TryConnect()
         {
             if (!IsConnected())
             {
-              _connection = _connectionFactory.CreateConnection(_serverAddress);
+                try
+                {
+                    _connection = _connectionFactory.CreateConnection(_serverAddress);
+                }
+                catch (Exception)
+                {
+                    throw new InvalidOperationException("Can't connect do eventbus");
+                }
+                
                 return true;
             }
             else
             {
-                throw new InvalidOperationException("Can't connect do eventbus");
+                return false;
             }
         }
     }

@@ -5,8 +5,8 @@ namespace RabbitMQ.Interface
 {
     public interface IConnectionEventBus : IDisposable
     {
-        IModel CreateChannel();
-        bool IsConnected();
+        IModel CreateSession();
         bool TryConnect();
+        bool IsConnected();
     }
 }
