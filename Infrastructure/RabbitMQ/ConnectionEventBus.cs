@@ -37,6 +37,7 @@ namespace RabbitMQ
         {
             return (_connection == null);
         }
+        
         public bool TryConnect()
         {
             if (!IsConnected())

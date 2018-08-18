@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cqrs.Command;
 
 namespace Boutique.Presentation.Commands.Auth
 {
-    public class RegisterCommand
+    public class RegisterCommand : ICommand
     {
         public string Login { get; }
         public string Password { get; }

@@ -2,4 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Infrastructure\Cqrs\Cqrs.csproj" />
+  </ItemGroup>
 </Project>

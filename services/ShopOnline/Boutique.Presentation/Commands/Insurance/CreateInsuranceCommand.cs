@@ -1,8 +1,9 @@
 ﻿using System;
+using Cqrs.Command;
 
 namespace Boutique.Presentation.Commands.Insurance
 {
-    public class CreateInsuranceCommand
+    public class CreateInsuranceCommand : ICommand
     {
         public DateTime DateSubmitting { get; }
         public DateTime StartInsurance { get; }
