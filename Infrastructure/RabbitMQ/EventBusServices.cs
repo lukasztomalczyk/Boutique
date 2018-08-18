@@ -41,6 +41,7 @@ namespace RabbitMQ
             if (!_connectionEventBus.IsConnected()) _connectionEventBus.TryConnect();
             
             var routing = queueName + ".*";
+            
             using (_connectionEventBus)
             {
                 using (var channel = _connectionEventBus.CreateChannel())
@@ -50,22 +51,26 @@ namespace RabbitMQ
                     channel.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
 
                     var consumer = new EventingBasicConsumer(channel);
-
-                    
-                    var testList = new List<object>();
-                    consumer.Received += (model, ea) =>
-                    {
-                        var body = ea.Body;
-                        var json = Encoding.UTF8.GetString(body);
-                        testList.Add(JsonConvert.DeserializeObject(json));
-                        var routingKey = ea.RoutingKey;
-                    };
+                    var queueMessages = QueueMessages(consumer);
 
                     channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
-                    return testList;
+                    return queueMessages;
                 }
             }
+        }
+
+        private List<object> QueueMessages(EventingBasicConsumer consumer)
+        {
+            var queueMessages = new List<object>();
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body;
+                var json = Encoding.UTF8.GetString(body);
+                queueMessages.Add(JsonConvert.DeserializeObject(json));
+                var routingKey = ea.RoutingKey;
+            };
+            return queueMessages;
         }
 
         private void PublishEvent(IEvent @event, string queueName, IModel channel)
