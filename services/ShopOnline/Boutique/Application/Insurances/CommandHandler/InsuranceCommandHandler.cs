@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Boutique.Domain.Insurances;
 using Boutique.Domain.Insure.Insureds;
 using Boutique.Domain.Insure.Policy;
 using Boutique.Domain.Users.Event;
@@ -49,8 +50,8 @@ namespace Boutique.Application.Insurances.CommandHandler
 
         private static Insure NewInsurance(CreateInsuranceCommand command)
         {
-            var newInsurance = new InsureBuilder().SetStartInsurance(command.StartInsurance)
-                .SetEndInsurance(command.EndInsurance)
+            var newInsurance = new InsureBuilder().SetStartInsurance(command.CoverageStartDate)
+                .SetEndInsurance(command.CoverageEndDate)
                 .SetInsureds(default(List<Insured>))
                 .Build();
             

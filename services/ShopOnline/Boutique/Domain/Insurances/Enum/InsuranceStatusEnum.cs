@@ -1,8 +1,9 @@
-﻿namespace Boutique.Domain.Insure.Enum
+﻿namespace Boutique.Domain.Insurances.Enum
 {
-    public enum InsuraceStatusEnum
+    public enum InsuranceStatusEnum
     {
         Activated,
-        Registered
+        Registered,
+        InActive
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Boutique.Domain.Insure.Enum;
+using Boutique.Domain.Insurances;
+using Boutique.Domain.Insurances.Enum;
 using Boutique.Domain.Insure.Insureds;
 using Boutique.Domain.Insure.Policy;
 
@@ -12,7 +13,7 @@ namespace Boutique.Infrastructure.Builders
         private static DateTime StartInsurance { get; set; }
         private static DateTime EndInsurance { get; set; }
         private static List<Insured> Insureds { get; set; }
-        private static StatusInsuranceEnum Status { get; set; }
+        private static InsuranceStatusEnum Status { get; set; }
 
         public InsureBuilder SetStartInsurance(DateTime time)
         {
@@ -34,7 +35,7 @@ namespace Boutique.Infrastructure.Builders
 
         public InsureBuilder SetStatus()
         {
-            Status = StatusInsuranceEnum.Inactive;
+            Status = InsuranceStatusEnum.Registered;
             return this;
         }
 
