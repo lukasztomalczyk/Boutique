@@ -3,10 +3,9 @@ using RabbitMQ.Client;
 
 namespace Boutique.Messages.EventBusRabbitMQ
 {
-    public interface IRabbitMqConnection : IDisposable
+    public interface IRabbitMqConnection
     {
-        bool IsConnected { get; }
-        IModel CreateModel();
+        IModel InitializeSession();
         bool TryConnect();
     }
 }

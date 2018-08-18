@@ -7,8 +7,9 @@ using RabbitMQ.Client.Impl;
 
 namespace Boutique.Messages.EventBusRabbitMQ
 {
-    public class EventBusRabbitMq : IEventBus, IDisposable
+    public class EventBusRabbitMq : IEventBus
     {
+        //Broker do przeniesienia Settings
         private const string BROKER_NAME = "boutique_event_bus";
         private readonly IRabbitMqConnection _connectionRabbit;
 
@@ -19,28 +20,24 @@ namespace Boutique.Messages.EventBusRabbitMQ
         
         public void Publish(IEvent @event)
         {
-            if (!_connectionRabbit.IsConnected) _connectionRabbit.TryConnect();
+            if (!_connectionRabbit.TryConnect()) return;
 
-            using (var channel = _connectionRabbit.CreateModel())
+            using (var mqSession = _connectionRabbit.InitializeSession())
             {
+                //Butique do settingów
                 var eventName = "butique." + @event.GetType().Name;
                 
-                channel.ExchangeDeclare(exchange: BROKER_NAME,
+                mqSession.ExchangeDeclare(exchange: BROKER_NAME,
                                         type: "topic");
 
                 var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
                 
-                channel.BasicPublish(exchange: BROKER_NAME,
+                mqSession.BasicPublish(exchange: BROKER_NAME,
                                     routingKey: eventName,
                                     basicProperties: null,
                                     body: body);
             }
-        }
-
-        public void Dispose()
-        {
-            if(_connectionRabbit.IsConnected) _connectionRabbit.Dispose();
         }
     }
 }

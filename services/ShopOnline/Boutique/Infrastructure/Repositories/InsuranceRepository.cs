@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using Boutique.Domain.Insure.Policy;
 using Cqrs.Attributes;
-using SqlServices.Dapper;
+using Dapper.Contrib.Extensions;
 
 namespace Boutique.Infrastructure.Repositories
 {
@@ -16,11 +16,11 @@ namespace Boutique.Infrastructure.Repositories
             _sqlConnection = sqlConnection;
         }
 
-        public string Create(Insure insure)
+        public string Create(Insurance insurance)
         {
-            var create = _sqlConnection.ExecuteQuery("");
+            var create = _sqlConnection.Insert(insurance);
 
-            return Guid.NewGuid().ToString();
+            return insurance.Id;
         }
     }
 }

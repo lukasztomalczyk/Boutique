@@ -5,35 +5,35 @@ using Boutique.Domain.Insure.Policy;
 
 namespace Boutique.Infrastructure.Builders
 {
-    public class InsureBuilder
+    public class InsuranceBuilder
     {
         private DateTime StartInsurance { get; set; }
         private DateTime EndInsurance { get; set; }
         private List<Insured> Insureds { get; set; }
 
 
-        public InsureBuilder SetStartInsurance(DateTime time)
+        public InsuranceBuilder SetStartInsurance(DateTime time)
         {
             StartInsurance = time;
             return this;
         }
 
-        public InsureBuilder SetEndInsurance(DateTime time)
+        public InsuranceBuilder SetEndInsurance(DateTime time)
         {
             EndInsurance = time;
             return this;
         }
 
-        public InsureBuilder SetInsureds(List<Insured> insureds)
+        public InsuranceBuilder SetInsureds(List<Insured> insureds)
         {
             Insureds = insureds;
             return this;
         }
 
 
-        public Insure Create()
+        public Insurance Create()
         {
-            return new Insure(Guid.NewGuid().ToString(), DateTime.Now, StartInsurance, EndInsurance, Insureds);
+            return new Insurance(Guid.NewGuid().ToString(), DateTime.Now, StartInsurance, EndInsurance, Insureds);
         }
     }
 }
