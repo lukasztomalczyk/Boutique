@@ -68,7 +68,6 @@ namespace RabbitMQ
                 var body = ea.Body;
                 var json = Encoding.UTF8.GetString(body);
                 queueMessages.Add(JsonConvert.DeserializeObject(json));
-                var routingKey = ea.RoutingKey;
             };
             return queueMessages;
         }
