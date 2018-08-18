@@ -5,15 +5,15 @@ namespace Boutique.Presentation.Commands.Insurance
 {
     public class CreateInsuranceCommand : ICommand
     {
-        public DateTime DateSubmitting { get; }
-        public DateTime StartInsurance { get; }
-        public DateTime EndInsurance { get; }
+        public DateTime ConclusionDate { get; }
+        public DateTime CoverageStartDate { get; }
+        public DateTime CoverageEndDate { get; }
 
-        public CreateInsuranceCommand(DateTime dateSubmitting, DateTime startInsurance, DateTime endInsurance)
+        public CreateInsuranceCommand(DateTime conclusionDate, DateTime coverageStartDate, DateTime coverageEndDate)
         {
-            DateSubmitting = dateSubmitting;
-            StartInsurance = startInsurance;
-            EndInsurance = endInsurance;
+            ConclusionDate = conclusionDate;
+            CoverageStartDate = coverageStartDate;
+            CoverageEndDate = coverageEndDate;
         }
     }
 }

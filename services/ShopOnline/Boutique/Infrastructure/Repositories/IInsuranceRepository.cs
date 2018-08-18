@@ -4,6 +4,6 @@ namespace Boutique.Infrastructure.Repositories
 {
     public interface IInsuranceRepository
     {
-        string Create(Insure insure);
+        string Create(Insurance insure);
     }
 }

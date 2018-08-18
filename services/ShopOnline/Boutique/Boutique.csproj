@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Dapper.Contrib" Version="1.50.5" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.1.2" />
   </ItemGroup>
@@ -19,6 +20,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Domain\Insure\Insureds\Event" />
+    <Folder Include="Domain\Insurances\Insureds\Event" />
   </ItemGroup>
 </Project>
