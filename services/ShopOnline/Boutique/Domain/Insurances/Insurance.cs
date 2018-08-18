@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Boutique.Domain.Insurances.Enum;
-using Boutique.Domain.Insure.Insureds;
+using Boutique.Domain.Insurances.Insureds;
 
 namespace Boutique.Domain.Insurances
 {
     public class Insure
     {
+        // to jest ubezpieczenie? Insureds to lista ubezpieczonych !
         private string Id { get; }
         private DateTime DateSubmitting { get; }
         private DateTime StartInsurance { get; }

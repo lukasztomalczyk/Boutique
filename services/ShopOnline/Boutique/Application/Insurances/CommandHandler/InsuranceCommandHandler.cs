@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Boutique.Domain.Insurances;
-using Boutique.Domain.Insure.Insureds;
+using Boutique.Domain.Insurances.Insureds;
 using Boutique.Domain.Insure.Policy;
 using Boutique.Domain.Users.Event;
 using Boutique.Infrastructure.Builders;
