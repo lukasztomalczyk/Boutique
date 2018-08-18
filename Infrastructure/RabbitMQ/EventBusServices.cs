@@ -13,14 +13,12 @@ namespace RabbitMQ
     public class EventBusServices : IEventBusServices
     {
         private readonly IConnectionEventBus _connectionEventBus;
-        private IModel _model;
+        
         private const string  EventBusName = "boutique_event_bus";
 
         public EventBusServices(IConnectionEventBus connectionEventBus)
         {
             _connectionEventBus = connectionEventBus;
-
-            _model = _connectionEventBus.CreateChannel();
         }
 
         public void Publish(IEvent @event, string queueName)
@@ -29,13 +27,12 @@ namespace RabbitMQ
             
             using (_connectionEventBus)
             {
-                using (_model)
+                using (var channel = _connectionEventBus.CreateChannel())
                 {
-                    ExchangeDeclare(_model);
-                    _model.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
-                    PublishEvent(@event, queueName, _model);
+                    ExchangeDeclare(channel);
+                    channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
+                    PublishEvent(@event, queueName, channel);
                 }
-                
             }
         }
 
@@ -46,13 +43,13 @@ namespace RabbitMQ
             var routing = queueName + ".*";
             using (_connectionEventBus)
             {
-                using (_model)
+                using (var channel = _connectionEventBus.CreateChannel())
                 {
-                     ExchangeDeclare(_model);
-                    _model.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
-                    _model.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
+                    ExchangeDeclare(channel);
+                    channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
+                    channel.QueueBind(queue: queueName, exchange: EventBusName, routingKey: routing);
 
-                    var consumer = new EventingBasicConsumer(_model);
+                    var consumer = new EventingBasicConsumer(channel);
 
                     dynamic message = "";
                     consumer.Received += (model, ea) =>
@@ -61,10 +58,9 @@ namespace RabbitMQ
                         var json = Encoding.UTF8.GetString(body);
                         message = JsonConvert.DeserializeObject(json);
                         var routingKey = ea.RoutingKey;
-
                     };
 
-                    _model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
+                    channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
                     return message.ToString();
                 }

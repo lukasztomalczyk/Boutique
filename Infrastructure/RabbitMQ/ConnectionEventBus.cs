@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Interface;
@@ -17,6 +18,7 @@ namespace RabbitMQ
         {
             _connectionFactory = connectionFactory;
             _serverAddress = new List<string>() {settings.Value.ServerAddress};
+            TryConnect();
         }
 
         public IModel CreateChannel()
@@ -28,12 +30,15 @@ namespace RabbitMQ
         {
             _connection?.Dispose();
         }
-        
-        public bool IsConnected() =>_connection != null && _connection.IsOpen;
+
+        public bool IsConnected()
+        {
+            return (_connection != null);
+        }
             
         public bool TryConnect()
         {
-            if (!_connection.IsOpen)
+            if (!IsConnected())
             {
               _connection = _connectionFactory.CreateConnection(_serverAddress);
                 return true;
