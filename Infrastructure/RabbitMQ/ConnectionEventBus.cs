@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Options;
@@ -45,7 +46,7 @@ namespace RabbitMQ
             }
             else
             {
-                return false;
+                throw new InvalidOperationException("Can't connect do eventbus");
             }
         }
     }
