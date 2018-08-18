@@ -12,11 +12,6 @@
     <ProjectReference Include="..\..\..\Infrastructure\RabbitMQ\RabbitMQ.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce">
-      <HintPath>..\..\..\..\..\.nuget\packages\rabbitmq.client\5.1.0\lib\netstandard1.5\RabbitMQ.Client.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
