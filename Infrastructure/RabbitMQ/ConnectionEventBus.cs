@@ -35,7 +35,7 @@ namespace RabbitMQ
 
         public bool IsConnected()
         {
-            return (_connection == null);
+            return (_connection != null);
         }
         
         public bool TryConnect()
