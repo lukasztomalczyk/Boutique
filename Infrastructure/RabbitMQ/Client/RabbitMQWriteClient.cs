@@ -35,21 +35,19 @@ namespace RabbitMQ
 
                     var props = SessionChannel.CreateBasicProperties();
                     props.ContentType = "text/plain";
-                    props.DeliveryMode = 2;
+                    props.DeliveryMode = (int)MqDeliveryModeEnum.Persistence;
                     props.ContentEncoding = Encoding.UTF8.EncodingName;
 
                     SessionChannel.BasicPublish(exchange: _queueSettings.QueueName,
                         routingKey: "routing",
                         basicProperties: props,
                         body: messageBody);
-
                 }
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException(ex.Message);
             }
-
         }
 
         private byte[] Adapt(IEvent @event)
