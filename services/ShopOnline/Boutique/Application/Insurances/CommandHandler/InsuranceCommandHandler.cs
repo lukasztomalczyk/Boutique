@@ -17,12 +17,12 @@ namespace Boutique.Application.Insurances.CommandHandler
     public class InsuranceCommandHandler : ICommandHandler<CreateInsuranceCommand, string>
     {
         private readonly IInsuranceRepository _insuranceRepository;
-        private readonly IEventBusServices _eventBusServices;
+        private readonly IRabbitMQWriteClient _writeClient;
 
-        public InsuranceCommandHandler(IInsuranceRepository insuranceRepository, IEventBusServices eventBusServices)
+        public InsuranceCommandHandler(IInsuranceRepository insuranceRepository, IRabbitMQWriteClient writeClient)
         {
             _insuranceRepository = insuranceRepository;
-            _eventBusServices = eventBusServices;
+            _writeClient = writeClient;
         }
         public string Handle(CreateInsuranceCommand command)
         {
@@ -31,7 +31,7 @@ namespace Boutique.Application.Insurances.CommandHandler
             _insuranceRepository.Create(newInsurance);
             
             var @event = new UserHasBeenCreatedEvent(newInsurance.GetId());
-            _eventBusServices.Publish(@event, @event.EventScope);
+            _writeClient.Write(@event);
             
             return newInsurance.GetId();
         }
@@ -43,8 +43,8 @@ namespace Boutique.Application.Insurances.CommandHandler
             _insuranceRepository.Create(newInsurance);
             
             var @event = new UserHasBeenCreatedEvent(newInsurance.GetId());
-            _eventBusServices.Publish(@event, @event.EventScope);
-            
+            _writeClient.Write(@event);
+
             return Task.FromResult(newInsurance.GetId());
         }
 

@@ -12,12 +12,12 @@ namespace RabbitMQ.UnitTests
         public class ConnectionEventBusTests
         {
             private readonly Mock<ConnectionFactory> _moqConnectionFactory;
-            private readonly Mock<IOptions<EventBusSettings>> _settings;
+            private readonly Mock<IOptions<EventQueueSettings>> _settings;
             
             public ConnectionEventBusTests()
             {
                 _moqConnectionFactory = new Mock<ConnectionFactory>();
-                _settings = new Mock<IOptions<EventBusSettings>>();
+                _settings = new Mock<IOptions<EventQueueSettings>>();
             }
             
             [Test]

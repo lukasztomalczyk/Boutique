@@ -7,17 +7,17 @@ namespace Boutique.EventBusSubscriber.api.Controllers
     [Route("api/[controller]/[action]")]
     public class InsurancesController : Controller
     {
-        private readonly IEventBusServices _eventBusServices;
+        private readonly IRabbitMQReadClient _readClient;
 
-        public InsurancesController(IEventBusServices eventBusServices)
+        public InsurancesController(IRabbitMQReadClient readClient)
         {
-            _eventBusServices = eventBusServices;
+            _readClient = readClient;
         }
         
         [HttpGet]
-        public List<object> Index()
+        public string Index()
         {
-            var messages = _eventBusServices.Subscribe("User");
+            var messages = _readClient.Read("User");
             return messages;
         }
     }

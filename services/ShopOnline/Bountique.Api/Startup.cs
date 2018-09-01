@@ -34,13 +34,13 @@ namespace Bountique.Api
 
             services.Configure<BoutiqueSettings>(Configuration.GetSection("Boutique"));
             services.Configure<JwtSettings>(Configuration.GetSection("jwt"));
-            services.Configure<EventBusSettings>(Configuration.GetSection("EventBusSettings"));
+            services.Configure<EventQueueSettings>(Configuration.GetSection("EventBusSettings"));
 
             services.AddSqlService();
 
             services.AddAttributes(assembly);
             
-            services.AddEventBus();
+            services.AddRabbitMq();
             
             services.AddCqrs(assembly);
 

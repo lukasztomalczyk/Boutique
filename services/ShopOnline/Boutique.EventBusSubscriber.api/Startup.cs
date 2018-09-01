@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using RabbitMQ;
 using RabbitMQ.Client;
 using RabbitMQ.Interface;
+using RabbitMQ.ServicesCollection;
 using RabbitMQ.Settings;
 
 namespace Boutique.EventBusSubscriber.api
@@ -33,10 +34,8 @@ namespace Boutique.EventBusSubscriber.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<EventBusSettings>(Configuration.GetSection("EventBusSettings"));
-            services.AddSingleton<IConnectionFactory, ConnectionFactory>();
-            services.AddScoped<IConnectionEventBus, ConnectionEventBus>();
-            services.AddScoped<IEventBusServices, EventBusServices>();
+            services.AddRabbitMq();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
