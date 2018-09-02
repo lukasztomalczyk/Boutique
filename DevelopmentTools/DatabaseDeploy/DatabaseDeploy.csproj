@@ -4,9 +4,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="dbup" Version="4.1.0" />
-  </ItemGroup>
-  <ItemGroup>
     <Build Include="Scripts\BountiqueRole.sql" />
   </ItemGroup>
 </Project>

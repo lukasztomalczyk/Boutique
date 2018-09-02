@@ -55,6 +55,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventSource", "EventSource"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSourceScheduler", "EventSourceScheduler\EventSourceScheduler.csproj", "{2D4B4905-B108-4C56-AA1C-6C069418B114}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Boutique.Database", "Infrastructure\Boutique.Database\Boutique.Database.sqlproj", "{DBFA97F1-D933-457A-809B-D639723DE6A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,24 @@ Global
 		{2D4B4905-B108-4C56-AA1C-6C069418B114}.Release|x64.Build.0 = Release|Any CPU
 		{2D4B4905-B108-4C56-AA1C-6C069418B114}.Release|x86.ActiveCfg = Release|Any CPU
 		{2D4B4905-B108-4C56-AA1C-6C069418B114}.Release|x86.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x64.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x64.Deploy.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x86.Build.0 = Release|Any CPU
+		{DBFA97F1-D933-457A-809B-D639723DE6A2}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,6 +264,7 @@ Global
 		{EA94888D-7995-4762-9DB4-A05ACEFEC2D8} = {8EE5F82A-74F3-4634-A49A-6EA6A49A2B4C}
 		{6B9C6C07-4699-46CB-89C8-80651E848ACB} = {EA94888D-7995-4762-9DB4-A05ACEFEC2D8}
 		{2D4B4905-B108-4C56-AA1C-6C069418B114} = {6B9C6C07-4699-46CB-89C8-80651E848ACB}
+		{DBFA97F1-D933-457A-809B-D639723DE6A2} = {C275BDEC-91AF-4C14-BB67-CBDF9BDEBEB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5229B162-427B-4EE1-B7DA-DD3256DB2083}
