@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[BoutiqueEventStore]
 (
-	[Id] INT NOT NULL,
+	[Id] INT IDENTITY(1,1),
 	[Type] VARCHAR(50) NOT NULL,
 	[AdditionalData] NVARCHAR(MAX) NOT NULL,
 	[CreateAt] DATETIME2(2) NOT NULL,

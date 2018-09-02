@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Repository\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -21,12 +20,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.10" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Cqrs\Cqrs.csproj" />
     <ProjectReference Include="..\Infrastructure\RabbitMQ\RabbitMQ.csproj" />
+    <ProjectReference Include="..\Infrastructure\SqlService\SqlServices.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,5 +17,11 @@ namespace SqlServices.Dapper
         {
             return sqlConnection.Query<dynamic>(query).FirstOrDefault();
         }
+
+        public static void AsInsert(this SqlConnection sqlConnection, Dictionary<string,object> data,string tableName)
+        {
+            var query = $"INSERT INTO {tableName} VALUES ({data})";
+            sqlConnection.Execute(query);
+        }
     }
 }
