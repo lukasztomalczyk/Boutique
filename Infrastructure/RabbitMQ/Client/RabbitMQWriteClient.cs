@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
 using RabbitMQ.Interface;
 using RabbitMQ.Settings;
 
-namespace RabbitMQ
+namespace RabbitMQ.Client
 {
     public class RabbitMQWriteClient: IRabbitMQWriteClient
     {
-        private  IConnection _connection;
-        private readonly EventQueueSettings _queueSettings;
+
+        private readonly RabbitMqSettings _queueSettings;
         private IModel SessionChannel;
 
-        public RabbitMQWriteClient(IConnection connection, IOptions<EventQueueSettings> queueSettings)
+        public RabbitMQWriteClient(IModel connection, IOptions<RabbitMqSettings> queueSettings)
         {
-            _connection = connection;
+            SessionChannel = connection;
             _queueSettings = queueSettings.Value;
         }
 
@@ -28,8 +23,7 @@ namespace RabbitMQ
         {
             try
             {
-                using (_connection)
-                using (SessionChannel = _connection.CreateModel())
+                using (SessionChannel)
                 {
                     var messageBody = Adapt(@event);
 
@@ -37,6 +31,7 @@ namespace RabbitMQ
                     props.ContentType = "text/plain";
                     props.DeliveryMode = (int)MqDeliveryModeEnum.Persistence;
                     props.ContentEncoding = Encoding.UTF8.EncodingName;
+                    
 
                     SessionChannel.BasicPublish(exchange: _queueSettings.QueueName,
                         routingKey: "routing",

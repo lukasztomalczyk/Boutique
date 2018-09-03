@@ -7,9 +7,9 @@ namespace Boutique.EventBusSubscriber.api.Controllers
     [Route("api/[controller]/[action]")]
     public class InsurancesController : Controller
     {
-        private readonly IRabbitMQReadClient _readClient;
+        private readonly IRabbitMqReadClient _readClient;
 
-        public InsurancesController(IRabbitMQReadClient readClient)
+        public InsurancesController(IRabbitMqReadClient readClient)
         {
             _readClient = readClient;
         }

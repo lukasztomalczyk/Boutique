@@ -9,31 +9,30 @@ using System.Text;
 
 namespace RabbitMQ.Client
 {
-    public class RabbitMQReadClient : IRabbitMQReadClient
+    public class RabbitMQReadClient : IRabbitMqReadClient
     {
-        private IConnection _connection;
-        private readonly EventQueueSettings _queueSettings;
-        private IModel SessionChannel;
 
-        public RabbitMQReadClient(IConnection connection, IOptions<EventQueueSettings> queueSettings)
+        private readonly RabbitMqSettings _queueSettings;
+        private IModel _sessionChannel;
+
+        public RabbitMQReadClient(IModel connection, IOptions<RabbitMqSettings> queueSettings)
         {
-            _connection = connection;
+            _sessionChannel = connection;
             _queueSettings = queueSettings.Value;
         }
 
         public string Read(string queueName)
         {
-            using (_connection)
-            using (SessionChannel = _connection.CreateModel())
+            using (_sessionChannel)
             {
-                SessionChannel.ExchangeDeclare(exchange: _queueSettings.Name,
+                _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name,
                                       type: "topic",
                                       durable: false,
                                       autoDelete: false,
                                       arguments: null);
 
-                SessionChannel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
-                SessionChannel.QueueBind(queue: queueName , exchange: _queueSettings.Name, routingKey: "");
+                _sessionChannel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
+                _sessionChannel.QueueBind(queue: queueName , exchange: _queueSettings.Name, routingKey: "routing");
 
                 var queueMessages = ConsumeMessage();
                 return queueMessages;
@@ -42,17 +41,17 @@ namespace RabbitMQ.Client
 
         private string ConsumeMessage()
         {
-            var consumer = new EventingBasicConsumer(SessionChannel);
+            var consumer = new EventingBasicConsumer(_sessionChannel);
             var queueMessages = new List<object>();
 
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body;
                 var json = Encoding.UTF8.GetString(body);
-                SessionChannel.BasicAck(ea.DeliveryTag, false);
+                _sessionChannel.BasicAck(ea.DeliveryTag, false);
             };
 
-            return SessionChannel.BasicConsume(_queueSettings.QueueName, true, consumer);
+            return _sessionChannel.BasicConsume(_queueSettings.QueueName, true, consumer);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace EventSourceScheduler.Infrastructure.ApplicationServiceExtension
 
             using (var scope = provider.CreateScope())
             {
-                var rabbitReadClient = scope.ServiceProvider.GetRequiredService<IRabbitMQReadClient>();
+                var rabbitReadClient = scope.ServiceProvider.GetRequiredService<IRabbitMqReadClient>();
                 var listenerHandler = scope.ServiceProvider.GetRequiredService<IListenerHandler>();
 
                 var eventListener = new EventListener(logger, rabbitReadClient, settings, listenerHandler);
