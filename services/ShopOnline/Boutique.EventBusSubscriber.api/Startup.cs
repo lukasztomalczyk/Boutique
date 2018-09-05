@@ -34,6 +34,8 @@ namespace Boutique.EventBusSubscriber.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RabbitMqSettings>(Configuration.GetSection("RabbitMqSettings"));
+            
             services.AddRabbitMq();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

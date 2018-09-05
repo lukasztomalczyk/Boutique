@@ -1,13 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Framing.Impl;
 using RabbitMQ.Interface;
 using RabbitMQ.Settings;
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace RabbitMQ.ServicesCollection
 {
@@ -15,22 +13,25 @@ namespace RabbitMQ.ServicesCollection
     {
         public static void AddRabbitMq(this IServiceCollection services, params Assembly[] assemblies)
         {
-            services.AddScoped<IConnectionFactory, ConnectionFactory>();   
-
+            services.AddScoped<IConnectionFactory, ConnectionFactory>();
+            services.Scan(scan => scan.FromAssemblies(assemblies)
+                .AddClasses(classess => classess.AssignableTo<IModel>()).AsImplementedInterfaces()
+                .WithScopedLifetime());
+            
             services.AddScoped(scope=>
             {
-                var settings = scope.GetService<IOptions<RabbitMqSettings>>().Value.ConnectionSettings;
-
+                var settings = scope.GetRequiredService<IOptions<RabbitMqSettings>>().Value;
                 var factory = new ConnectionFactory();
-                
-                factory.UserName = settings.GetEnumerator().Current.User;
-                    factory.Password = settings.GetEnumerator().Current.Password;
-                    factory.HostName = settings.GetEnumerator().Current.HostAddress;
-                    factory.Port = settings.GetEnumerator().Current.Port;
+               factory.UserName = settings.ConnectionSettings.First().User;
+                   factory.Password = settings.ConnectionSettings.First().Password;
+                factory.HostName = settings.ConnectionSettings.First().HostAddress;
+                factory.Port = settings.ConnectionSettings.First().Port;
+
+
                 
                 var connection = factory.CreateConnection();
 
-                return connection.CreateModel();
+               return connection.CreateModel();
 
             });
 
