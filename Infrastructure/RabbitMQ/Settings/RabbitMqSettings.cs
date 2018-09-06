@@ -7,6 +7,7 @@ namespace RabbitMQ.Settings
         public string QueueName { get; set; }
         public string Name { get; set; }
         public ConnectionSettings[] ConnectionSettings { get; set; }
+        public QueueSettings[] QueueSettings { get; set; }
    }
 
     public class ConnectionSettings
@@ -17,5 +18,12 @@ namespace RabbitMQ.Settings
         public string Password { get; set; }
         public string VirtualHost { get; set; }
         public int Port { get; set; }
+    }
+
+    public class QueueSettings
+    {
+        public byte DeliveryMode { get; set; }
+        public string ContentType { get; set; }
+        public bool Persistent { get; set; }
     }
 }    

@@ -22,21 +22,19 @@ namespace RabbitMQ.ServicesCollection
             {
                 var settings = scope.GetRequiredService<IOptions<RabbitMqSettings>>();
                 var factory = new ConnectionFactory();
-               factory.UserName = settings.Value.ConnectionSettings.First().User;
-                   factory.Password = settings.Value.ConnectionSettings.First().Password;
-                factory.HostName = settings.Value.ConnectionSettings.First().HostAddress;
-                factory.Port = settings.Value.ConnectionSettings.First().Port;
-
-
-                
+                    factory.UserName = settings.Value.ConnectionSettings.First().User;
+                    factory.Password = settings.Value.ConnectionSettings.First().Password;
+                    factory.HostName = settings.Value.ConnectionSettings.First().HostAddress;
+                    factory.Port = settings.Value.ConnectionSettings.First().Port;
+                    
                 var connection = factory.CreateConnection();
 
                return connection.CreateModel();
 
             });
 
-            services.AddScoped<IRabbitMqWriteClient, RabbitMQWriteClient>();
-            services.AddScoped<IRabbitMqReadClient, RabbitMQReadClient>();
+            services.AddScoped<IRabbitMqWriteClient, RabbitMqWriteClient>();
+            services.AddScoped<IRabbitMqReadClient, RabbitMqReadClient>();
         }
     }
 }

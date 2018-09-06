@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -7,15 +8,15 @@ using RabbitMQ.Settings;
 
 namespace RabbitMQ.Client
 {
-    public class RabbitMQWriteClient: IRabbitMqWriteClient
+    public class RabbitMqWriteClient: IRabbitMqWriteClient
     {
 
         private readonly RabbitMqSettings _queueSettings;
-        private IModel SessionChannel;
+        private readonly IModel _sessionChannel;
 
-        public RabbitMQWriteClient(IModel connection, IOptions<RabbitMqSettings> queueSettings)
+        public RabbitMqWriteClient(IModel connection, IOptions<RabbitMqSettings> queueSettings)
         {
-            SessionChannel = connection;
+            _sessionChannel = connection;
             _queueSettings = queueSettings.Value;
         }
 
@@ -23,24 +24,20 @@ namespace RabbitMQ.Client
         {
             try
             {
-                using (SessionChannel)
+                using (_sessionChannel)
                 {
                     var messageBody = Adapt(@event);
                     
-                    SessionChannel.ExchangeDeclare(exchange: _queueSettings.QueueName, type: "direct", durable: true);
-                    SessionChannel.QueueDeclare(queue: @event.EventScope, durable: true, exclusive: false,
-                        autoDelete: false);
+                    _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct", durable: true);
+                    _sessionChannel.QueueDeclare(queue: @event.EventScope, durable: true, exclusive: false, autoDelete: false);
                     
-//                    var props = SessionChannel.CreateBasicProperties();
-//                    props.ContentType = "text/plain";
-//                    props.DeliveryMode = (int)MqDeliveryModeEnum.Persistence;
-//                    props.ContentEncoding = Encoding.UTF8.EncodingName;
+                    var props = _sessionChannel.CreateBasicProperties();
+                        props.ContentType = _queueSettings.QueueSettings.First().ContentType;
+                        props.DeliveryMode = _queueSettings.QueueSettings.First().DeliveryMode;
+                        props.ContentEncoding = Encoding.UTF8.EncodingName;
+                        props.Persistent = _queueSettings.QueueSettings.First().Persistent;
                     
-
-                    SessionChannel.BasicPublish(exchange: _queueSettings.QueueName,
-                        routingKey: @event.EventScope,
-                        basicProperties: null,
-                        body: messageBody);
+                    _sessionChannel.BasicPublish(exchange: _queueSettings.Name, routingKey: @event.EventScope, basicProperties: props, body: messageBody);
                 }
             }
             catch (Exception ex)

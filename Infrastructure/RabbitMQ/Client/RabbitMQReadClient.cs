@@ -9,13 +9,13 @@ using System.Text;
 
 namespace RabbitMQ.Client
 {
-    public class RabbitMQReadClient : IRabbitMqReadClient
+    public class RabbitMqReadClient : IRabbitMqReadClient
     {
 
         private readonly RabbitMqSettings _queueSettings;
-        private IModel _sessionChannel;
+        private readonly IModel _sessionChannel;
 
-        public RabbitMQReadClient(IModel connection, IOptions<RabbitMqSettings> queueSettings)
+        public RabbitMqReadClient(IModel connection, IOptions<RabbitMqSettings> queueSettings)
         {
             _sessionChannel = connection;
             _queueSettings = queueSettings.Value;
@@ -25,11 +25,7 @@ namespace RabbitMQ.Client
         {
             using (_sessionChannel)
             {
-                _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name,
-                                      type: "direct",
-                                      durable: false,
-                                      autoDelete: false,
-                                      arguments: null);
+                _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct");
 
                 _sessionChannel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
                 _sessionChannel.QueueBind(queue: queueName , exchange: _queueSettings.Name, routingKey: queueName);
@@ -42,7 +38,6 @@ namespace RabbitMQ.Client
         private string ConsumeMessage()
         {
             var consumer = new EventingBasicConsumer(_sessionChannel);
-            var queueMessages = new List<object>();
 
             consumer.Received += (model, ea) =>
             {
