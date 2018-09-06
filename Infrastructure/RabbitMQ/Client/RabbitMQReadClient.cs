@@ -27,15 +27,15 @@ namespace RabbitMQ.Client
             {
                 _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct");
 
-                _sessionChannel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
+                _sessionChannel.QueueDeclare(queue: queueName, durable: false, exclusive: false, autoDelete: false);
                 _sessionChannel.QueueBind(queue: queueName , exchange: _queueSettings.Name, routingKey: queueName);
 
-                var queueMessages = ConsumeMessage();
+                var queueMessages = ConsumeMessage(queueName);
                 return queueMessages;
             }
         }
 
-        private string ConsumeMessage()
+        private string ConsumeMessage(string queueName)
         {
             var consumer = new EventingBasicConsumer(_sessionChannel);
 
@@ -43,10 +43,10 @@ namespace RabbitMQ.Client
             {
                 var body = ea.Body;
                 var json = Encoding.UTF8.GetString(body);
-                _sessionChannel.BasicAck(ea.DeliveryTag, false);
+
             };
 
-            return _sessionChannel.BasicConsume(_queueSettings.QueueName, true, consumer);
+            return _sessionChannel.BasicConsume(queueName, true, consumer);
         }
     }
 }

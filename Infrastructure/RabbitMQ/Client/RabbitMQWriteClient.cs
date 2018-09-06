@@ -28,8 +28,8 @@ namespace RabbitMQ.Client
                 {
                     var messageBody = Adapt(@event);
                     
-                    _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct", durable: true);
-                    _sessionChannel.QueueDeclare(queue: @event.EventScope, durable: true, exclusive: false, autoDelete: false);
+                    _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct", durable: false);
+                    _sessionChannel.QueueDeclare(queue: @event.EventScope, durable: false, exclusive: false, autoDelete: false);
                     
                     var props = _sessionChannel.CreateBasicProperties();
                         props.ContentType = _queueSettings.QueueSettings.First().ContentType;
