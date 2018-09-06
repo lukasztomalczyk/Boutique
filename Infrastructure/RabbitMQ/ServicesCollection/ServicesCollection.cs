@@ -20,12 +20,12 @@ namespace RabbitMQ.ServicesCollection
             
             services.AddScoped(scope=>
             {
-                var settings = scope.GetRequiredService<IOptions<RabbitMqSettings>>().Value;
+                var settings = scope.GetRequiredService<IOptions<RabbitMqSettings>>();
                 var factory = new ConnectionFactory();
-               factory.UserName = settings.ConnectionSettings.First().User;
-                   factory.Password = settings.ConnectionSettings.First().Password;
-                factory.HostName = settings.ConnectionSettings.First().HostAddress;
-                factory.Port = settings.ConnectionSettings.First().Port;
+               factory.UserName = settings.Value.ConnectionSettings.First().User;
+                   factory.Password = settings.Value.ConnectionSettings.First().Password;
+                factory.HostName = settings.Value.ConnectionSettings.First().HostAddress;
+                factory.Port = settings.Value.ConnectionSettings.First().Port;
 
 
                 
@@ -35,7 +35,7 @@ namespace RabbitMQ.ServicesCollection
 
             });
 
-            services.AddScoped<IRabbitMQWriteClient, RabbitMQWriteClient>();
+            services.AddScoped<IRabbitMqWriteClient, RabbitMQWriteClient>();
             services.AddScoped<IRabbitMqReadClient, RabbitMQReadClient>();
         }
     }

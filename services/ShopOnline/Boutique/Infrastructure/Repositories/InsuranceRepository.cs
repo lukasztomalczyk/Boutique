@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using Boutique.Domain.Insurances;
-using Boutique.Domain.Insure.Policy;
 using Cqrs.Attributes;
 using SqlServices.Dapper;
 

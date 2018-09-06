@@ -26,13 +26,13 @@ namespace RabbitMQ.Client
             using (_sessionChannel)
             {
                 _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name,
-                                      type: "topic",
+                                      type: "direct",
                                       durable: false,
                                       autoDelete: false,
                                       arguments: null);
 
                 _sessionChannel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);
-                _sessionChannel.QueueBind(queue: queueName , exchange: _queueSettings.Name, routingKey: "routing");
+                _sessionChannel.QueueBind(queue: queueName , exchange: _queueSettings.Name, routingKey: queueName);
 
                 var queueMessages = ConsumeMessage();
                 return queueMessages;

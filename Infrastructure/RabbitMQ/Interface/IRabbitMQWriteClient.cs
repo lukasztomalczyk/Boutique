@@ -1,8 +1,8 @@
 ﻿
 namespace RabbitMQ.Interface
 {
-    public interface IRabbitMQWriteClient
+    public interface IRabbitMqWriteClient
     {
-        void Write(IEvent @event);
+        void Write(EventRoot @event);
     }
 }

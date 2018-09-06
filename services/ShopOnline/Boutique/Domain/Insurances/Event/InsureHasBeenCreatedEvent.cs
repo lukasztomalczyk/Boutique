@@ -1,19 +1,18 @@
-﻿using System.Dynamic;
+﻿using RabbitMQ.Interface;
 using RabbitMQ.Interface;
 
-namespace Boutique.Domain.Insure.Policy.Event
+namespace Boutique.Domain.Insurances.Event
 {
-    public class InsureHasBeenCreatedEvent : IEvent
+    public class InsureHasBeenCreatedEvent : EventRoot
     {
         private string Id { get; }
-        public string EventScope = "Insure";
-        public string EventName { get; }
-
+        private string _eventScope = "Insurances";
+        
         public InsureHasBeenCreatedEvent(string id)
         {
             Id = id;
-            EventName = GetType().Name;
         }
-        
+
+        public override string EventScope => _eventScope;
     }
 }

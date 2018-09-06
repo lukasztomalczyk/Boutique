@@ -7,7 +7,7 @@ using RabbitMQ.Settings;
 
 namespace RabbitMQ.Client
 {
-    public class RabbitMQWriteClient: IRabbitMQWriteClient
+    public class RabbitMQWriteClient: IRabbitMqWriteClient
     {
 
         private readonly RabbitMqSettings _queueSettings;
@@ -19,23 +19,27 @@ namespace RabbitMQ.Client
             _queueSettings = queueSettings.Value;
         }
 
-        public void Write(IEvent @event)
+        public void Write(EventRoot @event)
         {
             try
             {
                 using (SessionChannel)
                 {
                     var messageBody = Adapt(@event);
-
-                    var props = SessionChannel.CreateBasicProperties();
-                    props.ContentType = "text/plain";
-                    props.DeliveryMode = (int)MqDeliveryModeEnum.Persistence;
-                    props.ContentEncoding = Encoding.UTF8.EncodingName;
+                    
+                    SessionChannel.ExchangeDeclare(exchange: _queueSettings.QueueName, type: "direct", durable: true);
+                    SessionChannel.QueueDeclare(queue: @event.EventScope, durable: true, exclusive: false,
+                        autoDelete: false);
+                    
+//                    var props = SessionChannel.CreateBasicProperties();
+//                    props.ContentType = "text/plain";
+//                    props.DeliveryMode = (int)MqDeliveryModeEnum.Persistence;
+//                    props.ContentEncoding = Encoding.UTF8.EncodingName;
                     
 
                     SessionChannel.BasicPublish(exchange: _queueSettings.QueueName,
-                        routingKey: "routing",
-                        basicProperties: props,
+                        routingKey: @event.EventScope,
+                        basicProperties: null,
                         body: messageBody);
                 }
             }
@@ -45,7 +49,7 @@ namespace RabbitMQ.Client
             }
         }
 
-        private byte[] Adapt(IEvent @event)
+        private byte[] Adapt(EventRoot @event)
         {
             var message = JsonConvert.SerializeObject(@event);
             return Encoding.UTF8.GetBytes(message);

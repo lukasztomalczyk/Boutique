@@ -8,9 +8,9 @@ namespace Boutique.EventBusSubscriber.api.Controllers
     public class InsurancesController : Controller
     {
         private readonly IRabbitMqReadClient _readClient;
-        private readonly IRabbitMQWriteClient _writeClient;
+        private readonly IRabbitMqWriteClient _writeClient;
 
-        public InsurancesController(IRabbitMqReadClient readClient, IRabbitMQWriteClient writeClient)
+        public InsurancesController(IRabbitMqReadClient readClient, IRabbitMqWriteClient writeClient)
         {
             _readClient = readClient;
             _writeClient = writeClient;
@@ -19,8 +19,8 @@ namespace Boutique.EventBusSubscriber.api.Controllers
         [HttpGet]
         public string Read()
         {
-            var messages = _readClient.Read("User");
-            return messages;
+
+                return _readClient.Read("Insurances");
         }
 
         [HttpGet("{queue}/{message}")]
