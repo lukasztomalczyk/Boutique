@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using RabbitMQ.ServicesCollection;
 using RabbitMQ.Settings;
+using DDD.DI;
 
 namespace Bountique.Api
 {
@@ -47,7 +48,9 @@ namespace Bountique.Api
 
             services.AddAuthJwt(Configuration, assembly);
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);//AddJsonFormatters();
+            services.AddDdd(assembly);
+
+            services.AddMvcCore();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

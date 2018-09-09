@@ -38,16 +38,9 @@ namespace Boutique.Infrastructure.Builders
             return this;
         }
 
-        public Insure Build()
+        public Insurance Build()
         {
-            if (StartInsurance == null)
-                throw new InvalidDataException("Start insurance data is null");
-            if (EndInsurance == null)
-                throw new InvalidDataException("End insurance data is null");
-/*            if (Insureds == null)
-                throw new InvalidDataException("Don't have any insured");*/
-            
-            return new Insure(Guid.NewGuid().ToString(), DateTime.Now, StartInsurance, EndInsurance, Insureds, Status);
+            return new Insurance(Guid.NewGuid().ToString("N"), DateTime.Now, StartInsurance, EndInsurance, Insureds, Status);
         }
     }
 }

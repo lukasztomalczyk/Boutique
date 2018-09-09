@@ -17,42 +17,34 @@ namespace Boutique.Application.Insurances.CommandHandler
     public class InsuranceCommandHandler : ICommandHandler<CreateInsuranceCommand, string>
     {
         private readonly IInsuranceRepository _insuranceRepository;
-        private readonly IRabbitMqWriteClient _writeClient;
 
-        public InsuranceCommandHandler(IInsuranceRepository insuranceRepository, IRabbitMqWriteClient writeClient)
+        public InsuranceCommandHandler(IInsuranceRepository insuranceRepository)
         {
             _insuranceRepository = insuranceRepository;
-            _writeClient = writeClient;
         }
         public string Handle(CreateInsuranceCommand command)
         {
             var newInsurance = NewInsurance(command);
 
-            _insuranceRepository.Create(newInsurance);
+            _insuranceRepository.Save(newInsurance);
             
-            var @event = new InsureHasBeenCreatedEvent(newInsurance.GetId());
-            _writeClient.Write(@event);
-            
-            return newInsurance.GetId();
+            return newInsurance.Id;
         }
 
         public Task<string> HandleAsync(CreateInsuranceCommand command)
         {
             var newInsurance = NewInsurance(command);
 
-            _insuranceRepository.Create(newInsurance);
-            
-            var @event = new InsureHasBeenCreatedEvent(newInsurance.GetId());
-            _writeClient.Write(@event);
+            _insuranceRepository.Save(newInsurance);
 
-            return Task.FromResult(newInsurance.GetId());
+            return Task.FromResult(newInsurance.Id);
         }
 
-        private static Insure NewInsurance(CreateInsuranceCommand command)
+        private static Insurance NewInsurance(CreateInsuranceCommand command)
         {
-            var newInsurance = new InsureBuilder().SetStartInsurance(command.CoverageStartDate)
+            var newInsurance = new InsureBuilder()
+                .SetStartInsurance(command.CoverageStartDate)
                 .SetEndInsurance(command.CoverageEndDate)
-                .SetInsureds(default(List<Insured>))
                 .Build();
             
             return newInsurance;
