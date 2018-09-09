@@ -14,11 +14,11 @@ namespace EventSourceScheduler.Infrastructure.PortAdapters
     internal class EventListener : IListener
     {
         private readonly ILogger _logger;
-        private readonly IRabbitMQReadClient _rabbitMQReadClient;
+        private readonly IRabbitMqReadClient _rabbitMQReadClient;
         private readonly IListenerHandler _listenerHandler;
         private readonly EventSourceSettings _settings;
 
-        public EventListener(ILoggerFactory loggerFactory, IRabbitMQReadClient rabbitMQReadClient,IOptions<EventSourceSettings> settings,IListenerHandler listenerHandler)
+        public EventListener(ILoggerFactory loggerFactory, IRabbitMqReadClient rabbitMQReadClient,IOptions<EventSourceSettings> settings,IListenerHandler listenerHandler)
         {
             _logger = loggerFactory.CreateLogger<EventListener>();
             _rabbitMQReadClient = rabbitMQReadClient;

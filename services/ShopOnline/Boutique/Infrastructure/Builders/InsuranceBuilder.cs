@@ -4,7 +4,6 @@ using System.IO;
 using Boutique.Domain.Insurances;
 using Boutique.Domain.Insurances.Enum;
 using Boutique.Domain.Insurances.Insureds;
-using Boutique.Domain.Insure.Policy;
 
 namespace Boutique.Infrastructure.Builders
 {

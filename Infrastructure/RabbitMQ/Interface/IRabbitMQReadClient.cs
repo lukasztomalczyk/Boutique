@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RabbitMQ.Interface
 {
-    public interface IRabbitMQReadClient
+    public interface IRabbitMqReadClient
     {
         string Read(string queueName);
     }

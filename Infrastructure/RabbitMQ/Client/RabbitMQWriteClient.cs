@@ -1,47 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
 using RabbitMQ.Interface;
 using RabbitMQ.Settings;
 
-namespace RabbitMQ
+namespace RabbitMQ.Client
 {
-    public class RabbitMQWriteClient: IRabbitMQWriteClient
+    public class RabbitMqWriteClient: IRabbitMqWriteClient
     {
-        private  IConnection _connection;
-        private readonly EventQueueSettings _queueSettings;
-        private IModel SessionChannel;
 
-        public RabbitMQWriteClient(IConnection connection, IOptions<EventQueueSettings> queueSettings)
+        private readonly RabbitMqSettings _queueSettings;
+        private readonly IModel _sessionChannel;
+
+        public RabbitMqWriteClient(IModel connection, IOptions<RabbitMqSettings> queueSettings)
         {
-            _connection = connection;
+            _sessionChannel = connection;
             _queueSettings = queueSettings.Value;
         }
 
-        public void Write(IEvent @event)
+        public void Write(EventRoot @event)
         {
             try
             {
-                using (_connection)
-                using (SessionChannel = _connection.CreateModel())
+                using (_sessionChannel)
                 {
                     var messageBody = Adapt(@event);
-
-                    var props = SessionChannel.CreateBasicProperties();
-                    props.ContentType = "text/plain";
-                    props.DeliveryMode = (int)MqDeliveryModeEnum.Persistence;
-                    props.ContentEncoding = Encoding.UTF8.EncodingName;
-
-                    SessionChannel.BasicPublish(exchange: _queueSettings.QueueName,
-                        routingKey: "routing",
-                        basicProperties: props,
-                        body: messageBody);
+                    
+                    _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct", durable: false);
+                    _sessionChannel.QueueDeclare(queue: @event.EventScope, durable: false, exclusive: false, autoDelete: false);
+                    
+                    var props = _sessionChannel.CreateBasicProperties();
+                        props.ContentType = _queueSettings.QueueSettings.First().ContentType;
+                        props.DeliveryMode = _queueSettings.QueueSettings.First().DeliveryMode;
+                        props.ContentEncoding = Encoding.UTF8.EncodingName;
+                        props.Persistent = _queueSettings.QueueSettings.First().Persistent;
+                    
+                    _sessionChannel.BasicPublish(exchange: _queueSettings.Name, routingKey: @event.EventScope, basicProperties: props, body: messageBody);
                 }
             }
             catch (Exception ex)
@@ -50,7 +46,7 @@ namespace RabbitMQ
             }
         }
 
-        private byte[] Adapt(IEvent @event)
+        private byte[] Adapt(EventRoot @event)
         {
             var message = JsonConvert.SerializeObject(@event);
             return Encoding.UTF8.GetBytes(message);

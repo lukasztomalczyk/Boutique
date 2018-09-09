@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Interface;
@@ -8,21 +11,30 @@ namespace RabbitMQ.ServicesCollection
 {
     public static class ServicesCollection
     {
-        public static void AddRabbitMq(this IServiceCollection services)
+        public static void AddRabbitMq(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.AddScoped<IConnectionFactory, ConnectionFactory>();
+            services.Scan(scan => scan.FromAssemblies(assemblies)
+                .AddClasses(classess => classess.AssignableTo<IModel>()).AsImplementedInterfaces()
+                .WithScopedLifetime());
+            
             services.AddScoped(scope=>
             {
-                var settings = scope.GetService<IOptions<EventQueueSettings>>().Value;
-                var connectionFactory = scope.GetService<IConnectionFactory>();
-                var connection = connectionFactory.CreateConnection(settings.ServerAddress);
+                var settings = scope.GetRequiredService<IOptions<RabbitMqSettings>>();
+                var factory = new ConnectionFactory();
+                    factory.UserName = settings.Value.ConnectionSettings.First().User;
+                    factory.Password = settings.Value.ConnectionSettings.First().Password;
+                    factory.HostName = settings.Value.ConnectionSettings.First().HostAddress;
+                    factory.Port = settings.Value.ConnectionSettings.First().Port;
+                    
+                var connection = factory.CreateConnection();
 
-                return connection.CreateModel();
+               return connection.CreateModel();
 
             });
 
-            services.AddScoped<IRabbitMQWriteClient, RabbitMQWriteClient>();
-            services.AddScoped<IRabbitMQReadClient, RabbitMQReadClient>();
+            services.AddScoped<IRabbitMqWriteClient, RabbitMqWriteClient>();
+            services.AddScoped<IRabbitMqReadClient, RabbitMqReadClient>();
         }
     }
 }

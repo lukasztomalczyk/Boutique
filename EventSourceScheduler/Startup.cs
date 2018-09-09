@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using RabbitMQ.ServicesCollection;
 using System.Threading;
+using RabbitMQ.Settings;
 
 namespace EventSourceScheduler
 {
@@ -27,6 +28,7 @@ namespace EventSourceScheduler
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RabbitMqSettings>(Configuration.GetSection("RabbitMqSettings"));
             services.AddRabbitMq();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

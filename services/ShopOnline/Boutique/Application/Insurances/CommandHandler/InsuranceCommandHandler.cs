@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Boutique.Domain.Insurances;
+using Boutique.Domain.Insurances.Event;
 using Boutique.Domain.Insurances.Insureds;
-using Boutique.Domain.Insure.Policy;
 using Boutique.Domain.Users.Event;
 using Boutique.Infrastructure.Builders;
 using Boutique.Infrastructure.Repositories;
@@ -17,9 +17,9 @@ namespace Boutique.Application.Insurances.CommandHandler
     public class InsuranceCommandHandler : ICommandHandler<CreateInsuranceCommand, string>
     {
         private readonly IInsuranceRepository _insuranceRepository;
-        private readonly IRabbitMQWriteClient _writeClient;
+        private readonly IRabbitMqWriteClient _writeClient;
 
-        public InsuranceCommandHandler(IInsuranceRepository insuranceRepository, IRabbitMQWriteClient writeClient)
+        public InsuranceCommandHandler(IInsuranceRepository insuranceRepository, IRabbitMqWriteClient writeClient)
         {
             _insuranceRepository = insuranceRepository;
             _writeClient = writeClient;
@@ -30,7 +30,7 @@ namespace Boutique.Application.Insurances.CommandHandler
 
             _insuranceRepository.Create(newInsurance);
             
-            var @event = new UserHasBeenCreatedEvent(newInsurance.GetId());
+            var @event = new InsureHasBeenCreatedEvent(newInsurance.GetId());
             _writeClient.Write(@event);
             
             return newInsurance.GetId();
@@ -42,7 +42,7 @@ namespace Boutique.Application.Insurances.CommandHandler
 
             _insuranceRepository.Create(newInsurance);
             
-            var @event = new UserHasBeenCreatedEvent(newInsurance.GetId());
+            var @event = new InsureHasBeenCreatedEvent(newInsurance.GetId());
             _writeClient.Write(@event);
 
             return Task.FromResult(newInsurance.GetId());
