@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\Auth\Auth.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Cqrs\Cqrs.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\DDD\DDD.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\RabbitMQ\RabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\SqlService\SqlServices.csproj" />
     <ProjectReference Include="..\Boutique.Presentation\Boutique.Presentation.csproj" />
