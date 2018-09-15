@@ -13,26 +13,17 @@ namespace EventSourceScheduler.Infrastructure.Repository
     {
         private const string TableName = "BoutiqueEventStore";
         private readonly SqlConnection _sqlConnection;
-
+        private readonly DapperContribExtension<EventMessage> _eventStore;
         public EventStoreRepository(SqlConnection sqlConnection)
         {
             _sqlConnection = sqlConnection;
+            _eventStore = new DapperContribExtension<EventMessage>(sqlConnection);
         }
 
         public void Save(EventMessage message)
         {
-            var insertData = CreateModel(message);
-            _sqlConnection.AsInsert(insertData, TableName);
+            _eventStore.AsInsert(message);
         }
 
-        private Dictionary<string,object> CreateModel(EventMessage message)
-        {
-            return new Dictionary<string, object>
-            {
-                {"Type",message.Type },
-                {"AdditiopnalData", message.AdditionalData },
-                {"CreatedAt",DateTime.Now }
-            };
-        }
     }
 }

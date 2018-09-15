@@ -9,7 +9,7 @@ using RabbitMQ.Settings;
 
 namespace RabbitMQ.ServicesCollection
 {
-    public static class ServicesCollection
+    public static class ServicesCollectionExtension
     {
         public static void AddRabbitMq(this IServiceCollection services, params Assembly[] assemblies)
         {
@@ -17,19 +17,27 @@ namespace RabbitMQ.ServicesCollection
             services.Scan(scan => scan.FromAssemblies(assemblies)
                 .AddClasses(classess => classess.AssignableTo<IModel>()).AsImplementedInterfaces()
                 .WithScopedLifetime());
-            
-            services.AddScoped(scope=>
+
+            services.AddSingleton(scope =>
             {
-                var settings = scope.GetRequiredService<IOptions<RabbitMqSettings>>();
-                var factory = new ConnectionFactory();
-                    factory.UserName = settings.Value.ConnectionSettings.First().User;
-                    factory.Password = settings.Value.ConnectionSettings.First().Password;
-                    factory.HostName = settings.Value.ConnectionSettings.First().HostAddress;
-                    factory.Port = settings.Value.ConnectionSettings.First().Port;
-                    
+                var settings = scope.GetRequiredService<IOptions<RabbitMqSettings>>().Value;
+                var factory = new ConnectionFactory
+                {
+                    AutomaticRecoveryEnabled = true,
+                    TopologyRecoveryEnabled = false
+                };
+
+                if (string.IsNullOrEmpty(settings.Uri))
+                {
+                    factory.Password = settings.Password;
+                    factory.HostName = settings.HostName;
+                    factory.Port = settings.Port;
+                }
+                factory.Uri = new Uri(settings.Uri);
+
                 var connection = factory.CreateConnection();
 
-               return connection.CreateModel();
+                return connection.CreateModel();
 
             });
 

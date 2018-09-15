@@ -9,6 +9,8 @@ using NLog.Extensions.Logging;
 using RabbitMQ.ServicesCollection;
 using System.Threading;
 using RabbitMQ.Settings;
+using System.Data.SqlClient;
+using EventSourceScheduler.Infrastructure.DI;
 
 namespace EventSourceScheduler
 {
@@ -20,17 +22,24 @@ namespace EventSourceScheduler
         public Startup(IConfiguration configuration,IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
+                .AddJsonFile("appsettings.json");
 
             Configuration = builder.Build(); ;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<RabbitMqSettings>(Configuration.GetSection("RabbitMqSettings"));
+            services.Configure<RabbitMqSettings>(Configuration.GetSection("rabbitMq"));
+
+            services.AddSingleton(p =>
+            {
+                var connectionString = Configuration.GetConnectionString("BountiqueDatabseConnection");
+                return new SqlConnection(connectionString);
+            });
+
             services.AddRabbitMq();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSchedulerServices();
+            services.AddMvcCore().AddJsonFormatters();
         }
 
         public void Configure(ILoggerFactory loggerFactory, IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)

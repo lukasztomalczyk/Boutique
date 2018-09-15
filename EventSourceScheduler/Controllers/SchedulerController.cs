@@ -21,7 +21,7 @@ namespace EventSourceScheduler.Controllers
         [HttpGet]
         public string Read()
         {
-           return _rabbitMqReadClient.Read("Insurances");
+            return "poc";
         }
     }
 }

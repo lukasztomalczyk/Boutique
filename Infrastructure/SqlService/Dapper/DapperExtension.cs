@@ -1,6 +1,9 @@
 ﻿using Dapper;
+using Dapper.Contrib;
+using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
@@ -18,10 +21,20 @@ namespace SqlServices.Dapper
             return sqlConnection.Query<dynamic>(query).FirstOrDefault();
         }
 
-        public static void AsInsert(this SqlConnection sqlConnection, Dictionary<string,object> data,string tableName)
+    }
+
+    public class DapperContribExtension<T> where T: class
+    {
+        private readonly SqlConnection _sqlConnection;
+
+        public DapperContribExtension(SqlConnection sqlConnection)
         {
-            var query = $"INSERT INTO {tableName} VALUES ({data})";
-            sqlConnection.Execute(query);
+            _sqlConnection = sqlConnection;
+        }
+
+        public void AsInsert( T data)
+        {
+            _sqlConnection.Insert(data);
         }
     }
 }

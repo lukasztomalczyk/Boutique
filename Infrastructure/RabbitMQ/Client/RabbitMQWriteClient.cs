@@ -28,16 +28,16 @@ namespace RabbitMQ.Client
                 {
                     var messageBody = Adapt(@event);
                     
-                    _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct", durable: false);
+                    _sessionChannel.ExchangeDeclare(exchange: _queueSettings.QueueName, type: "direct", durable: false);
                     _sessionChannel.QueueDeclare(queue: @event.EventScope, durable: false, exclusive: false, autoDelete: false);
                     
                     var props = _sessionChannel.CreateBasicProperties();
-                        props.ContentType = _queueSettings.QueueSettings.First().ContentType;
-                        props.DeliveryMode = _queueSettings.QueueSettings.First().DeliveryMode;
+                        props.ContentType = _queueSettings.ContentType;
+                        props.DeliveryMode = _queueSettings.DeliveryMode;
                         props.ContentEncoding = Encoding.UTF8.EncodingName;
-                        props.Persistent = _queueSettings.QueueSettings.First().Persistent;
+                        props.Persistent = _queueSettings.Persistent;
                     
-                    _sessionChannel.BasicPublish(exchange: _queueSettings.Name, routingKey: @event.EventScope, basicProperties: props, body: messageBody);
+                    _sessionChannel.BasicPublish(exchange: _queueSettings.QueueName, routingKey: @event.EventScope, basicProperties: props, body: messageBody);
                 }
             }
             catch (Exception ex)

@@ -13,8 +13,8 @@ namespace EventSourceScheduler.Infrastructure.Serializer
     public class EventSerializer
     {
         private static JSchema EventSchema = JSchema.Parse(@"{
-                                                'type': {'type': 'string'},
-                                                'additionalData': {'type': 'string'}
+                                                'Type': {'type': 'string'},
+                                                'AdditionalData': {'type': 'string'}
                                             }");
 
         public static EventMessage TryDeserializeObject(string jsonData)
