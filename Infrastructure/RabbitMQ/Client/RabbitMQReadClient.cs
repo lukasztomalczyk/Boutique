@@ -23,7 +23,7 @@ namespace RabbitMQ.Client
             _queueSettings = queueSettings.Value;
         }
 
-        public void Read(Action<string> callBAck, string queueName)
+        public void Read(Action<string> callBack, string queueName)
         {
             _sessionChannel.ExchangeDeclare("direct", ExchangeType.Direct);
 
@@ -38,7 +38,7 @@ namespace RabbitMQ.Client
                     if(consumer != null)
                     {
                         var message = Encoding.Default.GetString(consumer?.Body);
-                        callBAck(message);
+                        callBack(message);
                     }
                  
                 }
