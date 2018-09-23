@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.MessagePatterns;
 using RabbitMQ.Interface;
 using RabbitMQ.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace RabbitMQ.Client
 {
@@ -21,32 +23,27 @@ namespace RabbitMQ.Client
             _queueSettings = queueSettings.Value;
         }
 
-        public string Read(string queueName)
+        public void Read(Action<string> callBack, string queueName)
         {
-            using (_sessionChannel)
+            _sessionChannel.ExchangeDeclare("direct", ExchangeType.Direct);
+
+            _sessionChannel.QueueBind(queueName, ExchangeType.Direct, routingKey: queueName, null);
+            var subscription = new Subscription(_sessionChannel, queueName,false);
+            Task.Run(() =>
             {
-                _sessionChannel.ExchangeDeclare(exchange: _queueSettings.Name, type: "direct");
-
-                _sessionChannel.QueueDeclare(queue: queueName, durable: false, exclusive: false, autoDelete: false);
-                _sessionChannel.QueueBind(queue: queueName , exchange: _queueSettings.Name, routingKey: queueName);
-
-                var queueMessages = ConsumeMessage(queueName);
-                return queueMessages;
-            }
+                while (true)
+                {
+                    var consumer = subscription.Next();
+                    subscription.Ack(consumer);
+                    if(consumer != null)
+                    {
+                        var message = Encoding.Default.GetString(consumer?.Body);
+                        callBack(message);
+                    }
+                 
+                }
+            });
         }
 
-        private string ConsumeMessage(string queueName)
-        {
-            var consumer = new EventingBasicConsumer(_sessionChannel);
-
-            consumer.Received += (model, ea) =>
-            {
-                var body = ea.Body;
-                var json = Encoding.UTF8.GetString(body);
-
-            };
-
-            return _sessionChannel.BasicConsume(queueName, true, consumer);
-        }
     }
 }

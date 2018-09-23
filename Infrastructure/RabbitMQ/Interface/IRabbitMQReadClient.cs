@@ -6,6 +6,6 @@ namespace RabbitMQ.Interface
 {
     public interface IRabbitMqReadClient
     {
-        string Read(string queueName);
+        void Read(Action<string> callbackAction, string queueName);
     }
 }

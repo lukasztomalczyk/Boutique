@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Interface;
 using Cqrs.Interface;
 using Microsoft.Extensions.Logging;
-using EventSourceScheduler.Infrastructure.Settings;
 using Microsoft.Extensions.Options;
 using EventSourceScheduler.Infrastructure.PortAdapters;
 using System.Threading;
+using RabbitMQ.Settings;
 
 namespace EventSourceScheduler.Infrastructure.ApplicationServiceExtension
 {
@@ -19,7 +17,7 @@ namespace EventSourceScheduler.Infrastructure.ApplicationServiceExtension
         {
             var provider = app.ApplicationServices.GetService<IServiceProvider>();
             var logger = app.ApplicationServices.GetRequiredService<ILoggerFactory>();
-            var settings = app.ApplicationServices.GetRequiredService<IOptions<EventSourceSettings>>();
+            var settings = app.ApplicationServices.GetRequiredService<IOptions<RabbitMqSettings>>();
 
             using (var scope = provider.CreateScope())
             {
